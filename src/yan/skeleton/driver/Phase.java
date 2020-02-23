@@ -47,6 +47,11 @@ public abstract class Phase<In, Out> implements Task<In, Out>, ErrorIssuer {
     public void onSucceed(Out output) {
     }
 
+
+    public String stringfy(Out output) {
+        return "";
+    }
+
     /**
      * Entry of running the phase.
      *

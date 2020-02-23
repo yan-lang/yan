@@ -11,9 +11,13 @@ public class Position {
     /* Token所在列, 从1开始 */
     final public int col;
 
-    public Position(int line, int col) {
+    /* Token位于文本的偏移量 */
+    final public int offset;
+
+    public Position(int line, int col, int offset) {
         this.line = line;
         this.col = col;
+        this.offset = offset;
     }
 
     @Override

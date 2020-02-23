@@ -12,6 +12,7 @@ import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
 import org.jline.utils.InfoCmp;
 import org.jline.utils.OSUtils;
+import yan.skeleton.driver.Language;
 
 import java.io.IOException;
 import java.util.logging.Level;
@@ -24,7 +25,7 @@ public class Repl {
     private static final String debugPrompt = "\u001b[38;5;250mDebug %N> ";
     private static final String debugSecondaryPrompt = "debug\u001b[38;5;250Debug m%N. ";
 
-    public static void run() {
+    public static void run(ScriptEngine scriptEngine) {
         try {
             DefaultParser parser = new DefaultParser();
             parser.setEofOnUnclosedBracket(Bracket.CURLY, Bracket.ROUND, Bracket.SQUARE);
@@ -53,8 +54,7 @@ public class Repl {
             // REPL Loop
             //
 
-            YanEngine yanEngine = new YanEngine();
-            ConsoleEngine engine = new ConsoleEngine(yanEngine);
+            ConsoleEngine engine = new ConsoleEngine(scriptEngine);
 
             String prompt = defaultPrompt;
             int countLine = 1;

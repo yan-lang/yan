@@ -21,14 +21,11 @@ public class LexerToken {
     /* Token所在起始位置 */
     final public Position pos;
 
-    /* Token结束位置, 字符串可能跨行*/
-    final public Position pos2;
 
-    public LexerToken(int type, Object value, Position pos, Position pos2) {
+    public LexerToken(int type, Object value, Position pos) {
         this.type = type;
         this.value = value;
         this.pos = pos;
-        this.pos2 = pos2;
     }
 
     public boolean getBoolValue() {
@@ -43,4 +40,12 @@ public class LexerToken {
         return (int) value;
     }
 
+    @Override
+    public String toString() {
+        return "LexerToken{" +
+                "type=" + type +
+                ", value=" + value +
+                ", pos=" + pos +
+                '}';
+    }
 }
