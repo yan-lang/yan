@@ -1,5 +1,6 @@
 package yan.examples.yan;
 
+import yan.examples.yan.parse.YanLexer;
 import yan.skeleton.driver.Language;
 import yan.skeleton.driver.Launcher;
 

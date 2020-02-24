@@ -1,10 +1,10 @@
-package yan.examples.yan;
+package yan.examples.yan.parse;
 
 import yan.skeleton.compiler.frontend.lex.AbstractLexer;
 import yan.skeleton.compiler.frontend.lex.LexerToken;
 import yan.skeleton.driver.Config;
 
-import static yan.examples.yan.YanTokens.*;
+import static yan.examples.yan.parse.YanTokens.*;
 
 
 public class YanLexer extends AbstractLexer {

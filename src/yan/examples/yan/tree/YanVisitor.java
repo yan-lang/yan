@@ -1,4 +1,4 @@
-package yan.examples.yan;
+package yan.examples.yan.tree;
 
 public interface YanVisitor<R> {
     /* 默认的处理方法 */
@@ -14,4 +14,9 @@ public interface YanVisitor<R> {
     default R visit(YanTree.Function function) {
         return visitOthers(function);
     }
+
+    default R visit(YanTree.Var var) { return visitOthers(var); }
+
+    default R visit(YanTree.Binary binary) { return visitOthers(binary); }
+
 }

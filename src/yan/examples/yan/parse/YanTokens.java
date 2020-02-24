@@ -1,4 +1,4 @@
-package yan.examples.yan;
+package yan.examples.yan.parse;
 
 import yan.skeleton.compiler.frontend.lex.BasicTokens;
 

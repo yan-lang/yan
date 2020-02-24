@@ -1,5 +1,6 @@
-package yan.examples.yan;
+package yan.examples.yan.parse;
 
+import yan.examples.yan.tree.YanTree;
 import yan.skeleton.compiler.frontend.lex.LexerToken;
 import yan.skeleton.compiler.frontend.parse.AbstractParser;
 import yan.skeleton.driver.Config;
