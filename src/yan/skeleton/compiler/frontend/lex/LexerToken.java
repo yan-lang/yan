@@ -1,10 +1,27 @@
 package yan.skeleton.compiler.frontend.lex;
 
-import yan.skeleton.compiler.frontend.ast.Position;
+
+import javax.swing.text.Position;
 
 public class LexerToken {
 
+    /* Token的类型 */
     final public int type;
+
+    /* Token第一个字符所在行, 从1开始 */
+    final public int line;
+
+    /* Token第一个字符所在列, 从1开始 */
+    final public int col;
+
+    /* Token位于文本的起始位置 */
+    final public int start;
+
+    /* Token位于文本的终止位置 */
+    final public int stop;
+
+    /* Token所在的源代码, 一般用于错误提示 */
+    final public String source;
 
     /**
      * Token存储的语义值, 不可以直接访问, 应先判断Token类型,再通过对应函数访问。
@@ -16,16 +33,13 @@ public class LexerToken {
      * 5. 其他 -> 没有值
      * Note: 如果你有需求,继承该类创建函数访问你所需的数据类型。
      */
-    final protected Object value;
+    final public Object value;
 
-    /* Token所在起始位置 */
-    final public Position pos;
-
-
-    public LexerToken(int type, Object value, Position pos) {
+    public LexerToken(int type, Object value, Position pos, String source) {
         this.type = type;
         this.value = value;
         this.pos = pos;
+        this.source = source;
     }
 
     public boolean getBoolValue() {

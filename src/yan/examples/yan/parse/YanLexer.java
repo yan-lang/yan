@@ -14,7 +14,7 @@ public class YanLexer extends AbstractLexer {
     }
 
     @Override
-    public LexerToken lex() {
+    public LexerToken nextToken() {
         skipWhitespace();
         markCurrentPos();
         if (buffer.current('\0')) return makeToken(EOF);

@@ -3,7 +3,7 @@ package yan.skeleton.compiler.frontend.lex;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class ReadTextBuffer {
+public class ReadTextBuffer implements Code{
 
     // region Properties
 

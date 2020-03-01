@@ -1,7 +1,5 @@
 package yan.skeleton.compiler.frontend.semantic;
 
-import yan.examples.yan.YanTree;
-import yan.skeleton.compiler.frontend.ast.*;
 import yan.skeleton.driver.Config;
 import yan.skeleton.driver.Phase;
 
