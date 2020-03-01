@@ -1,0 +1,14 @@
+package yan.skeleton.driver.error;
+
+import yan.skeleton.compiler.frontend.lex.Code;
+
+public class Note extends BaseError{
+    public Note(Code source, int line, int column, String message, String hint) {
+        super(source, line, column, message, hint);
+    }
+
+    @Override
+    String getType() {
+        return "note";
+    }
+}
