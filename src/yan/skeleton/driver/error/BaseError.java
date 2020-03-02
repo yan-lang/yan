@@ -1,6 +1,6 @@
 package yan.skeleton.driver.error;
 
-import yan.skeleton.compiler.frontend.lex.Code;
+import yan.skeleton.compiler.frontend.lex.CodeSource;
 
 /**
  * {@code BaseError}是{@link Error}, {@link Warning}, {@link Note}的基类，主要定义了格式化输出必要的接口。
@@ -8,13 +8,13 @@ import yan.skeleton.compiler.frontend.lex.Code;
  * <p>你一般不需要使用到这个类，如果要定义新的error，你可以继承该类的子类Error，Warning等。</p>
  */
 public abstract class BaseError {
-    protected Code source;
+    protected CodeSource source;
     protected int line;
     protected int column;
     protected String message;
     protected String hint;
 
-    public BaseError(Code source, int line, int column, String message, String hint) {
+    public BaseError(CodeSource source, int line, int column, String message, String hint) {
         this.source = source;
         this.line = line;
         this.column = column;
@@ -39,7 +39,7 @@ public abstract class BaseError {
      * 获取代码来源。
      * <p>这个方法在{@link BaseError#toString()}中被用来获取上下文信息。</p>
      */
-    public Code getSource() {
+    public CodeSource getSource() {
         return source;
     }
 
@@ -47,7 +47,7 @@ public abstract class BaseError {
      * 获取源代码的来源的名称。
      * <p>通常来说，编译某个文件出错时这个函数返回的是文件名。</p>
      * <p>解释某段代码返回的是{@code <stdin>}</p>
-     * <p>函数的默认实现使用{@code Code}的{@link Code#getSourceName()}方法。</p>
+     * <p>函数的默认实现使用{@code Code}的{@link CodeSource#getSourceName()}方法。</p>
      */
     public String getSourceName() {
         return getSource().getSourceName();

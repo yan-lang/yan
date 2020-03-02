@@ -1,6 +1,6 @@
 package yan.skeleton.compiler.frontend.lex;
 
-public interface Code {
+public interface CodeSource {
     String getSourceName();
 
     String getContent();
