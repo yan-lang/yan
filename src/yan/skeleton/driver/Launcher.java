@@ -1,6 +1,7 @@
 package yan.skeleton.driver;
 
 import picocli.CommandLine;
+import yan.examples.yan.parse.YanLexer;
 import yan.examples.yan.semantic.YanNameResolver;
 import yan.examples.yan.tree.YanTree;
 import yan.skeleton.interpreter.Repl;
@@ -33,13 +34,15 @@ public class Launcher {
     }
 
     private void launchCompiler() {
-//        YanLexer lexer = new YanLexer("x", language.getConfig());
-//        var optOut = lexer.apply(language.getConfig().input);
+//        var compiler = language.getCompiler();
+//        compiler.apply(language.getConfig().input);
+        YanLexer lexer = new YanLexer("x", language.getConfig());
+        var optOut = lexer.apply(language.getConfig().input);
 //        optOut.ifPresent(lexerTokens -> System.out.println(lexer.stringfy(lexerTokens)));
-        YanNameResolver nameResolver = new YanNameResolver("Name Resolver", language.getConfig());
-        var funcList = new ArrayList<YanTree.Function>();
-        funcList.add(new YanTree.Function(new Position(1, 1, 1, stop)));
-        nameResolver.apply(new YanTree.Program(new Position(1, 1, 1, stop), funcList));
+//        YanNameResolver nameResolver = new YanNameResolver("Name Resolver", language.getConfig());
+//        var funcList = new ArrayList<YanTree.Function>();
+//        funcList.add(new YanTree.Function(new Position(1, 1, 1, stop)));
+//        nameResolver.apply(new YanTree.Program(new Position(1, 1, 1, stop), funcList));
     }
 }
 

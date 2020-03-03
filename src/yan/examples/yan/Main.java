@@ -8,11 +8,9 @@ import java.lang.reflect.InvocationTargetException;
 
 public class Main {
 
-    public static void main(String[] args) throws InvocationTargetException, NoSuchMethodException,
-            InstantiationException, IllegalAccessException {
+    public static void main(String[] args) {
         Language language = new YanLang();
         language.setConfig(new YanConfig());
-        language.addPhase(YanLexer.class);
 
         Launcher launcher = new Launcher(language);
         launcher.launch(args);

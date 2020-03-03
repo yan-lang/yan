@@ -19,4 +19,5 @@ public class YanLang extends Language implements ScriptEngine {
     public String getVersion() {
         return null;
     }
+
 }

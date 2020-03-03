@@ -2,14 +2,14 @@ package yan.examples.yan.parse;
 
 import yan.skeleton.compiler.frontend.lex.AbstractLexer;
 import yan.skeleton.compiler.frontend.lex.LexerToken;
-import yan.skeleton.driver.Config;
+import yan.skeleton.driver.BaseConfig;
 
 import static yan.examples.yan.parse.YanTokens.*;
 
 
 public class YanLexer extends AbstractLexer {
 
-    public YanLexer(String name, Config config) {
+    public YanLexer(String name, BaseConfig config) {
         super(name, config);
     }
 
@@ -29,7 +29,7 @@ public class YanLexer extends AbstractLexer {
             case '=' -> makeToken(ASSIGN);
             default -> makeToken(UNKNOWN);
         };
-        buffer.next();
+        buffer.consume();
 
         if (token.type == UNKNOWN) {
             // TODO: issue error
@@ -39,12 +39,12 @@ public class YanLexer extends AbstractLexer {
     }
 
     private LexerToken identifier() {
-        while (Character.isLetterOrDigit(buffer.current()) || buffer.current() == '_') buffer.next();
+        while (Character.isLetterOrDigit(buffer.current()) || buffer.current() == '_') buffer.consume();
         return makeToken(IDENTIFIER, currentTokenString());
     }
 
     private LexerToken number() {
-        while (Character.isDigit(buffer.current())) buffer.next();
+        while (Character.isDigit(buffer.current())) buffer.consume();
         return makeToken(INT_CONST, Integer.parseInt(currentTokenString()));
     }
 

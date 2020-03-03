@@ -3,11 +3,11 @@ package yan.examples.yan.semantic;
 import yan.examples.yan.tree.YanTree;
 import yan.examples.yan.tree.YanVisitor;
 import yan.skeleton.compiler.frontend.semantic.NameResolver;
-import yan.skeleton.driver.Config;
+import yan.skeleton.driver.BaseConfig;
 import yan.examples.yan.tree.YanTree.*;
 
 public class YanNameResolver extends NameResolver<YanTree.Program> implements YanVisitor<Object> {
-    public YanNameResolver(String name, Config config) {
+    public YanNameResolver(String name, BaseConfig config) {
         super(name, config);
     }
 
@@ -15,6 +15,11 @@ public class YanNameResolver extends NameResolver<YanTree.Program> implements Ya
     public Program transform(Program input) {
         input.accept(this);
         return input;
+    }
+
+    @Override
+    protected boolean hasError() {
+        return false;
     }
 
     @Override

@@ -90,7 +90,7 @@ public abstract class BaseError {
         // 构造上下文:
         // TODO: 如果出错位置前面或后面字符过多（超过80个字符）, 保留前面25个字符，后面50个字符其他用省略号替代
 
-        String allContext = getSource().getContent(getLine());
+        String allContext = getSource().get(getLine());
         String context = allContext;
         builder.append(context);
         builder.append(padPrefixSpace(getColumn(), "^"));

@@ -1,8 +1,6 @@
 package yan.skeleton.compiler.frontend.lex;
 
 
-import javax.swing.text.Position;
-
 public class LexerToken {
 
     /* Token的类型 */
@@ -21,7 +19,7 @@ public class LexerToken {
     final public int stop;
 
     /* Token所在的源代码, 一般用于错误提示 */
-    final public String source;
+    final public CodeSource source;
 
     /**
      * Token存储的语义值, 不可以直接访问, 应先判断Token类型,再通过对应函数访问。
@@ -35,10 +33,14 @@ public class LexerToken {
      */
     final public Object value;
 
-    public LexerToken(int type, Object value, Position pos, String source) {
+
+    public LexerToken(int type, int line, int col, int start, int stop, Object value, CodeSource source) {
         this.type = type;
+        this.line = line;
+        this.col = col;
+        this.start = start;
+        this.stop = stop;
         this.value = value;
-        this.pos = pos;
         this.source = source;
     }
 
@@ -56,10 +58,19 @@ public class LexerToken {
 
     @Override
     public String toString() {
+        return toString(null);
+    }
+
+    public String toString(Lexer lexer) {
+        String typeString = String.valueOf(type);
         return "LexerToken{" +
-                "type=" + type +
+                "type=" + typeString +
+                ", line=" + line +
+                ", col=" + col +
+                ", start=" + start +
+                ", stop=" + stop +
+                ", source=" + source.getSourceName() +
                 ", value=" + value +
-                ", pos=" + pos +
                 '}';
     }
 }

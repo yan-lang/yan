@@ -1,5 +1,7 @@
 package yan.skeleton.driver;
 
+import yan.skeleton.driver.error.ErrorCollector;
+
 import java.util.Optional;
 
 /**
@@ -9,9 +11,8 @@ import java.util.Optional;
  * @param <In>  input
  * @param <Out> output
  * @see Task
- * @see ErrorIssuer
  */
-public abstract class Phase<In, Out> implements Task<In, Out>, ErrorIssuer {
+public abstract class Phase<In, Out> implements Task<In, Out> {
     /**
      * Name.
      */
@@ -20,9 +21,14 @@ public abstract class Phase<In, Out> implements Task<In, Out>, ErrorIssuer {
     /**
      * Compiler configuration.
      */
-    protected final Config config;
+    protected final BaseConfig config;
 
-    public Phase(String name, Config config) {
+    /**
+     * Global Error Collector
+     */
+    protected ErrorCollector errorCollector = ErrorCollector.shared;
+
+    public Phase(String name, BaseConfig config) {
         this.name = name;
         this.config = config;
     }
@@ -44,11 +50,6 @@ public abstract class Phase<In, Out> implements Task<In, Out>, ErrorIssuer {
     public void onSucceed(Out output) {
     }
 
-
-    public String stringfy(Out output) {
-        return "";
-    }
-
     /**
      * Entry of running the phase.
      *
@@ -59,11 +60,26 @@ public abstract class Phase<In, Out> implements Task<In, Out>, ErrorIssuer {
     public Optional<Out> apply(In in) {
         var out = transform(in);
         if (hasError()) {
-            printErrors(System.err);
             return Optional.empty();
         }
 
         onSucceed(out);
         return Optional.of(out);
+    }
+
+    /**
+     * Return if there is any error occurred in this phase.
+     *
+     * @return true if there is an error.
+     */
+    protected boolean hasError() {
+        return errorCollector.hasError();
+    }
+
+    @Override
+    public String toString() {
+        return "Phase{" +
+                "name='" + name + '\'' +
+                '}';
     }
 }

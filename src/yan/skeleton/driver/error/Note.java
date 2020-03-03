@@ -8,7 +8,7 @@ public class Note extends BaseError{
     }
 
     @Override
-    String getType() {
+    public String getType() {
         return "note";
     }
 }
