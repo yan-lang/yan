@@ -2,18 +2,21 @@ package yan.skeleton.compiler.frontend.lex;
 
 
 import yan.skeleton.driver.BaseConfig;
-import yan.skeleton.driver.PrintablePhase;
+import yan.skeleton.driver.Phase;
+import yan.skeleton.printer.PhasePrinter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public abstract class AbstractLexer extends PrintablePhase<String, List<LexerToken>> implements Lexer {
+public abstract class AbstractLexer extends Phase<String, List<LexerToken>>
+        implements Lexer, PhasePrinter<List<LexerToken>> {
 
     protected ReadTextBuffer buffer;
 
     public AbstractLexer(String name, BaseConfig config) {
         super(name, config);
+        printer = this;
     }
 
     protected void markCurrentPos() {
@@ -43,5 +46,20 @@ public abstract class AbstractLexer extends PrintablePhase<String, List<LexerTok
             tokenList.add(token);
         } while (token.type != BasicTokens.EOF);
         return tokenList;
+    }
+
+    @Override
+    public String toString(List<LexerToken> lexerTokens) {
+        return "tokens";
+    }
+
+    @Override
+    public String targetName() {
+        return "lex";
+    }
+
+    @Override
+    public String fileExtension() {
+        return "txt";
     }
 }

@@ -1,7 +1,9 @@
 package yan.skeleton.driver;
 
 import yan.skeleton.driver.error.ErrorCollector;
+import yan.skeleton.printer.PhasePrinter;
 
+import java.io.PrintStream;
 import java.util.Optional;
 
 /**
@@ -28,6 +30,8 @@ public abstract class Phase<In, Out> implements Task<In, Out> {
      */
     protected ErrorCollector errorCollector = ErrorCollector.shared;
 
+    protected PhasePrinter<Out> printer;
+
     public Phase(String name, BaseConfig config) {
         this.name = name;
         this.config = config;
@@ -48,6 +52,10 @@ public abstract class Phase<In, Out> implements Task<In, Out> {
      * @param output output of the transformation
      */
     protected void onSucceed(Out output) {
+        if (printer != null && config.target.equals(printer.targetName())) {
+            String text = printer.toString(output);
+            config.out.print(text);
+        }
     }
 
     /**

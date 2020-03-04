@@ -3,6 +3,7 @@ package yan.skeleton.driver;
 import yan.skeleton.compiler.frontend.ir.IRProgram;
 import yan.skeleton.compiler.frontend.lex.LexerToken;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -48,30 +49,35 @@ public abstract class Language<Tree> {
 
     protected void buildCompilerTargets() {
         if (lexer == null) return;
-        if (lexer instanceof PrintablePhase) {
-            target2Phase.put(((PrintablePhase) lexer).targetName(), lexer);
+        if (lexer.printer != null) {
+            target2Phase.put(lexer.printer.targetName(), lexer);
+            compilerTargets.add(lexer.printer.targetName());
         }
         if (parser == null) return;
-        if (parser instanceof PrintablePhase) {
-            target2Phase.put(((PrintablePhase) parser).targetName(), lexer.then(parser));
+        if (parser.printer != null) {
+            target2Phase.put(parser.printer.targetName(), lexer.then(parser));
+            compilerTargets.add(parser.printer.targetName());
         }
         if (semAnalyzers.isEmpty()) return;
         var semTask = lexer.then(parser);
         for (var semAnalyzer : semAnalyzers) {
             semTask = semTask.then(semAnalyzer);
-            if (semAnalyzer instanceof PrintablePhase) {
-                target2Phase.put(((PrintablePhase) semAnalyzer).targetName(), semTask);
+            if (semAnalyzer.printer != null) {
+                target2Phase.put(semAnalyzer.printer.targetName(), semTask);
+                compilerTargets.add(semAnalyzer.printer.targetName());
             }
         }
         if (irTranslator == null) return;
-        if (irTranslator instanceof PrintablePhase) {
-            target2Phase.put(((PrintablePhase) irTranslator).targetName(), semTask.then(irTranslator));
+        if (irTranslator.printer != null) {
+            target2Phase.put(irTranslator.printer.targetName(), semTask.then(irTranslator));
+            compilerTargets.add(irTranslator.printer.targetName());
         }
         var optTask = semTask.then(irTranslator);
         for (var optimizer : optimizers) {
             optTask = optTask.then(optimizer);
-            if (optimizer instanceof PrintablePhase) {
-                target2Phase.put(((PrintablePhase) optimizer).targetName(), optTask);
+            if (optimizer.printer != null) {
+                target2Phase.put(optimizer.printer.targetName(), optTask);
+                compilerTargets.add(optimizer.printer.targetName());
             }
         }
     }

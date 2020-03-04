@@ -37,12 +37,12 @@ public class BaseConfig {
      * <p>有三种可能: (1)stdout, (2)解释器的writer, (3)文件。</p>
      * <p>编译模式下，输出到文件。可能考虑支持通过命令行参数配置输出到stdout。解释模式下输出到解释器的writer。</p>
      */
-    public PrintWriter out;
+    public PrintStream out;
 
     /**
-     * 各个阶段输出异常的流。
+     * 各个阶段输出异常的流。默认是{@code System.err}。
      */
-    public PrintWriter err;
+    public PrintStream err = System.err;
 
     /**
      * 再次验证参数是否正确，计算导出值。
@@ -53,6 +53,7 @@ public class BaseConfig {
         try {
             var inputStream = new FileInputStream(inputFile);
             source = new String(inputStream.readAllBytes());
+            out = new PrintStream(outputFile);
         } catch (IOException e) {
             message.add(e.getMessage());
         }
