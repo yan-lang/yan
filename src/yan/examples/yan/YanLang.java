@@ -1,23 +1,19 @@
 package yan.examples.yan;
 
+import picocli.CommandLine.Command;
+import yan.examples.yan.parse.YanLexer;
+import yan.examples.yan.tree.YanTree;
+import yan.skeleton.driver.BaseConfig;
 import yan.skeleton.driver.Language;
-import yan.skeleton.interpreter.ScriptEngine;
 
-public class YanLang extends Language implements ScriptEngine {
+public class YanLang extends Language<YanTree.Program> {
+    @Command(description = "Yan compiler && interpreter.",
+            name = "yan", mixinStandardHelpOptions = true)
+    static class Config extends BaseConfig { }
 
-    @Override
-    public Object execute(String statement) throws Exception {
-        return null;
-    }
-
-    @Override
-    public String getName() {
-        return null;
-    }
-
-    @Override
-    public String getVersion() {
-        return null;
+    public YanLang() {
+        super(new Config());
+        addPhase(new YanLexer("YanLexer", config), "lex");
     }
 
 }
