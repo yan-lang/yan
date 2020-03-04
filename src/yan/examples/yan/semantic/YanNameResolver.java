@@ -1,12 +1,10 @@
 package yan.examples.yan.semantic;
 
-import yan.examples.yan.tree.YanTree;
 import yan.examples.yan.tree.YanVisitor;
-import yan.skeleton.compiler.frontend.semantic.NameResolver;
 import yan.skeleton.driver.BaseConfig;
 import yan.examples.yan.tree.YanTree.*;
 
-public class YanNameResolver extends NameResolver<YanTree.Program> implements YanVisitor<Object> {
+public class YanNameResolver extends yan.skeleton.driver.Phase<Program, Program> implements YanVisitor<Object> {
     public YanNameResolver(String name, BaseConfig config) {
         super(name, config);
     }

@@ -19,11 +19,6 @@ public class YanParser extends AbstractParser<YanTree.Program> {
     }
 
     @Override
-    protected boolean hasError() {
-        return false;
-    }
-
-    @Override
     public YanTree.Program parse(List<LexerToken> tokens) {
         return null;
     }

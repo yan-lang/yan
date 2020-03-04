@@ -2,14 +2,13 @@ package yan.skeleton.compiler.frontend.lex;
 
 
 import yan.skeleton.driver.BaseConfig;
-import yan.skeleton.driver.Phase;
-import yan.skeleton.driver.error.ErrorCollector;
+import yan.skeleton.driver.PrintablePhase;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public abstract class AbstractLexer extends Phase<String, List<LexerToken>> implements Lexer {
+public abstract class AbstractLexer extends PrintablePhase<String, List<LexerToken>> implements Lexer {
 
     protected ReadTextBuffer buffer;
 
@@ -37,7 +36,7 @@ public abstract class AbstractLexer extends Phase<String, List<LexerToken>> impl
     @Override
     public List<LexerToken> transform(String input) {
         List<LexerToken> tokenList = new ArrayList<>();
-        buffer = new ReadTextBuffer(input, config.inputPath.getFileName().toString());
+        buffer = new ReadTextBuffer(input, config.inputFile.getName());
         LexerToken token;
         do {
             token = nextToken();
@@ -45,11 +44,4 @@ public abstract class AbstractLexer extends Phase<String, List<LexerToken>> impl
         } while (token.type != BasicTokens.EOF);
         return tokenList;
     }
-
-    //    @Override
-//    public String stringfy(List<LexerToken> output) {
-//        StringBuilder builder = new StringBuilder();
-//        output.forEach(token -> builder.append(token.toString()).append('\n'));
-//        return builder.toString();
-//    }
 }

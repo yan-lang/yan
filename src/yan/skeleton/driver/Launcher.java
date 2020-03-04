@@ -46,27 +46,13 @@ public class Launcher {
             return cmd.getCommandSpec().exitCodeOnInvalidInput();
         }
 
-        // 验证参数是否合法, 如文件是否可读等
+        // 验证参数是否合法等
         List<String> message = language.config.validate();
         if (!message.isEmpty()) {
             message.forEach(System.out::println);
             return cmd.getCommandSpec().exitCodeOnInvalidInput();
         }
         System.out.println("Cong! You are in.");
-        return runCompiler();
-    }
-
-
-    private int runCompiler() {
-//        var compiler = language.getCompiler();
-//        compiler.apply(language.getConfig().input);
-//        YanLexer lexer = new YanLexer("x", language.config);
-//        var optOut = lexer.apply(language.config.input);
-//        optOut.ifPresent(lexerTokens -> System.out.println(lexer.stringfy(lexerTokens)));
-//        YanNameResolver nameResolver = new YanNameResolver("Name Resolver", language.getConfig());
-//        var funcList = new ArrayList<YanTree.Function>();
-//        funcList.add(new YanTree.Function(new Position(1, 1, 1, stop)));
-//        nameResolver.apply(new YanTree.Program(new Position(1, 1, 1, stop), funcList));
-        return 0;
+        return language.compile();
     }
 }

@@ -2,9 +2,12 @@ package yan.examples.yan;
 
 import picocli.CommandLine.Command;
 import yan.examples.yan.parse.YanLexer;
+import yan.examples.yan.parse.YanParser;
 import yan.examples.yan.tree.YanTree;
 import yan.skeleton.driver.BaseConfig;
 import yan.skeleton.driver.Language;
+
+import java.util.List;
 
 public class YanLang extends Language<YanTree.Program> {
     @Command(description = "Yan compiler && interpreter.",
@@ -13,7 +16,9 @@ public class YanLang extends Language<YanTree.Program> {
 
     public YanLang() {
         super(new Config());
-        addPhase(new YanLexer("YanLexer", config), "lex");
+        lexer = new YanLexer("YanLexer", config);
+        parser = new YanParser("YanParser", config);
+        buildCompilerTargets();
     }
 
 }

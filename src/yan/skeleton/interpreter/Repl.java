@@ -25,7 +25,7 @@ public class Repl {
     private static final String debugPrompt = "\u001b[38;5;250mDebug %N> ";
     private static final String debugSecondaryPrompt = "debug\u001b[38;5;250Debug m%N. ";
 
-    public static void run(ScriptEngine scriptEngine) {
+    public static int run(ScriptEngine scriptEngine) {
         try {
             DefaultParser parser = new DefaultParser();
             parser.setEofOnUnclosedBracket(Bracket.CURLY, Bracket.ROUND, Bracket.SQUARE);
@@ -69,7 +69,7 @@ public class Repl {
                 } catch (UserInterruptException e) {
                     // Ignore
                 } catch (EndOfFileException e) {
-                    return;
+                    return 1;
                 } catch (ConsoleEngine.QuitException e) {
                     break;
                 } catch (ConsoleEngine.DebugException e) {
@@ -91,5 +91,6 @@ public class Repl {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return 0;
     }
 }

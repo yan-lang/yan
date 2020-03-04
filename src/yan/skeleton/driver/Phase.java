@@ -47,7 +47,7 @@ public abstract class Phase<In, Out> implements Task<In, Out> {
      *
      * @param output output of the transformation
      */
-    public void onSucceed(Out output) {
+    protected void onSucceed(Out output) {
     }
 
     /**

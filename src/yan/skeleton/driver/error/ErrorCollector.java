@@ -15,8 +15,8 @@ public class ErrorCollector {
     // 属性
 
     protected List<BaseError> errors = new ArrayList<>();
-    private boolean _hasError = false;
-    private boolean _hasWarning = false;
+    private int _numOfError = 0;
+    private int _numOfWarning = 0;
 
     // 方法
 
@@ -25,17 +25,22 @@ public class ErrorCollector {
     }
 
     public boolean hasError() {
-        return _hasError;
+        return _numOfError > 0;
     }
 
     public boolean hasWarning() {
-        return _hasWarning;
+        return _numOfWarning > 0;
     }
 
     public void addError(BaseError error) {
         errors.add(error);
-        if (error instanceof Warning) _hasWarning = true;
-        else if(error instanceof Error) _hasError = true;
+        if (error instanceof Warning) _numOfWarning += 1;
+        else if (error instanceof Error) _numOfError += 1;
     }
+
+    public int numOfErrors() {
+        return _numOfError;
+    }
+
 }
 

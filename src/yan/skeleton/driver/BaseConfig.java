@@ -44,6 +44,10 @@ public class BaseConfig {
      */
     public PrintWriter err;
 
+    /**
+     * 再次验证参数是否正确，计算导出值。
+     * @return 错误信息列表。如果没有错的话，请返回一个空列表。
+     */
     public List<String> validate() {
         List<String> message = new ArrayList<>();
         try {
