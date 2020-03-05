@@ -11,7 +11,8 @@ import static yan.examples.yan.parse.YanTokens.*;
 public class YanLexer extends AbstractLexer {
 
     public YanLexer(String name, BaseConfig config) {
-        super(name, config, new Vocabulary(tokenNames));
+        super(name, config);
+        vocabulary = new Vocabulary(tokenNames);
     }
 
     @Override
