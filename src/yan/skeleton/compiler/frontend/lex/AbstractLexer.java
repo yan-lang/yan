@@ -11,16 +11,28 @@ import java.util.List;
 
 public abstract class AbstractLexer extends Phase<String, List<LexerToken>>
         implements Lexer, PhasePrinter<List<LexerToken>> {
+    protected Vocabulary vocabulary;
 
     protected ReadTextBuffer buffer;
 
     public AbstractLexer(String name, BaseConfig config) {
         super(name, config);
         printer = this;
+        vocabulary = new Vocabulary();
+    }
+
+    public AbstractLexer(String name, BaseConfig config, Vocabulary vocabulary) {
+        super(name, config);
+        printer = this;
+        this.vocabulary = vocabulary;
     }
 
     protected void markCurrentPos() {
         buffer.mark();
+    }
+
+    protected LexerToken makeEOF() {
+        return makeToken(LexerToken.EOF);
     }
 
     protected LexerToken makeToken(int type) {
@@ -44,13 +56,15 @@ public abstract class AbstractLexer extends Phase<String, List<LexerToken>>
         do {
             token = nextToken();
             tokenList.add(token);
-        } while (token.type != BasicTokens.EOF);
+        } while (token.type != LexerToken.EOF);
         return tokenList;
     }
 
     @Override
     public String toString(List<LexerToken> lexerTokens) {
-        return "tokens";
+        StringBuilder builder = new StringBuilder();
+        lexerTokens.forEach(x -> builder.append(x.toString(this)).append('\n'));
+        return builder.toString();
     }
 
     @Override
@@ -61,5 +75,10 @@ public abstract class AbstractLexer extends Phase<String, List<LexerToken>>
     @Override
     public String fileExtension() {
         return "txt";
+    }
+
+    @Override
+    public Vocabulary getVocabulary() {
+        return vocabulary;
     }
 }

@@ -3,6 +3,8 @@ package yan.skeleton.compiler.frontend.lex;
 
 public class LexerToken {
 
+    static public final int EOF = -1;
+
     /* Token的类型 */
     final public int type;
 
@@ -62,7 +64,7 @@ public class LexerToken {
     }
 
     public String toString(Lexer lexer) {
-        String typeString = String.valueOf(type);
+        String typeString = lexer.getVocabulary().get(type);
         return "LexerToken{" +
                 "type=" + typeString +
                 ", line=" + line +
