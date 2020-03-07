@@ -28,33 +28,38 @@ public class IndentPrinter {
         this(4);
     }
 
-    public void indent() {
+    public IndentPrinter indent() {
         spaces.append(" ".repeat(Math.max(0, indents)));
+        return this;
     }
 
-    public void unindent() {
+    public IndentPrinter unindent() {
         spaces.setLength(spaces.length() - indents);
+        return this;
     }
 
     /**
      * Print a string.
      */
-    public void print(String s) {
+    public IndentPrinter print(String s) {
         write(s, false);
+        return this;
     }
 
     /**
      * Print a string, with end of line.
      */
-    public void println(String s) {
+    public IndentPrinter println(String s) {
         write(s, true);
+        return this;
     }
 
     /**
      * Print end of line.
      */
-    public void println() {
+    public IndentPrinter println() {
         write("", true);
+        return this;
     }
 
     /**
@@ -63,8 +68,9 @@ public class IndentPrinter {
      * @param fmt  format
      * @param args arguments
      */
-    public void format(String fmt, Object... args) {
+    public IndentPrinter format(String fmt, Object... args) {
         write(String.format(fmt, args), false);
+        return this;
     }
 
     /**
@@ -73,8 +79,9 @@ public class IndentPrinter {
      * @param fmt  format
      * @param args arguments
      */
-    public void formatln(String fmt, Object... args) {
+    public IndentPrinter formatln(String fmt, Object... args) {
         write(String.format(fmt, args), true);
+        return this;
     }
 
     /**
