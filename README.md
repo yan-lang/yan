@@ -1,9 +1,7 @@
-<div align="center">    
+# Yan
 
-# Yan  
+[![License](https://img.shields.io/github/license/yan-lang/yan)](https://opensource.org/licenses/MIT)[![Build Status](https://travis-ci.com/yan-lang/yan.svg?branch=master)](https://travis-ci.com/yan-lang/yan)
 
-
-</div>
 
 ## Yan Language
 
@@ -39,3 +37,8 @@ Maven
 
 - [Decaf]() : A similar project in Tsinghua University.
 
+## License
+
+Copyright (c) Yan. All rights reserved.
+
+Licensed under the [MIT](LICENSE.txt) license.
