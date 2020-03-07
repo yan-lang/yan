@@ -1,6 +1,6 @@
 # Yan
 
-[![License](https://img.shields.io/github/license/yan-lang/yan)](https://opensource.org/licenses/MIT)[![Build Status](https://travis-ci.com/yan-lang/yan.svg?branch=master)](https://travis-ci.com/yan-lang/yan)
+[![License](https://img.shields.io/github/license/yan-lang/yan)](https://opensource.org/licenses/MIT) [![Build Status](https://travis-ci.com/yan-lang/yan.svg?branch=master)](https://travis-ci.com/yan-lang/yan)
 
 
 ## Yan Language
