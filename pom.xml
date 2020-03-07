@@ -4,10 +4,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>yan</groupId>
-    <artifactId>yan</artifactId>
-    <packaging>pom</packaging>
+    <groupId>org.yan</groupId>
+    <artifactId>yan-parent</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -23,7 +23,7 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>yan</groupId>
+                <groupId>org.yan</groupId>
                 <artifactId>yan-foundation</artifactId>
                 <version>1.0-SNAPSHOT</version>
             </dependency>
