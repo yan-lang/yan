@@ -1,7 +1,6 @@
 # Yan
 
-[![License](https://img.shields.io/github/license/yan-lang/yan)](https://opensource.org/licenses/MIT) [![Build Status](https://travis-ci.com/yan-lang/yan.svg?branch=master)](https://travis-ci.com/yan-lang/yan)
-
+[![License](https://img.shields.io/github/license/yan-lang/yan)](https://opensource.org/licenses/MIT) [![Build Status](https://travis-ci.com/yan-lang/yan.svg?branch=master)](https://travis-ci.com/yan-lang/yan) ![Java CI with Maven](https://github.com/yan-lang/yan/workflows/Java%20CI%20with%20Maven/badge.svg)
 
 ## Yan Language
 
