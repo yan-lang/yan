@@ -1,0 +1,15 @@
+<program>
+    <function>
+        <name>add</name>
+        <params>
+            <param>
+                <name>x</name>
+                <type>int</type>
+            </param>
+            <param>
+                <name>y</name>
+                <type>int</type>
+            </param>
+        </params>
+    </function>
+</program>
