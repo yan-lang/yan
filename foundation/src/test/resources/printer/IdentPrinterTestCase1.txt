@@ -1,0 +1,7 @@
+Token
+    text: +
+    type: ADD
+    line: 1
+    column: 2
+    index: 4
+/Token
