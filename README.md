@@ -2,7 +2,17 @@
 
 [![License](https://img.shields.io/github/license/yan-lang/yan)](https://opensource.org/licenses/MIT) [![Build Status](https://travis-ci.com/yan-lang/yan.svg?branch=master)](https://travis-ci.com/yan-lang/yan) ![Java CI with Maven](https://github.com/yan-lang/yan/workflows/Java%20CI%20with%20Maven/badge.svg)
 
-## Yan Language
+Yan is composed of several different modules from three different sub-projects.
+
+> Yan = Yan Compiler + Yan foundation + Yan Common
+
+**Yan Compiler** is the compiler for [Yan](), which is based on *Yan foundation*.
+
+**Yan foundation** is the backend framework of Yan compiler's implementation. It can also be used as a general compiler framework for implementations of other languages. 
+
+**Yan Common** is a collection of common data structures and utils that might be useful in all language implementations. 
+
+## Yan Compiler
 
 **Yan** is a tiny educational language, which is designed as a demo for the educational compiler framwork *Yan Foundation.* The basic syntax of Yan is similar to Swift, while it behaves like a procedure-oriented language. 
 
@@ -18,7 +28,7 @@ We use switch-expression, which is a preview feature of Java 1, during the devel
 
 ## Yan Foundation
 
-**Yan Foundation** is the backend framework of Yan implementation. It was designed as an educational compiler framework that attempts to help students to write compilers for their own language. This framework encaupsuate most of functionities that are not directly related with compiling. In this way, students can focus on the key phases of compiler, such tokenzing, parsing, optimizing, etc. 
+**Yan Foundation** is the backend framework of Yan compiler's implementation. It was designed as an educational compiler framework that attempts to help students to write compilers for their own language. This framework encaupsuate most of functionities that are not directly related with compiling. In this way, students can focus on the key phases of compiler, such tokenzing, parsing, optimizing, etc. 
 
 ### Documentation
 
