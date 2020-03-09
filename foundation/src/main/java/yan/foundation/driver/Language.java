@@ -72,9 +72,9 @@ public abstract class Language<Tree> {
 
     private void checkAndPutTarget(Phase<?, ?> phase, Task<String, ?> task) {
         if (phase == null) return;
-        if (phase.printer != null) {
-            target2Phase.put(phase.printer.targetName(), task);
-            compilerTargets.add(phase.printer.targetName());
+        if (phase.formatter != null) {
+            target2Phase.put(phase.formatter.targetName(), task);
+            compilerTargets.add(phase.formatter.targetName());
         }
     }
 

@@ -1,7 +1,7 @@
 package yan.foundation.driver;
 
 import yan.foundation.driver.error.ErrorCollector;
-import yan.foundation.printer.PhasePrinter;
+import yan.foundation.utils.formatter.PhaseFormatter;
 
 import java.util.Optional;
 
@@ -29,8 +29,8 @@ public abstract class Phase<In, Out> implements Task<In, Out> {
      */
     protected ErrorCollector errorCollector = ErrorCollector.shared;
 
-    protected PhasePrinter<Out> printer;
-    protected PhasePrinter<Out> shellPrinter;
+    protected PhaseFormatter<Out> formatter;
+    protected PhaseFormatter<Out> shellFormatter;
 
     public Phase(String name, BaseConfig config) {
         this.name = name;
@@ -52,8 +52,8 @@ public abstract class Phase<In, Out> implements Task<In, Out> {
      * @param output output of the transformation
      */
     protected void onSucceed(Out output) {
-        if (printer != null && config.target.equals(printer.targetName())) {
-            String text = printer.toString(output);
+        if (formatter != null && config.target.equals(formatter.targetName())) {
+            String text = formatter.toString(output);
             config.out.print(text);
         }
     }

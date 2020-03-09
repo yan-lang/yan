@@ -4,7 +4,7 @@ import yan.foundation.compiler.frontend.lex.AbstractLexer;
 import yan.foundation.compiler.frontend.lex.Token;
 import yan.foundation.compiler.frontend.lex.Vocabulary;
 import yan.foundation.driver.BaseConfig;
-import yan.foundation.printer.SimpleTokenPrinter;
+import yan.foundation.utils.formatter.SimpleTokenFormatter;
 
 import static yan.lang.parse.YanTokens.*;
 
@@ -14,7 +14,7 @@ public class YanLexer extends AbstractLexer {
     public YanLexer(String name, BaseConfig config) {
         super(name, config);
         vocabulary = new Vocabulary(tokenNames);
-        printer = new SimpleTokenPrinter();
+        formatter = new SimpleTokenFormatter();
     }
 
     @Override

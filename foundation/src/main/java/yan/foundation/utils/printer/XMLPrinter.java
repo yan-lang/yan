@@ -1,4 +1,4 @@
-package yan.foundation.printer;
+package yan.foundation.utils.printer;
 
 import java.io.PrintWriter;
 import java.util.*;

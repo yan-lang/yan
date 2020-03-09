@@ -1,4 +1,4 @@
-package yan.foundation.printer;
+package yan.foundation.utils.printer;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;

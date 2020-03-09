@@ -1,10 +1,10 @@
-package yan.foundation.printer;
+package yan.foundation.utils.formatter;
 
 import yan.foundation.compiler.frontend.lex.Token;
 
 import java.util.List;
 
-public class SimpleTokenPrinter extends TokenPrinter {
+public class SimpleTokenFormatter extends TokenFormatter {
 
     @Override
     public String toString(List<Token> tokens) {

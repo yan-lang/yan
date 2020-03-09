@@ -1,6 +1,7 @@
-package yan.foundation.printer;
+package yan.foundation.utils.formatter;
 
-public interface PhasePrinter<Out> {
+// TODO: 可以继续重构, PhaseFormatter -> Serializer
+public interface PhaseFormatter<Out> {
 
     // TODO: 输出不一定是字符串，也许是二进制数据，需要改进。
     String toString(Out out);
