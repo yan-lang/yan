@@ -2,10 +2,7 @@ package yan.foundation.driver;
 
 import picocli.CommandLine.*;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.PrintStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -44,14 +41,24 @@ public class BaseConfig {
      * 各个编译阶段输出结果的流。
      * <p>有三种可能: (1)stdout, (2)解释器的writer, (3)文件。</p>
      * <p>编译模式下，输出到文件。可能考虑支持通过命令行参数配置输出到stdout。
-     *    解释模式下输出到解释器的writer。</p>
+     * 解释模式下输出到解释器的writer。</p>
      */
-    public PrintStream out;
+    public PrintWriter out;
 
     /**
      * 各个阶段输出异常的流。默认是{@code System.err}。
      */
     public PrintStream err = System.err;
+
+    /**
+     * 获取输入源的名称
+     *
+     * @return 如果输入是文件, 则返回文件名; 如果输入是控制台, 则返回stdin.
+     */
+    public String getInputSourceName() {
+        if (inputFile != null) return inputFile.getName();
+        return "stdin";
+    }
 
     /**
      * 再次验证参数是否正确，并根据参数计算一些导出值。
@@ -74,7 +81,7 @@ public class BaseConfig {
         try {
             var inputStream = new FileInputStream(inputFile);
             source = new String(inputStream.readAllBytes());
-            out = new PrintStream(outputFile);
+            out = new PrintWriter(outputFile);
         } catch (IOException e) {
             message.add(e.getMessage());
         }

@@ -3,6 +3,7 @@ package yan.foundation.compiler.frontend.lex;
 
 import yan.foundation.driver.BaseConfig;
 import yan.foundation.driver.Phase;
+import yan.foundation.printer.SimpleTokenPrinter;
 import yan.foundation.printer.XMLTokenPrinter;
 
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ public abstract class AbstractLexer extends Phase<String, List<Token>>
     public AbstractLexer(String name, BaseConfig config) {
         super(name, config);
         printer = new XMLTokenPrinter();
+        shellPrinter = new SimpleTokenPrinter();
         vocabulary = new Vocabulary();
     }
 
@@ -45,7 +47,7 @@ public abstract class AbstractLexer extends Phase<String, List<Token>>
     @Override
     public List<Token> transform(String input) {
         List<Token> tokenList = new ArrayList<>();
-        buffer = new ReadTextBuffer(input, config.inputFile.getName());
+        buffer = new ReadTextBuffer(input, config.getInputSourceName());
         Token token;
         do {
             token = nextToken();

@@ -1,5 +1,7 @@
 package yan.foundation.interpreter;
 
+import org.jline.terminal.Terminal;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -11,31 +13,28 @@ public class ConsoleEngine {
 
     // region: Exceptions
 
-    public static class QuitException extends Exception {}
-    public static class DebugException extends Exception {
-        public boolean shouldEnable;
-        public DebugException(boolean shouldEnable) {
-            this.shouldEnable = shouldEnable;
-        }
+    public static class QuitException extends Exception {
     }
-    public static class ClearException extends Exception {}
+
+    private Interpretable scriptEngine;
+    private Terminal terminal;
 
     // endregion
 
-    private ScriptEngine scriptEngine;
-    private Vector<String> scripts = new Vector<>();
-
-    public ConsoleEngine(ScriptEngine scriptEngine) {
+    public ConsoleEngine(Interpretable scriptEngine, Terminal terminal) {
         this.scriptEngine = scriptEngine;
+        this.terminal = terminal;
     }
 
     public Object execute(String line) throws Exception {
-        if(!line.startsWith(":")) {
+        if (!line.startsWith(":")) {
             scripts.add(line);
-            return scriptEngine.execute(line);
+            return scriptEngine.execute(line, terminal.writer());
         } else {
             String cmd = line.substring(1);
-            if(cmd.startsWith("save")) { return save2File(cmd); }
+            if (cmd.startsWith("save")) {
+                return save2File(cmd);
+            }
             switch (cmd) {
                 case "help":
                     return help();
@@ -53,13 +52,26 @@ public class ConsoleEngine {
         }
     }
 
+    private Vector<String> scripts = new Vector<>();
+
+    public static class DebugException extends Exception {
+        public boolean shouldEnable;
+
+        public DebugException(boolean shouldEnable) {
+            this.shouldEnable = shouldEnable;
+        }
+    }
+
+    public static class ClearException extends Exception {
+    }
+
     private Object save2File(String cmd) {
         Date date = new Date();
         SimpleDateFormat f = new SimpleDateFormat("yyyy-mm-dd-hh-mm-ss.txt");
         String filePath = f.format(date);
 
         // extract file path if exists
-        if(cmd.length() > 5) filePath = cmd.substring(5);
+        if (cmd.length() > 5) filePath = cmd.substring(5);
 
         // save scripts into file
         try {

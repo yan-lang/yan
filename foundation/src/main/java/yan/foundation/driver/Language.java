@@ -25,14 +25,10 @@ public abstract class Language<Tree> {
         setupConfig();
     }
 
-    private void setupConfig() {
-        BaseConfig.CompilerTargetCandidates.language = this;
-        BaseConfig.DefaultProvider.language = this;
-    }
+    protected List<String> compilerTargets = new ArrayList<>();
 
     // ------------------- Compiler Targets ------------------- //
-
-    private List<String> compilerTargets = new ArrayList<>();
+    protected Map<String, Task<String, ?>> target2Phase = new HashMap<>();
 
     public List<String> getCompilerTargets() {
         return compilerTargets;
@@ -49,7 +45,10 @@ public abstract class Language<Tree> {
     protected List<Phase<IRProgram, IRProgram>> optimizers = new ArrayList<>();
 //    protected Phase<IRProgram, String> llvmIRTranslator;
 
-    private Map<String, Task<String, ?>> target2Phase = new HashMap<>();
+    protected void setupConfig() {
+        BaseConfig.CompilerTargetCandidates.language = this;
+        BaseConfig.DefaultProvider.language = this;
+    }
 
     protected void buildCompilerTargets() {
         checkAndPutTarget(lexer, lexer);
@@ -82,6 +81,7 @@ public abstract class Language<Tree> {
     // ---------------------- Core Functionality ---------------------- //
 
     public int compile() {
+        // TODO: check type cast and print contact message if not passed.
         Phase<String, ?> task = (Phase<String, ?>) target2Phase.get(config.target);
         task.apply(config.source);
         return task.errorCollector.numOfErrors();

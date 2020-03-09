@@ -30,6 +30,7 @@ public abstract class Phase<In, Out> implements Task<In, Out> {
     protected ErrorCollector errorCollector = ErrorCollector.shared;
 
     protected PhasePrinter<Out> printer;
+    protected PhasePrinter<Out> shellPrinter;
 
     public Phase(String name, BaseConfig config) {
         this.name = name;

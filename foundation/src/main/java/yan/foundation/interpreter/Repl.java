@@ -24,7 +24,7 @@ public class Repl {
     private static final String debugPrompt = "\u001b[38;5;250mDebug %N> ";
     private static final String debugSecondaryPrompt = "debug\u001b[38;5;250Debug m%N. ";
 
-    public static int run(ScriptEngine scriptEngine) {
+    public static int run(Interpretable scriptEngine) {
         try {
             DefaultParser parser = new DefaultParser();
             parser.setEofOnUnclosedBracket(Bracket.CURLY, Bracket.ROUND, Bracket.SQUARE);
@@ -53,7 +53,13 @@ public class Repl {
             // REPL Loop
             //
 
-            ConsoleEngine engine = new ConsoleEngine(scriptEngine);
+            ConsoleEngine engine = new ConsoleEngine(scriptEngine, terminal);
+
+            terminal.handle(Terminal.Signal.INT, sig -> {
+                // handle the signal
+                System.out.println("User interrupt");
+//                scriptEngine.hasUserInterrupted = true;
+            });
 
             String prompt = defaultPrompt;
             int countLine = 1;
@@ -64,7 +70,7 @@ public class Repl {
                     reader.variable(LineReader.LINE_OFFSET, countLine);
                     line = reader.readLine(prompt);
                     Object result = engine.execute(line);
-                    terminal.writer().println(result);
+//                    terminal.writer().println(result);
                 } catch (UserInterruptException e) {
                     // Ignore
                 } catch (EndOfFileException e) {

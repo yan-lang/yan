@@ -4,8 +4,8 @@ import picocli.CommandLine;
 import picocli.CommandLine.ParameterException;
 import picocli.CommandLine.ParseResult;
 import picocli.CommandLine.UnmatchedArgumentException;
+import yan.foundation.interpreter.Interpretable;
 import yan.foundation.interpreter.Repl;
-import yan.foundation.interpreter.ScriptEngine;
 
 import java.util.List;
 
@@ -20,8 +20,8 @@ public class Launcher {
 
     public int launch(String[] args) {
         // 没有任何参数的情况下启动解释器(如果语言可解释的话)
-        if (args.length == 0 && language instanceof ScriptEngine) {
-            return Repl.run((ScriptEngine) language);
+        if (args.length == 0 && language instanceof Interpretable) {
+            return Repl.run((Interpretable) language);
         }
 
         // 解析命令行参数, 正常则启动编译器, 否则退出
