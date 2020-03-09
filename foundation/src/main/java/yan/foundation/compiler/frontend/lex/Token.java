@@ -5,24 +5,37 @@ public class Token {
 
     static public final int EOF = -1;
 
-    /* Token的类型 */
+    /**
+     * Token的类型
+     */
     final public int type;
 
-    /* Token第一个字符所在行, 从1开始 */
+    /** Token第一个字符所在行, 从1开始 */
     final public int line;
 
-    /* Token第一个字符所在列, 从1开始 */
+    /** Token第一个字符所在列, 从1开始 */
     final public int col;
 
-    /* Token位于文本的起始位置 */
+    /**
+     * Token位于文本的起始位置
+     */
     final public int start;
 
-    /* Token位于文本的终止位置 */
+    /**
+     * Token位于文本的终止位置
+     */
     final public int stop;
 
-    /* Token所在的源代码, 一般用于错误提示 */
+    /**
+     * Token所在的源代码, 一般用于错误提示
+     */
     final public CodeSource source;
 
+    /**
+     * 创建Token的Lexer, 一般用于获取{@link Token#type}的字符串表示.
+     *
+     * @see Lexer#getVocabulary()
+     */
     final public Lexer lexer;
 
     /**
