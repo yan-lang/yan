@@ -1,7 +1,7 @@
 package yan.foundation.driver;
 
 import yan.foundation.compiler.frontend.ir.IRProgram;
-import yan.foundation.compiler.frontend.lex.LexerToken;
+import yan.foundation.compiler.frontend.lex.Token;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,8 +37,8 @@ public abstract class Language<Tree> {
         return compilerTargets.isEmpty() ? null : compilerTargets.get(compilerTargets.size() - 1);
     }
 
-    protected Phase<String, List<LexerToken>> lexer;
-    protected Phase<List<LexerToken>, Tree> parser;
+    protected Phase<String, List<Token>> lexer;
+    protected Phase<List<Token>, Tree> parser;
     protected List<Phase<Tree, Tree>> semAnalyzers = new ArrayList<>();
     protected Phase<Tree, IRProgram> irTranslator;
     protected List<Phase<IRProgram, IRProgram>> optimizers = new ArrayList<>();

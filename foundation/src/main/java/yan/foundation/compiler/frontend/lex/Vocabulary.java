@@ -19,7 +19,7 @@ public class Vocabulary {
     }
 
     String get(int type) {
-        if (type == LexerToken.EOF) {
+        if (type == Token.EOF) {
             return "EOF";
         }
         if (type < 0 || type > getMaxTokenType()) {

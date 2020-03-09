@@ -3,13 +3,13 @@ package yan.foundation.compiler.frontend.lex;
 
 import yan.foundation.driver.BaseConfig;
 import yan.foundation.driver.Phase;
-import yan.foundation.printer.TokenPrinter;
+import yan.foundation.printer.XMLTokenPrinter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public abstract class AbstractLexer extends Phase<String, List<LexerToken>>
+public abstract class AbstractLexer extends Phase<String, List<Token>>
         implements Lexer {
     protected Vocabulary vocabulary;
 
@@ -17,7 +17,7 @@ public abstract class AbstractLexer extends Phase<String, List<LexerToken>>
 
     public AbstractLexer(String name, BaseConfig config) {
         super(name, config);
-        printer = new TokenPrinter(this);
+        printer = new XMLTokenPrinter();
         vocabulary = new Vocabulary();
     }
 
@@ -25,17 +25,17 @@ public abstract class AbstractLexer extends Phase<String, List<LexerToken>>
         buffer.mark();
     }
 
-    protected LexerToken makeEOF() {
-        return makeToken(LexerToken.EOF);
+    protected Token makeEOF() {
+        return makeToken(Token.EOF);
     }
 
-    protected LexerToken makeToken(int type) {
+    protected Token makeToken(int type) {
         return makeToken(type, null);
     }
 
-    protected LexerToken makeToken(int type, Object value) {
-        return new LexerToken(type, buffer.marked_line, buffer.marked_col,
-                buffer.marked_offset, buffer.offset, value, buffer);
+    protected Token makeToken(int type, Object value) {
+        return new Token(type, buffer.marked_line, buffer.marked_col,
+                buffer.marked_offset, buffer.offset, value, buffer, this);
     }
 
     protected String currentTokenString() {
@@ -43,14 +43,14 @@ public abstract class AbstractLexer extends Phase<String, List<LexerToken>>
     }
 
     @Override
-    public List<LexerToken> transform(String input) {
-        List<LexerToken> tokenList = new ArrayList<>();
+    public List<Token> transform(String input) {
+        List<Token> tokenList = new ArrayList<>();
         buffer = new ReadTextBuffer(input, config.inputFile.getName());
-        LexerToken token;
+        Token token;
         do {
             token = nextToken();
             tokenList.add(token);
-        } while (token.type != LexerToken.EOF);
+        } while (token.type != Token.EOF);
         return tokenList;
     }
 

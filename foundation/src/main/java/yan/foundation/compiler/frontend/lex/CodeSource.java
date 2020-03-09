@@ -1,7 +1,7 @@
 package yan.foundation.compiler.frontend.lex;
 
 /**
- * {@code CodeSource}主要用于记录{@link LexerToken}所在的代码源。
+ * {@code CodeSource}主要用于记录{@link Token}所在的代码源。
  * 在报错系统中，这个接口定义了格式化输出报错信息所必要的函数。
  */
 public interface CodeSource{

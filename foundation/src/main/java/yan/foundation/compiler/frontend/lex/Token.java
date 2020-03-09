@@ -1,7 +1,7 @@
 package yan.foundation.compiler.frontend.lex;
 
 
-public class LexerToken {
+public class Token {
 
     static public final int EOF = -1;
 
@@ -23,6 +23,8 @@ public class LexerToken {
     /* Token所在的源代码, 一般用于错误提示 */
     final public CodeSource source;
 
+    final public Lexer lexer;
+
     /**
      * Token存储的语义值, 不可以直接访问, 应先判断Token类型,再通过对应函数访问。
      * 以下为预定义的Token类型和value类型的对应关系:
@@ -36,7 +38,7 @@ public class LexerToken {
     final public Object value;
 
 
-    public LexerToken(int type, int line, int col, int start, int stop, Object value, CodeSource source) {
+    public Token(int type, int line, int col, int start, int stop, Object value, CodeSource source, Lexer lexer) {
         this.type = type;
         this.line = line;
         this.col = col;
@@ -44,6 +46,7 @@ public class LexerToken {
         this.stop = stop;
         this.value = value;
         this.source = source;
+        this.lexer = lexer;
     }
 
     public boolean getBoolValue() {
@@ -58,15 +61,16 @@ public class LexerToken {
         return (int) value;
     }
 
-    @Override
-    public String toString() {
-        return toString(null);
+    public String getTypeString() {
+        if (lexer.getVocabulary() != null)
+            return lexer.getVocabulary().get(type);
+        return String.valueOf(type);
     }
 
-    public String toString(Lexer lexer) {
-        String typeString = lexer.getVocabulary().get(type);
+    @Override
+    public String toString() {
         return "LexerToken{" +
-                "type=" + typeString +
+                "type=" + getTypeString() +
                 ", line=" + line +
                 ", col=" + col +
                 ", start=" + start +
@@ -74,5 +78,19 @@ public class LexerToken {
                 ", source=" + source.getSourceName() +
                 ", value=" + value +
                 '}';
+    }
+
+    /**
+     * Get the simple string representation of this token.
+     * <pre>
+     *     format: type - source:line:col;start:stop -> "value"
+     *     e.g. Identifier - test.yan:10:5;120:234 -> "x"
+     * </pre>
+     *
+     * @return Simple string representation
+     */
+    public String toSimpleString() {
+        return String.format("%s - %s:%d:%d;%d:%d -> \"%s\"", getTypeString(), source.getSourceName(),
+                line, col, start, stop, value);
     }
 }
