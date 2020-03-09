@@ -10,6 +10,9 @@ import java.util.Map;
 
 
 public abstract class Language<Tree> {
+
+    // ------------------- Basic Configuration ------------------- //
+
     public BaseConfig config;
 
     public Language(BaseConfig config) {
@@ -26,6 +29,8 @@ public abstract class Language<Tree> {
         BaseConfig.CompilerTargetCandidates.language = this;
         BaseConfig.DefaultProvider.language = this;
     }
+
+    // ------------------- Compiler Targets ------------------- //
 
     private List<String> compilerTargets = new ArrayList<>();
 
@@ -47,39 +52,34 @@ public abstract class Language<Tree> {
     private Map<String, Task<String, ?>> target2Phase = new HashMap<>();
 
     protected void buildCompilerTargets() {
-        if (lexer == null) return;
-        if (lexer.printer != null) {
-            target2Phase.put(lexer.printer.targetName(), lexer);
-            compilerTargets.add(lexer.printer.targetName());
-        }
-        if (parser == null) return;
-        if (parser.printer != null) {
-            target2Phase.put(parser.printer.targetName(), lexer.then(parser));
-            compilerTargets.add(parser.printer.targetName());
-        }
+        checkAndPutTarget(lexer, lexer);
+        checkAndPutTarget(parser, lexer.then(parser));
+
         if (semAnalyzers.isEmpty()) return;
         var semTask = lexer.then(parser);
         for (var semAnalyzer : semAnalyzers) {
             semTask = semTask.then(semAnalyzer);
-            if (semAnalyzer.printer != null) {
-                target2Phase.put(semAnalyzer.printer.targetName(), semTask);
-                compilerTargets.add(semAnalyzer.printer.targetName());
-            }
+            checkAndPutTarget(semAnalyzer, semTask);
         }
-        if (irTranslator == null) return;
-        if (irTranslator.printer != null) {
-            target2Phase.put(irTranslator.printer.targetName(), semTask.then(irTranslator));
-            compilerTargets.add(irTranslator.printer.targetName());
-        }
+
+        checkAndPutTarget(irTranslator, semTask.then(irTranslator));
+
         var optTask = semTask.then(irTranslator);
         for (var optimizer : optimizers) {
             optTask = optTask.then(optimizer);
-            if (optimizer.printer != null) {
-                target2Phase.put(optimizer.printer.targetName(), optTask);
-                compilerTargets.add(optimizer.printer.targetName());
-            }
+            checkAndPutTarget(optimizer, optTask);
         }
     }
+
+    private void checkAndPutTarget(Phase<?, ?> phase, Task<String, ?> task) {
+        if (phase == null) return;
+        if (phase.printer != null) {
+            target2Phase.put(phase.printer.targetName(), task);
+            compilerTargets.add(phase.printer.targetName());
+        }
+    }
+
+    // ---------------------- Core Functionality ---------------------- //
 
     public int compile() {
         Phase<String, ?> task = (Phase<String, ?>) target2Phase.get(config.target);
