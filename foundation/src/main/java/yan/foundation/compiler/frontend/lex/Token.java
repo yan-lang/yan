@@ -28,11 +28,13 @@ public class Token {
     /**
      * Token存储的语义值, 不可以直接访问, 应先判断Token类型,再通过对应函数访问。
      * 以下为预定义的Token类型和value类型的对应关系:
+     * <pre>{@code
      * 1. identifier -> String
      * 2. string_literal -> String
      * 3. int_const -> int
      * 4. bool_const -> boolean
      * 5. 其他 -> 没有值
+     * }</pre>
      * Note: 如果你有需求,继承该类创建函数访问你所需的数据类型。
      */
     final public Object value;
@@ -82,10 +84,10 @@ public class Token {
 
     /**
      * Get the simple string representation of this token.
-     * <pre>
+     * <pre>{@code
      *     format: type - source:line:col;start:stop -> "value"
      *     e.g. Identifier - test.yan:10:5;120:234 -> "x"
-     * </pre>
+     * }</pre>
      *
      * @return Simple string representation
      */
