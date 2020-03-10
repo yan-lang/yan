@@ -166,7 +166,7 @@ public class ReadTextBuffer implements CodeSource {
         if (lines == null) {
             lines = source.lines().collect(Collectors.toList());
         }
-        return lines.get(line);
+        return lines.get(line - 1);
     }
 
 }
