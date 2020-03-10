@@ -31,6 +31,7 @@ public class ReadTextBuffer implements CodeSource {
         this.source = source;
         this.sourceName = sourceName;
         this.length = source.length();
+        reset();
     }
 
 

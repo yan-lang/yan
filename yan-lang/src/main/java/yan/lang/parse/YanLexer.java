@@ -1,5 +1,6 @@
 package yan.lang.parse;
 
+import yan.common.error.lex.UnknownTokenError;
 import yan.foundation.compiler.frontend.lex.AbstractLexer;
 import yan.foundation.compiler.frontend.lex.Token;
 import yan.foundation.compiler.frontend.lex.Vocabulary;
@@ -36,7 +37,8 @@ public class YanLexer extends AbstractLexer {
         buffer.consume();
 
         if (token.type == UNKNOWN) {
-            // TODO: issue error
+            // TODO: issue yan.common.error
+            errorCollector.addError(new UnknownTokenError(this));
         }
 
         return token;

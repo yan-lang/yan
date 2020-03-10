@@ -60,4 +60,19 @@ public abstract class AbstractLexer extends Phase<String, List<Token>>
     public Vocabulary getVocabulary() {
         return vocabulary;
     }
+
+    @Override
+    public int getLine() {
+        return buffer.line;
+    }
+
+    @Override
+    public int getColumn() {
+        return buffer.col;
+    }
+
+    @Override
+    public CodeSource getCodeSource() {
+        return buffer;
+    }
 }

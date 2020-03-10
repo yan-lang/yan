@@ -1,5 +1,6 @@
 package yan.foundation.driver.error;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,5 +43,17 @@ public class ErrorCollector {
         return _numOfError;
     }
 
+    public void clean() {
+        errors.clear();
+        _numOfError = 0;
+        _numOfWarning = 0;
+    }
+
+    public void flush(PrintWriter err) {
+        for (var error : errors) {
+            err.print(error);
+            err.print('\n');
+        }
+    }
 }
 

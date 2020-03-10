@@ -75,12 +75,13 @@ public abstract class BaseError {
      * <p>
      * 例子:
      * <pre>
-     * test.c:2:9: error: expected ';' after expression
+     * test.c:2:9: yan.common.error: expected ';' after expression
      *         print()
      *                ^
      *                ;
      * </pre>
      * </p>
+     *
      * @return 格式化的错误表示
      */
     public String toString() {
@@ -94,8 +95,8 @@ public abstract class BaseError {
         String allContext = getSource().get(getLine());
         String context = allContext;
         builder.append(context).append('\n');
-        builder.append(padPrefixSpace(getColumn(), "^")).append('\n');
-        builder.append(padPrefixSpace(getColumn(), getHint()));
+        builder.append(padPrefixSpace(getColumn() - 1, "^"));
+        if (getHint() != null) builder.append('\n').append(padPrefixSpace(getColumn() - 1, getHint()));
 
         return builder.toString();
     }

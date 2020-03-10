@@ -68,6 +68,7 @@ public abstract class Phase<In, Out> implements Task<In, Out> {
     public Optional<Out> apply(In in) {
         var out = transform(in);
         if (hasError()) {
+            errorCollector.flush(config.err);
             return Optional.empty();
         }
 
@@ -76,9 +77,9 @@ public abstract class Phase<In, Out> implements Task<In, Out> {
     }
 
     /**
-     * Return if there is any error occurred in this phase.
+     * Return if there is any yan.common.error occurred in this phase.
      *
-     * @return true if there is an error.
+     * @return true if there is an yan.common.error.
      */
     protected boolean hasError() {
         return errorCollector.hasError();

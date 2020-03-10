@@ -1,5 +1,6 @@
 package yan.foundation.driver;
 
+import yan.foundation.driver.error.ErrorCollector;
 import yan.foundation.interpreter.Interpretable;
 
 import java.io.PrintWriter;
@@ -13,8 +14,11 @@ public abstract class InterpretableLanguage<Tree> extends Language<Tree> impleme
     @Override
     public Object execute(String statement, PrintWriter out) throws Exception {
         config.out = out;
+        config.err = out;
         config.target = getDefaultCompilerTarget();
         Phase<String, ?> task = (Phase<String, ?>) target2Phase.get(config.target);
+        // clear errors
+        ErrorCollector.shared.clean();
         try {
             Object output = task.apply(statement);
         } catch (RuntimeException e) {

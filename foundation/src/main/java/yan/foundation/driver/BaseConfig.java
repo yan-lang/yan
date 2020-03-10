@@ -2,7 +2,10 @@ package yan.foundation.driver;
 
 import picocli.CommandLine.*;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -48,7 +51,7 @@ public class BaseConfig {
     /**
      * 各个阶段输出异常的流。默认是{@code System.err}。
      */
-    public PrintStream err = System.err;
+    public PrintWriter err = new PrintWriter(System.err);
 
     /**
      * 获取输入源的名称
