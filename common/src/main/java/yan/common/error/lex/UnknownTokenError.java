@@ -7,6 +7,11 @@ public class UnknownTokenError extends Error {
     static String message = "unexpected character";
 
     public UnknownTokenError(Lexer lexer) {
-        super(lexer.getCodeSource(), lexer.getLine(), lexer.getColumn() - 1, message, null);
+        super(lexer.getCodeSource(), lexer.getLine(), lexer.getColumn() - 1, getMessage(lexer), null);
+    }
+
+    static String getMessage(Lexer lexer) {
+        char c = lexer.getCodeSource().get(lexer.getLine()).charAt(lexer.getColumn() - 2);
+        return message + " '" + c + "'.";
     }
 }

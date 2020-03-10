@@ -9,6 +9,6 @@ public class Error extends BaseError{
 
     @Override
     public String getType() {
-        return "yan.common.error";
+        return "error";
     }
 }
