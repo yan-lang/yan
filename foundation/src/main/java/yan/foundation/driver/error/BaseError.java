@@ -71,6 +71,7 @@ public abstract class BaseError {
      * ...
      * 错误数目提示
      * </pre>
+     *
      * <p>
      * 例子:
      * <pre>
@@ -79,21 +80,21 @@ public abstract class BaseError {
      *                ^
      *                ;
      * </pre>
-     *
+     * </p>
      * @return 格式化的错误表示
      */
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        builder.append(getSourceName()).append(":").append(getLine()).append(getColumn()).append(" ");
-        builder.append(getType()).append(":").append(getMessage());
+        builder.append(getSourceName()).append(":").append(getLine()).append(":").append(getColumn()).append(": ");
+        builder.append(getType()).append(": ").append(getMessage()).append('\n');
 
         // 构造上下文:
         // TODO: 如果出错位置前面或后面字符过多（超过80个字符）, 保留前面25个字符，后面50个字符其他用省略号替代
 
         String allContext = getSource().get(getLine());
         String context = allContext;
-        builder.append(context);
-        builder.append(padPrefixSpace(getColumn(), "^"));
+        builder.append(context).append('\n');
+        builder.append(padPrefixSpace(getColumn(), "^")).append('\n');
         builder.append(padPrefixSpace(getColumn(), getHint()));
 
         return builder.toString();
