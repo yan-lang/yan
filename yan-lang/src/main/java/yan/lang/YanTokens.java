@@ -1,4 +1,4 @@
-package yan.lang.parse;
+package yan.lang;
 
 import java.util.List;
 

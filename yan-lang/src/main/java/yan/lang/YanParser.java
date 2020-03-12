@@ -1,9 +1,8 @@
-package yan.lang.parse;
+package yan.lang;
 
 import yan.foundation.compiler.frontend.lex.Token;
 import yan.foundation.compiler.frontend.parse.AbstractParser;
 import yan.foundation.driver.BaseConfig;
-import yan.lang.tree.YanTree;
 
 import java.util.List;
 

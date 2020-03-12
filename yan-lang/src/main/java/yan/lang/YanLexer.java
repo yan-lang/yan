@@ -1,4 +1,4 @@
-package yan.lang.parse;
+package yan.lang;
 
 import yan.common.error.lex.UnknownTokenError;
 import yan.foundation.compiler.frontend.lex.AbstractLexer;
@@ -7,7 +7,7 @@ import yan.foundation.compiler.frontend.lex.Vocabulary;
 import yan.foundation.driver.BaseConfig;
 import yan.foundation.utils.formatter.SimpleTokenFormatter;
 
-import static yan.lang.parse.YanTokens.*;
+import static yan.lang.YanTokens.*;
 
 
 public class YanLexer extends AbstractLexer {

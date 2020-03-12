@@ -3,9 +3,6 @@ package yan.lang;
 import picocli.CommandLine.Command;
 import yan.foundation.driver.BaseConfig;
 import yan.foundation.driver.InterpretableLanguage;
-import yan.lang.parse.YanLexer;
-import yan.lang.parse.YanParser;
-import yan.lang.tree.YanTree;
 
 
 public class YanLang extends InterpretableLanguage<YanTree.Program> {
