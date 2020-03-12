@@ -84,6 +84,7 @@ public abstract class Language<Tree> {
         // TODO: check type cast and print contact message if not passed.
         Phase<String, ?> task = (Phase<String, ?>) target2Phase.get(config.target);
         task.apply(config.source);
+        config.out.close();
         return task.errorCollector.numOfErrors();
     }
 }
