@@ -23,7 +23,10 @@ public class Launcher {
         if (args.length == 0 && language instanceof Interpretable) {
             return Repl.run((Interpretable) language);
         }
+        return runCompiler(args);
+    }
 
+    private int runCompiler(String[] args) {
         // 解析命令行参数, 正常则启动编译器, 否则退出
         final CommandLine cmd = new CommandLine(language.config);
         try {
