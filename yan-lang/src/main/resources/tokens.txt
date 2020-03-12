@@ -1,0 +1,11 @@
+unknown, Unknown character
+identifier, Identifier
+kw_var, Keyword var
+int_const, Integer constant
+plus, Punctuator plus+
+minus,  Punctuator minus-
+multi, Punctuator multiply*
+div, Punctuator division/
+exp, Punctuator exponential**
+assign, Punctuator assign=
+newline, Newline

@@ -7,10 +7,8 @@ import yan.foundation.compiler.frontend.lex.Vocabulary;
 import yan.foundation.driver.BaseConfig;
 import yan.foundation.utils.formatter.SimpleTokenFormatter;
 
-import static yan.lang.YanTokens.*;
 
-
-public class YanLexer extends AbstractLexer {
+public class YanLexer extends AbstractLexer implements YanTokens {
 
     public YanLexer(String name, BaseConfig config) {
         super(name, config);
@@ -23,6 +21,7 @@ public class YanLexer extends AbstractLexer {
         skipWhitespace();
         markCurrentPos();
         if (buffer.current('\0')) return makeEOF();
+        if (buffer.current('\n')) return makeToken(NEWLINE);
         if (Character.isDigit(buffer.current())) return number();
         if (Character.isLetter(buffer.current()) || buffer.current() == '_') return identifier();
 
@@ -46,6 +45,8 @@ public class YanLexer extends AbstractLexer {
 
     private Token identifier() {
         while (Character.isLetterOrDigit(buffer.current()) || buffer.current() == '_') buffer.consume();
+        if (keywords.containsKey(currentTokenString()))
+            return makeToken(keywords.get(currentTokenString()));
         return makeToken(IDENTIFIER, currentTokenString());
     }
 
@@ -55,7 +56,7 @@ public class YanLexer extends AbstractLexer {
     }
 
     private void skipWhitespace() {
-        while (buffer.current(' ', '\t', '\n', '\r')) ;
+        while (buffer.current(' ', '\t', '\r')) ;
     }
 
 }
