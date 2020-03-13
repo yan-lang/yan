@@ -2,9 +2,9 @@ package yan.lang;
 
 import yan.common.error.lex.UnknownTokenError;
 import yan.foundation.compiler.frontend.lex.AbstractLexer;
-import yan.foundation.compiler.frontend.lex.SimpleTokenFormatter;
 import yan.foundation.compiler.frontend.lex.Token;
 import yan.foundation.compiler.frontend.lex.Vocabulary;
+import yan.foundation.compiler.frontend.lex.formatter.SimpleTokenFormatter;
 import yan.foundation.driver.BaseConfig;
 
 

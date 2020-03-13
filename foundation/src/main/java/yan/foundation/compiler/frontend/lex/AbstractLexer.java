@@ -1,6 +1,8 @@
 package yan.foundation.compiler.frontend.lex;
 
 
+import yan.foundation.compiler.frontend.lex.formatter.SimpleTokenFormatter;
+import yan.foundation.compiler.frontend.lex.formatter.XMLTokenFormatter;
 import yan.foundation.driver.BaseConfig;
 import yan.foundation.driver.Phase;
 

@@ -1,7 +1,6 @@
 package yan.foundation.driver;
 
 import yan.foundation.driver.error.ErrorCollector;
-import yan.foundation.utils.formatter.PhaseFormatter;
 
 import java.util.Optional;
 
@@ -29,8 +28,8 @@ public abstract class Phase<In, Out> implements Task<In, Out> {
      */
     protected ErrorCollector errorCollector = ErrorCollector.shared;
 
-    protected PhaseFormatter<? super Out> formatter;
-    protected PhaseFormatter<? super Out> shellFormatter;
+    public PhaseFormatter<? super Out> formatter;
+    public PhaseFormatter<? super Out> shellFormatter;
 
     public Phase(String name, BaseConfig config) {
         this.name = name;

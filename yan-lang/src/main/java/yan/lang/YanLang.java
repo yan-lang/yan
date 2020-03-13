@@ -1,8 +1,8 @@
 package yan.lang;
 
 import picocli.CommandLine.Command;
+import yan.foundation.InterpretableLanguage;
 import yan.foundation.driver.BaseConfig;
-import yan.foundation.driver.InterpretableLanguage;
 
 
 public class YanLang extends InterpretableLanguage<YanTree.Program> {

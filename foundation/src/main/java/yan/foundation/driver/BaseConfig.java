@@ -24,7 +24,9 @@ public class BaseConfig {
 
     /**
      * 编译目标。这个参数指示编译器将要编译源程序到哪个阶段。
-     * <p>可选值和默认值由{@link Language#getCompilerTargets()}，{@link Language#getDefaultCompilerTarget()}决定。
+     * <p>
+     * 可选值和默认值由{@link compilerTargetProvider#getCompilerTargets()}，
+     * {@link compilerTargetProvider#getDefaultCompilerTarget()}决定。
      * </p>
      */
     @Option(names = {"-t", "--target"},
@@ -65,9 +67,9 @@ public class BaseConfig {
 
     /**
      * 再次验证参数是否正确，并根据参数计算一些导出值。
-     * <p>该函数将会在{@link Launcher#launch(String[])}中被调用。
-     *    如果你需要在你的子类中验证一些你自己定义的参数，或计算导出值，请重写该函数，
-     *    并在重写的函数中调用父类的{@code validate}方法。
+     * <p>
+     *     如果你需要在你的子类中验证一些你自己定义的参数，或计算导出值，请重写该函数，
+     *     并在重写的函数中调用父类的{@code validate}方法。
      * </p>
      * 例:
      * <pre>
@@ -77,6 +79,7 @@ public class BaseConfig {
      *     // 编写你的逻辑
      * }
      * }</pre>
+     *
      * @return 错误信息列表。如果没有错的话，请返回一个空列表。
      */
     public List<String> validate() {
@@ -91,22 +94,28 @@ public class BaseConfig {
         return message;
     }
 
-    static class CompilerTargetCandidates implements Iterable<String> {
-        static Language<?> language;
+    public interface compilerTargetProvider {
+        List<String> getCompilerTargets();
+
+        String getDefaultCompilerTarget();
+    }
+
+    public static class CompilerTargetCandidates implements Iterable<String> {
+        public static compilerTargetProvider provider;
 
         @Override
         public Iterator<String> iterator() {
-            return language.getCompilerTargets().iterator();
+            return provider.getCompilerTargets().iterator();
         }
     }
 
-    static class DefaultProvider implements IDefaultValueProvider {
-        static Language<?> language;
+    public static class DefaultProvider implements IDefaultValueProvider {
+        public static compilerTargetProvider provider;
 
         @Override
         public String defaultValue(Model.ArgSpec argSpec) throws Exception {
             if (argSpec.paramLabel().equals("<target>")) {
-                return language.getDefaultCompilerTarget();
+                return provider.getDefaultCompilerTarget();
             }
             return null;
         }

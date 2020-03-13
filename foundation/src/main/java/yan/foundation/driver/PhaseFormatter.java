@@ -1,4 +1,4 @@
-package yan.foundation.utils.formatter;
+package yan.foundation.driver;
 
 // TODO: 可以继续重构, PhaseFormatter -> Serializer
 public interface PhaseFormatter<Out> {

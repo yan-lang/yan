@@ -1,11 +1,13 @@
-package yan.foundation.driver;
+package yan.foundation;
 
+import yan.foundation.driver.BaseConfig;
+import yan.foundation.driver.Phase;
 import yan.foundation.driver.error.ErrorCollector;
 import yan.foundation.interpreter.Interpretable;
 
 import java.io.PrintWriter;
 
-public abstract class InterpretableLanguage<Tree> extends Language<Tree> implements Interpretable {
+public abstract class InterpretableLanguage<TopLevel> extends Language<TopLevel> implements Interpretable {
 
     public InterpretableLanguage(BaseConfig config) {
         super(config);

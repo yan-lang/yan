@@ -1,4 +1,4 @@
-package yan.foundation.utils.formatter;
+package yan.foundation.utils;
 
 import java.util.ArrayList;
 import java.util.List;

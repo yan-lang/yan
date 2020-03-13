@@ -1,4 +1,4 @@
-package yan.foundation.driver;
+package yan.foundation;
 
 import picocli.CommandLine;
 import picocli.CommandLine.ParameterException;

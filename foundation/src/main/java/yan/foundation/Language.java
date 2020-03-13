@@ -1,7 +1,10 @@
-package yan.foundation.driver;
+package yan.foundation;
 
 import yan.foundation.compiler.frontend.ir.IRProgram;
 import yan.foundation.compiler.frontend.lex.Token;
+import yan.foundation.driver.BaseConfig;
+import yan.foundation.driver.Phase;
+import yan.foundation.driver.Task;
 import yan.foundation.driver.error.ErrorCollector;
 
 import java.util.ArrayList;
@@ -10,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public abstract class Language<TopLevel> {
+public abstract class Language<TopLevel> implements BaseConfig.compilerTargetProvider {
 
     // ------------------- Basic Configuration ------------------- //
 
@@ -26,11 +29,14 @@ public abstract class Language<TopLevel> {
         setupConfig();
     }
 
-    protected List<String> compilerTargets = new ArrayList<>();
+    protected void setupConfig() {
+        BaseConfig.CompilerTargetCandidates.provider = this;
+        BaseConfig.DefaultProvider.provider = this;
+    }
 
     // ------------------- Compiler Targets ------------------- //
 
-    protected Map<String, Task<String, ?>> target2Task = new HashMap<>();
+    protected List<String> compilerTargets = new ArrayList<>();
 
     public List<String> getCompilerTargets() {
         return compilerTargets;
@@ -40,17 +46,16 @@ public abstract class Language<TopLevel> {
         return compilerTargets.isEmpty() ? null : compilerTargets.get(compilerTargets.size() - 1);
     }
 
+    // ------------------- Compiler Tasks ------------------- //
+
+    protected Map<String, Task<String, ?>> target2Task = new HashMap<>();
+
     protected Phase<String, List<Token>> lexer;
     protected Phase<List<Token>, TopLevel> parser;
     protected List<Phase<TopLevel, TopLevel>> semAnalyzers = new ArrayList<>();
     protected Phase<TopLevel, IRProgram> irTranslator;
     protected List<Phase<IRProgram, IRProgram>> optimizers = new ArrayList<>();
 //    protected Phase<IRProgram, String> llvmIRTranslator;
-
-    protected void setupConfig() {
-        BaseConfig.CompilerTargetCandidates.language = this;
-        BaseConfig.DefaultProvider.language = this;
-    }
 
     protected void buildCompilerTargets() {
         checkAndPutTarget(lexer, lexer);

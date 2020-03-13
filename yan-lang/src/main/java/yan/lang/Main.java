@@ -1,6 +1,6 @@
 package yan.lang;
 
-import yan.foundation.driver.Launcher;
+import yan.foundation.Launcher;
 
 public class Main {
 
