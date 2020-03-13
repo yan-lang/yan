@@ -1,6 +1,5 @@
-package yan.foundation.utils.formatter;
+package yan.foundation.compiler.frontend.lex;
 
-import yan.foundation.compiler.frontend.lex.Token;
 import yan.foundation.utils.printer.XMLPrinter;
 
 import java.util.List;

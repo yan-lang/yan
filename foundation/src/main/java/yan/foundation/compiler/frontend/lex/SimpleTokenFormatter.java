@@ -1,6 +1,6 @@
-package yan.foundation.utils.formatter;
+package yan.foundation.compiler.frontend.lex;
 
-import yan.foundation.compiler.frontend.lex.Token;
+import yan.foundation.utils.formatter.ContentAligner;
 
 import java.util.ArrayList;
 import java.util.List;
