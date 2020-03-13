@@ -16,7 +16,7 @@ public abstract class InterpretableLanguage<Tree> extends Language<Tree> impleme
         config.out = out;
         config.err = out;
         config.target = getDefaultCompilerTarget();
-        Phase<String, ?> task = (Phase<String, ?>) target2Phase.get(config.target);
+        Phase<String, ?> task = (Phase<String, ?>) target2Task.get(config.target);
         // clear errors
         ErrorCollector.shared.clean();
         try {

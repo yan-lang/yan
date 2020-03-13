@@ -2,6 +2,7 @@ package yan.foundation.driver;
 
 import yan.foundation.compiler.frontend.ir.IRProgram;
 import yan.foundation.compiler.frontend.lex.Token;
+import yan.foundation.driver.error.ErrorCollector;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,7 +29,8 @@ public abstract class Language<TopLevel> {
     protected List<String> compilerTargets = new ArrayList<>();
 
     // ------------------- Compiler Targets ------------------- //
-    protected Map<String, Task<String, ?>> target2Phase = new HashMap<>();
+
+    protected Map<String, Task<String, ?>> target2Task = new HashMap<>();
 
     public List<String> getCompilerTargets() {
         return compilerTargets;
@@ -73,7 +75,7 @@ public abstract class Language<TopLevel> {
     private void checkAndPutTarget(Phase<?, ?> phase, Task<String, ?> task) {
         if (phase == null) return;
         if (phase.formatter != null) {
-            target2Phase.put(phase.formatter.targetName(), task);
+            target2Task.put(phase.formatter.targetName(), task);
             compilerTargets.add(phase.formatter.targetName());
         }
     }
@@ -81,10 +83,9 @@ public abstract class Language<TopLevel> {
     // ---------------------- Core Functionality ---------------------- //
 
     public int compile() {
-        // TODO: check type cast and print contact message if not passed.
-        Phase<String, ?> task = (Phase<String, ?>) target2Phase.get(config.target);
+        Task<String, ?> task = target2Task.get(config.target);
         task.apply(config.source);
         config.out.close();
-        return task.errorCollector.numOfErrors();
+        return ErrorCollector.shared.numOfErrors();
     }
 }
