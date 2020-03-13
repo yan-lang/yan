@@ -3,8 +3,6 @@ package yan.foundation.compiler.frontend.lex;
 
 import yan.foundation.driver.BaseConfig;
 import yan.foundation.driver.Phase;
-import yan.foundation.utils.formatter.SimpleTokenFormatter;
-import yan.foundation.utils.formatter.XMLTokenFormatter;
 
 import java.util.ArrayList;
 import java.util.List;

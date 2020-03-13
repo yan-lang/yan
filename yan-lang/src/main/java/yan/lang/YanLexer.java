@@ -2,10 +2,10 @@ package yan.lang;
 
 import yan.common.error.lex.UnknownTokenError;
 import yan.foundation.compiler.frontend.lex.AbstractLexer;
+import yan.foundation.compiler.frontend.lex.SimpleTokenFormatter;
 import yan.foundation.compiler.frontend.lex.Token;
 import yan.foundation.compiler.frontend.lex.Vocabulary;
 import yan.foundation.driver.BaseConfig;
-import yan.foundation.utils.formatter.SimpleTokenFormatter;
 
 
 public class YanLexer extends AbstractLexer implements YanTokens {
