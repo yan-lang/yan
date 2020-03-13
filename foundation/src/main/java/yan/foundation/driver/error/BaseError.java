@@ -7,7 +7,7 @@ import yan.foundation.compiler.frontend.lex.CodeSource;
  * <p>该类实现了一个默认的格式化输出方法{@link BaseError#toString}。</p>
  * <p>你一般不需要使用到这个类，如果要定义新的error，你可以继承该类的子类Error，Warning等。</p>
  */
-public abstract class BaseError {
+public abstract class BaseError extends RuntimeException {
     protected CodeSource source;
     protected int line;
     protected int column;
