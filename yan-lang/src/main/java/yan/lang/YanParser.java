@@ -2,23 +2,126 @@ package yan.lang;
 
 import yan.foundation.compiler.frontend.lex.Token;
 import yan.foundation.compiler.frontend.parse.AbstractParser;
+import yan.foundation.compiler.frontend.parse.ExpectationError;
 import yan.foundation.driver.BaseConfig;
+import yan.foundation.driver.error.BaseError;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class YanParser extends AbstractParser<YanTree.Program> {
+import static yan.lang.YanTree.*;
+
+public class YanParser extends AbstractParser<YanTree.Program> implements YanTokens {
 
     public YanParser(String name, BaseConfig config) {
         super(name, config);
     }
 
     @Override
-    public YanTree.Program transform(List<Token> input) {
-        return null;
+    public Program parse() {
+        List<YanTree.Stmt> stmts = new ArrayList<>();
+        while (!isAtEnd()) {
+            try {
+                stmts.add(parseStmt());
+            } catch (BaseError error) {
+                errorCollector.addError(error);
+                recovery();
+            }
+        }
+        return new Program(stmts);
     }
 
-    @Override
-    public YanTree.Program parse(List<Token> tokens) {
-        return null;
+    protected void recovery() {
+        while (!isAtEnd()) {
+            if (previous().type == NEWLINE) return;
+            if (current().type == KW_VAR) return;
+            advance();
+        }
+    }
+
+    private Stmt parseStmt() {
+        if (match(KW_VAR)) return parseVarDef();
+        return parseExprStmt();
+    }
+
+    private VarDef parseVarDef() {
+        Identifier id = parseIdentifier();
+        consume(ASSIGN);
+        Expr init = parseExpr();
+        consume(NEWLINE, EOF);
+        return new VarDef(id, init);
+    }
+
+    private ExprStmt parseExprStmt() {
+        Expr expr = parseExpr();
+        consume(NEWLINE, EOF);
+        return new ExprStmt(expr);
+    }
+
+    private Expr parseExpr() {
+        return parseAssign();
+    }
+
+    private Expr parseAssign() {
+        Expr expr = parseAddition();
+        if (match(ASSIGN)) {
+            if (expr instanceof Identifier) {
+                Expr value = parseExpr();
+                return new Assign((Identifier) expr, value);
+            }
+//            logError(new );
+        }
+        return expr;
+    }
+
+    private BinaryOp getBinaryOp(int tokenType) {
+        switch (tokenType) {
+            case PLUS:
+                return BinaryOp.PLUS;
+            case MINUS:
+                return BinaryOp.MINUS;
+            case MULTI:
+                return BinaryOp.MULTI;
+            case DIV:
+                return BinaryOp.DIV;
+            case EXP:
+                return BinaryOp.EXP;
+        }
+        throw new RuntimeException(String.format("Invalid token type {%d} for binary operator.", tokenType));
+    }
+
+    private Expr parseAddition() {
+        Expr left = parseMultiplication();
+        while (check(PLUS) || check(MINUS)) {
+            Token op = consume(PLUS, MINUS);
+            Expr right = parseMultiplication();
+            left = new Binary(left, getBinaryOp(op.type), right);
+        }
+        return left;
+    }
+
+    private Expr parseMultiplication() {
+        Expr left = parsePrimary();
+        while (check(MULTI) || check(DIV)) {
+            Token op = consume(MULTI, DIV);
+            Expr right = parsePrimary();
+            left = new Binary(left, getBinaryOp(op.type), right);
+        }
+        return left;
+    }
+
+    private Expr parsePrimary() {
+        if (match(INT_CONST)) return new IntConst(previous().getIntValue());
+        if (match(IDENTIFIER)) return new Identifier(previous().getStrValue());
+        throw new ExpectationError("expression", previous(), ExpectationError.AFTER);
+    }
+
+    private Identifier parseIdentifier() {
+        Token id = consume(IDENTIFIER);
+        return new Identifier(id.getStrValue());
+    }
+
+    protected void logError(BaseError error) {
+        errorCollector.addError(error);
     }
 }

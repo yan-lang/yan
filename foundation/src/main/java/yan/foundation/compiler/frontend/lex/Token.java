@@ -10,10 +10,14 @@ public class Token {
      */
     final public int type;
 
-    /** Token第一个字符所在行, 从1开始 */
+    /**
+     * Token第一个字符所在行, 从1开始
+     */
     final public int line;
 
-    /** Token第一个字符所在列, 从1开始 */
+    /**
+     * Token第一个字符所在列, 从1开始
+     */
     final public int col;
 
     /**
@@ -52,6 +56,10 @@ public class Token {
      */
     final public Object value;
 
+    /**
+     * Backend field for {@link Token#getText()}
+     */
+    private String text;
 
     public Token(int type, int line, int col, int start, int stop, Object value, CodeSource source, Lexer lexer) {
         this.type = type;
@@ -62,6 +70,13 @@ public class Token {
         this.value = value;
         this.source = source;
         this.lexer = lexer;
+    }
+
+    public String getText() {
+        if (text == null) {
+            text = source.getText(start, stop);
+        }
+        return text;
     }
 
     public boolean getBoolValue() {

@@ -29,8 +29,8 @@ public abstract class Phase<In, Out> implements Task<In, Out> {
      */
     protected ErrorCollector errorCollector = ErrorCollector.shared;
 
-    protected PhaseFormatter<Out> formatter;
-    protected PhaseFormatter<Out> shellFormatter;
+    protected PhaseFormatter<? super Out> formatter;
+    protected PhaseFormatter<? super Out> shellFormatter;
 
     public Phase(String name, BaseConfig config) {
         this.name = name;

@@ -1,9 +1,13 @@
 package yan.lang;
 
+import yan.foundation.compiler.frontend.lex.Token;
+
 import java.util.List;
 import java.util.Map;
 
 public interface YanTokens {
+    int EOF = Token.EOF;
+
     int UNKNOWN = 0;
 
     int IDENTIFIER = 1;
