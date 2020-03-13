@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public abstract class Language<Tree> {
+public abstract class Language<TopLevel> {
 
     // ------------------- Basic Configuration ------------------- //
 
@@ -39,9 +39,9 @@ public abstract class Language<Tree> {
     }
 
     protected Phase<String, List<Token>> lexer;
-    protected Phase<List<Token>, Tree> parser;
-    protected List<Phase<Tree, Tree>> semAnalyzers = new ArrayList<>();
-    protected Phase<Tree, IRProgram> irTranslator;
+    protected Phase<List<Token>, TopLevel> parser;
+    protected List<Phase<TopLevel, TopLevel>> semAnalyzers = new ArrayList<>();
+    protected Phase<TopLevel, IRProgram> irTranslator;
     protected List<Phase<IRProgram, IRProgram>> optimizers = new ArrayList<>();
 //    protected Phase<IRProgram, String> llvmIRTranslator;
 
