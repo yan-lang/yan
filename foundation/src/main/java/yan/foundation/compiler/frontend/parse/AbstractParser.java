@@ -1,5 +1,7 @@
 package yan.foundation.compiler.frontend.parse;
 
+import yan.foundation.compiler.frontend.ast.Range;
+import yan.foundation.compiler.frontend.ast.TreeNode;
 import yan.foundation.compiler.frontend.lex.Token;
 import yan.foundation.driver.BaseConfig;
 import yan.foundation.driver.Phase;
@@ -25,11 +27,31 @@ public abstract class AbstractParser<Out> extends Phase<List<Token>, Out> implem
     @Override
     public Out parse(List<Token> tokens) {
         this.tokens = tokens;
-        current = 0;
+        this.current = 0;
         return parse();
     }
 
     public abstract Out parse();
+
+
+    // --------------------------------------------------------- //
+    //      Helper Functions for filling tree node's range       //
+    // --------------------------------------------------------- //
+
+
+    protected <T extends TreeNode> T setRange(T node) {
+        return setRange(node, current - 1, current - 1);
+    }
+
+    protected <T extends TreeNode> T setRange(T node, int from) {
+        return setRange(node, from, current - 1);
+    }
+
+    protected <T extends TreeNode> T setRange(T node, int from, int to) {
+        node.setRange(new Range(from, to));
+        return node;
+    }
+
 
     // ------------------------------------------------ //
     //      Helper Functions for accessing tokens       //

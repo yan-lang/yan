@@ -57,8 +57,6 @@ public abstract class Language<TopLevel> implements BaseConfig.compilerTargetPro
     protected List<Phase<IRProgram, IRProgram>> optimizers = new ArrayList<>();
 //    protected Phase<IRProgram, String> llvmIRTranslator;
 
-    protected List<Phase<?, ?>> phases = new ArrayList<>();
-
     protected void buildCompilerTargets() {
         checkAndPutTarget(lexer, lexer);
         checkAndPutTarget(parser, lexer.then(parser));

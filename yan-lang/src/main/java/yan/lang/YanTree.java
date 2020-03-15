@@ -51,8 +51,8 @@ public class YanTree extends Tree {
 
     }
 
-    public static class Program extends YanTreeNode {
-        public List<Stmt> stmts;
+    public static final class Program extends YanTreeNode {
+        public final List<Stmt> stmts;
 
         public Program(List<Stmt> stmts) {
             this.stmts = stmts;
@@ -73,9 +73,9 @@ public class YanTree extends Tree {
      *     'var' identifier '=' expression
      * </pre>
      */
-    public static class VarDef extends Stmt {
-        Identifier identifier;
-        Expr initializer;
+    public static final class VarDef extends Stmt {
+        public final Identifier identifier;
+        public final Expr initializer;
 
         public VarDef(Identifier identifier, Expr initializer) {
             this.identifier = identifier;
@@ -94,8 +94,8 @@ public class YanTree extends Tree {
      *     expression
      * </pre>
      */
-    public static class ExprStmt extends Stmt {
-        Expr expr;
+    public static final class ExprStmt extends Stmt {
+        public final Expr expr;
 
         public ExprStmt(Expr expr) {
             this.expr = expr;
@@ -114,9 +114,9 @@ public class YanTree extends Tree {
      * Assign expression
      * identifier '=' expression
      */
-    public static class Assign extends Expr {
-        Identifier identifier;
-        Expr expr;
+    public static final class Assign extends Expr {
+        public final Identifier identifier;
+        public final Expr expr;
 
         public Assign(Identifier identifier, Expr expr) {
             this.identifier = identifier;
@@ -135,10 +135,10 @@ public class YanTree extends Tree {
      *     expression op expression
      * </pre>
      */
-    public static class Binary extends Expr {
-        Expr left;
-        Expr right;
-        BinaryOp op;
+    public static final class Binary extends Expr {
+        public final Expr left;
+        public final Expr right;
+        public final BinaryOp op;
 
         public Binary(Expr left, BinaryOp op, Expr right) {
             this.left = left;
@@ -152,8 +152,8 @@ public class YanTree extends Tree {
         }
     }
 
-    public static class Identifier extends Expr {
-        String name;
+    public static final class Identifier extends Expr {
+        public final String name;
 
         public Identifier(String name) {
             this.name = name;
@@ -165,8 +165,8 @@ public class YanTree extends Tree {
         }
     }
 
-    public static class IntConst extends Expr {
-        Integer value;
+    public static final class IntConst extends Expr {
+        public final Integer value;
 
         public IntConst(Integer value) {
             this.value = value;

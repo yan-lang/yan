@@ -45,17 +45,19 @@ public class YanParser extends AbstractParser<YanTree.Program> implements YanTok
     }
 
     private VarDef parseVarDef() {
+        int start = current - 1;
         Identifier id = parseIdentifier();
         consume(ASSIGN);
         Expr init = parseExpr();
         consume(NEWLINE, EOF);
-        return new VarDef(id, init);
+        return setRange(new VarDef(id, init), start);
     }
 
     private ExprStmt parseExprStmt() {
+        int start = current;
         Expr expr = parseExpr();
         consume(NEWLINE, EOF);
-        return new ExprStmt(expr);
+        return setRange(new ExprStmt(expr), start);
     }
 
     private Expr parseExpr() {
@@ -63,11 +65,12 @@ public class YanParser extends AbstractParser<YanTree.Program> implements YanTok
     }
 
     private Expr parseAssign() {
+        int start = current;
         Expr expr = parseAddition();
         if (match(ASSIGN)) {
             if (expr instanceof Identifier) {
                 Expr value = parseExpr();
-                return new Assign((Identifier) expr, value);
+                return setRange(new Assign((Identifier) expr, value), start);
             }
 //            logError(new );
         }
@@ -91,34 +94,36 @@ public class YanParser extends AbstractParser<YanTree.Program> implements YanTok
     }
 
     private Expr parseAddition() {
+        int start = current;
         Expr left = parseMultiplication();
         while (check(PLUS) || check(MINUS)) {
             Token op = consume(PLUS, MINUS);
             Expr right = parseMultiplication();
-            left = new Binary(left, getBinaryOp(op.type), right);
+            left = setRange(new Binary(left, getBinaryOp(op.type), right), start);
         }
         return left;
     }
 
     private Expr parseMultiplication() {
+        int start = current;
         Expr left = parsePrimary();
         while (check(MULTI) || check(DIV)) {
             Token op = consume(MULTI, DIV);
             Expr right = parsePrimary();
-            left = new Binary(left, getBinaryOp(op.type), right);
+            left = setRange(new Binary(left, getBinaryOp(op.type), right), start);
         }
         return left;
     }
 
     private Expr parsePrimary() {
-        if (match(INT_CONST)) return new IntConst(previous().getIntValue());
-        if (match(IDENTIFIER)) return new Identifier(previous().getStrValue());
+        if (match(INT_CONST)) return setRange(new IntConst(previous().getIntValue()));
+        if (match(IDENTIFIER)) return setRange(new Identifier(previous().getStrValue()));
         throw new ExpectationError("expression", previous(), ExpectationError.AFTER);
     }
 
     private Identifier parseIdentifier() {
         Token id = consume(IDENTIFIER);
-        return new Identifier(id.getStrValue());
+        return setRange(new Identifier(id.getStrValue()));
     }
 
     protected void logError(Unexpected error) {
