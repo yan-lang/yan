@@ -1,24 +1,24 @@
 package yan.foundation.driver.error;
 
-import yan.foundation.compiler.frontend.lex.CodeSource;
-
 /**
  * {@code BaseError}是{@link Error}, {@link Warning}, {@link Note}的基类，主要定义了格式化输出必要的接口。
- * <p>该类实现了一个默认的格式化输出方法{@link BaseError#toString}。</p>
+ * <p>该类实现了一个默认的格式化输出方法{@link Unexpected#toString}。</p>
  * <p>你一般不需要使用到这个类，如果要定义新的error，你可以继承该类的子类Error，Warning等。</p>
  */
-public abstract class BaseError extends RuntimeException {
-    protected CodeSource source;
+public abstract class Unexpected extends RuntimeException {
     protected int line;
     protected int column;
+    protected String sourceName;
     protected String message;
+    protected String context;
     protected String hint;
 
-    public BaseError(CodeSource source, int line, int column, String message, String hint) {
-        this.source = source;
+    public Unexpected(int line, int column, String sourceName, String message, String context, String hint) {
         this.line = line;
         this.column = column;
+        this.sourceName = sourceName;
         this.message = message;
+        this.context = context;
         this.hint = hint;
     }
 
@@ -36,21 +36,20 @@ public abstract class BaseError extends RuntimeException {
     }
 
     /**
-     * 获取代码来源。
-     * <p>这个方法在{@link BaseError#toString()}中被用来获取上下文信息。</p>
+     * 获取出错代码所在行的文本。
+     * <p>这个方法在{@link Unexpected#toString()}中被用来获取上下文信息。</p>
      */
-    public CodeSource getSource() {
-        return source;
+    public String getContext() {
+        return context;
     }
 
     /**
      * 获取源代码的来源的名称。
      * <p>通常来说，编译某个文件出错时这个函数返回的是文件名。</p>
      * <p>解释某段代码返回的是{@code <stdin>}</p>
-     * <p>函数的默认实现使用{@code Code}的{@link CodeSource#getSourceName()}方法。</p>
      */
     public String getSourceName() {
-        return getSource().getSourceName();
+        return sourceName;
     }
 
     public String getMessage() {
@@ -92,8 +91,7 @@ public abstract class BaseError extends RuntimeException {
         // 构造上下文:
         // TODO: 如果出错位置前面或后面字符过多（超过80个字符）, 保留前面25个字符，后面50个字符其他用省略号替代
 
-        String allContext = getSource().get(getLine());
-        String context = allContext;
+        if (context == null) return builder.toString();
         builder.append(context).append('\n');
         builder.append(padPrefixSpace(getColumn() - 1, "^"));
         if (getHint() != null) builder.append('\n').append(padPrefixSpace(getColumn() - 1, getHint()));

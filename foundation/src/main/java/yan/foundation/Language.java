@@ -1,7 +1,7 @@
 package yan.foundation;
 
-import yan.foundation.compiler.frontend.ir.IRProgram;
 import yan.foundation.compiler.frontend.lex.Token;
+import yan.foundation.compiler.middlend.instruction.IRProgram;
 import yan.foundation.driver.BaseConfig;
 import yan.foundation.driver.Phase;
 import yan.foundation.driver.Task;
@@ -19,13 +19,13 @@ public abstract class Language<TopLevel> implements BaseConfig.compilerTargetPro
 
     public BaseConfig config;
 
-    public Language(BaseConfig config) {
-        this.config = config;
+    public Language() {
+        this.config = new BaseConfig();
         setupConfig();
     }
 
-    public Language() {
-        this.config = new BaseConfig();
+    public Language(BaseConfig config) {
+        this.config = config;
         setupConfig();
     }
 
@@ -57,6 +57,8 @@ public abstract class Language<TopLevel> implements BaseConfig.compilerTargetPro
     protected List<Phase<IRProgram, IRProgram>> optimizers = new ArrayList<>();
 //    protected Phase<IRProgram, String> llvmIRTranslator;
 
+    protected List<Phase<?, ?>> phases = new ArrayList<>();
+
     protected void buildCompilerTargets() {
         checkAndPutTarget(lexer, lexer);
         checkAndPutTarget(parser, lexer.then(parser));
@@ -79,10 +81,10 @@ public abstract class Language<TopLevel> implements BaseConfig.compilerTargetPro
 
     private void checkAndPutTarget(Phase<?, ?> phase, Task<String, ?> task) {
         if (phase == null) return;
-        if (phase.formatter != null) {
-            target2Task.put(phase.formatter.targetName(), task);
-            compilerTargets.add(phase.formatter.targetName());
-        }
+        phase.getFormatter().ifPresent(formatter -> {
+            target2Task.put(formatter.targetName(), task);
+            compilerTargets.add(formatter.targetName());
+        });
     }
 
     // ---------------------- Core Functionality ---------------------- //
@@ -93,4 +95,5 @@ public abstract class Language<TopLevel> implements BaseConfig.compilerTargetPro
         config.out.close();
         return ErrorCollector.shared.numOfErrors();
     }
+
 }

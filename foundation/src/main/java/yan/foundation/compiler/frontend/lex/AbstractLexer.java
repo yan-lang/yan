@@ -5,9 +5,11 @@ import yan.foundation.compiler.frontend.lex.formatter.SimpleTokenFormatter;
 import yan.foundation.compiler.frontend.lex.formatter.XMLTokenFormatter;
 import yan.foundation.driver.BaseConfig;
 import yan.foundation.driver.Phase;
+import yan.foundation.driver.PhaseFormatter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 public abstract class AbstractLexer extends Phase<String, List<Token>>
@@ -18,9 +20,14 @@ public abstract class AbstractLexer extends Phase<String, List<Token>>
 
     public AbstractLexer(String name, BaseConfig config) {
         super(name, config);
-        formatter = new XMLTokenFormatter();
         shellFormatter = new SimpleTokenFormatter();
         vocabulary = new Vocabulary();
+    }
+
+    public AbstractLexer(String name, BaseConfig config, Vocabulary vocabulary) {
+        super(name, config);
+        shellFormatter = new SimpleTokenFormatter();
+        this.vocabulary = vocabulary;
     }
 
     protected void markCurrentPos() {
@@ -42,6 +49,11 @@ public abstract class AbstractLexer extends Phase<String, List<Token>>
 
     protected String currentTokenString() {
         return buffer.getText(buffer.marked_offset, buffer.offset);
+    }
+
+    @Override
+    public Optional<PhaseFormatter<? super List<Token>>> getFormatter() {
+        return Optional.of(new XMLTokenFormatter());
     }
 
     @Override

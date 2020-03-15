@@ -68,8 +68,8 @@ public class BaseConfig {
     /**
      * 再次验证参数是否正确，并根据参数计算一些导出值。
      * <p>
-     *     如果你需要在你的子类中验证一些你自己定义的参数，或计算导出值，请重写该函数，
-     *     并在重写的函数中调用父类的{@code validate}方法。
+     * 如果你需要在你的子类中验证一些你自己定义的参数，或计算导出值，请重写该函数，
+     * 并在重写的函数中调用父类的{@code validate}方法。
      * </p>
      * 例:
      * <pre>
@@ -113,7 +113,7 @@ public class BaseConfig {
         public static compilerTargetProvider provider;
 
         @Override
-        public String defaultValue(Model.ArgSpec argSpec) throws Exception {
+        public String defaultValue(Model.ArgSpec argSpec) {
             if (argSpec.paramLabel().equals("<target>")) {
                 return provider.getDefaultCompilerTarget();
             }

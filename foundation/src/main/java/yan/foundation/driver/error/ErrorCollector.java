@@ -15,38 +15,38 @@ public class ErrorCollector {
 
     // 属性
 
-    protected List<BaseError> errors = new ArrayList<>();
-    private int _numOfError = 0;
-    private int _numOfWarning = 0;
+    protected List<Unexpected> errors = new ArrayList<>();
+    private int numOfError = 0;
+    private int numOfWarning = 0;
 
     // 方法
 
-    public List<BaseError> getAllErrors() {
+    public List<Unexpected> getAllErrors() {
         return errors;
     }
 
     public boolean hasError() {
-        return _numOfError > 0;
+        return numOfError > 0;
     }
 
     public boolean hasWarning() {
-        return _numOfWarning > 0;
+        return numOfWarning > 0;
     }
 
-    public void addError(BaseError error) {
+    public void addError(Unexpected error) {
         errors.add(error);
-        if (error instanceof Warning) _numOfWarning += 1;
-        else if (error instanceof Error) _numOfError += 1;
+        if (error instanceof Warning) numOfWarning += 1;
+        else if (error instanceof Error) numOfError += 1;
     }
 
     public int numOfErrors() {
-        return _numOfError;
+        return numOfError;
     }
 
     public void clean() {
         errors.clear();
-        _numOfError = 0;
-        _numOfWarning = 0;
+        numOfError = 0;
+        numOfWarning = 0;
     }
 
     public void flush(PrintWriter err) {

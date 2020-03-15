@@ -13,6 +13,10 @@ public abstract class InterpretableLanguage<TopLevel> extends Language<TopLevel>
         super(config);
     }
 
+    public InterpretableLanguage() {
+        super();
+    }
+
     @Override
     public Object execute(String statement, PrintWriter out) throws Exception {
         config.out = out;

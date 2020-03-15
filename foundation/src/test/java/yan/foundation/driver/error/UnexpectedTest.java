@@ -4,11 +4,12 @@ import org.junit.jupiter.api.Test;
 import yan.foundation.compiler.frontend.lex.CodeSource;
 import yan.foundation.compiler.frontend.lex.ReadTextBuffer;
 
-public class BaseErrorTest {
+public class UnexpectedTest {
     @Test
     public void testToString() {
         CodeSource fakeSource = new ReadTextBuffer("print()", "test");
-        BaseError error = new Error(fakeSource, 1, 7, "expect ; after expression", ";");
+        Unexpected error = new Error(1, 7, fakeSource.getSourceName(),
+                "expect ; after expression", fakeSource.get(1), ";");
         System.out.println(error.toString());
     }
 }

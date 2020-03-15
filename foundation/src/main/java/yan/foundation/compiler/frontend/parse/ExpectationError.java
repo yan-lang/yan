@@ -10,8 +10,9 @@ public class ExpectationError extends Error {
     static String template = "expect %s %s %s.";
 
     public ExpectationError(String expectation, Token anchor, String pos) {
-        super(anchor.source, anchor.line, anchor.col,
-                String.format(template, expectation, pos, anchor.getText()), expectation);
+        super(anchor.line, anchor.col, anchor.source.getSourceName(),
+                String.format(template, expectation, pos, anchor.getText()),
+                anchor.source.get(anchor.line), expectation);
     }
 
 }

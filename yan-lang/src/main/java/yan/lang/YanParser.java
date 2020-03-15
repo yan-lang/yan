@@ -4,7 +4,7 @@ import yan.foundation.compiler.frontend.lex.Token;
 import yan.foundation.compiler.frontend.parse.AbstractParser;
 import yan.foundation.compiler.frontend.parse.ExpectationError;
 import yan.foundation.driver.BaseConfig;
-import yan.foundation.driver.error.BaseError;
+import yan.foundation.driver.error.Unexpected;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +23,7 @@ public class YanParser extends AbstractParser<YanTree.Program> implements YanTok
         while (!isAtEnd()) {
             try {
                 stmts.add(parseStmt());
-            } catch (BaseError error) {
+            } catch (Unexpected error) {
                 errorCollector.addError(error);
                 recovery();
             }
@@ -121,7 +121,7 @@ public class YanParser extends AbstractParser<YanTree.Program> implements YanTok
         return new Identifier(id.getStrValue());
     }
 
-    protected void logError(BaseError error) {
+    protected void logError(Unexpected error) {
         errorCollector.addError(error);
     }
 }

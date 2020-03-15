@@ -4,16 +4,13 @@ import yan.common.error.lex.UnknownTokenError;
 import yan.foundation.compiler.frontend.lex.AbstractLexer;
 import yan.foundation.compiler.frontend.lex.Token;
 import yan.foundation.compiler.frontend.lex.Vocabulary;
-import yan.foundation.compiler.frontend.lex.formatter.SimpleTokenFormatter;
 import yan.foundation.driver.BaseConfig;
 
 
 public class YanLexer extends AbstractLexer implements YanTokens {
 
     public YanLexer(String name, BaseConfig config) {
-        super(name, config);
-        vocabulary = new Vocabulary(tokenNames);
-        formatter = new SimpleTokenFormatter();
+        super(name, config, new Vocabulary(tokenNames));
     }
 
     @Override
@@ -36,7 +33,6 @@ public class YanLexer extends AbstractLexer implements YanTokens {
         buffer.consume();
 
         if (token.type == UNKNOWN) {
-            // TODO: issue yan.common.error
             errorCollector.addError(new UnknownTokenError(this));
         }
 

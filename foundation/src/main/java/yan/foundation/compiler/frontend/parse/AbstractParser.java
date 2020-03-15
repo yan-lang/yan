@@ -3,7 +3,7 @@ package yan.foundation.compiler.frontend.parse;
 import yan.foundation.compiler.frontend.lex.Token;
 import yan.foundation.driver.BaseConfig;
 import yan.foundation.driver.Phase;
-import yan.foundation.driver.error.BaseError;
+import yan.foundation.driver.error.Unexpected;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +35,7 @@ public abstract class AbstractParser<Out> extends Phase<List<Token>, Out> implem
     //      Helper Functions for accessing tokens       //
     // ------------------------------------------------ //
 
-    protected Token consume(int... types) throws BaseError {
+    protected Token consume(int... types) throws Unexpected {
         for (int type : types) {
             if (check(type)) return advance();
         }

@@ -27,13 +27,15 @@ public abstract class Phase<In, Out> implements Task<In, Out> {
      * Global Error Collector
      */
     protected ErrorCollector errorCollector = ErrorCollector.shared;
-
-    public PhaseFormatter<? super Out> formatter;
     public PhaseFormatter<? super Out> shellFormatter;
 
     public Phase(String name, BaseConfig config) {
         this.name = name;
         this.config = config;
+    }
+
+    public Optional<PhaseFormatter<? super Out>> getFormatter() {
+        return Optional.empty();
     }
 
     /**
@@ -51,10 +53,12 @@ public abstract class Phase<In, Out> implements Task<In, Out> {
      * @param output output of the transformation
      */
     protected void onSucceed(Out output) {
-        if (formatter != null && config.target.equals(formatter.targetName())) {
-            String text = formatter.toString(output);
-            config.out.print(text);
-        }
+        getFormatter().ifPresent(formatter -> {
+            if (config.target.equals(formatter.targetName())) {
+                String text = formatter.toString(output);
+                config.out.print(text);
+            }
+        });
     }
 
     /**
