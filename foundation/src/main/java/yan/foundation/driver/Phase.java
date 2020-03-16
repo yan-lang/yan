@@ -56,7 +56,7 @@ public abstract class Phase<In, Out> implements Task<In, Out> {
         getFormatter().ifPresent(formatter -> {
             if (config.target.equals(formatter.targetName())) {
                 String text = formatter.toString(output);
-                config.out.print(text);
+                config.out.println(text);
             }
         });
     }
