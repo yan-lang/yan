@@ -94,4 +94,8 @@ public abstract class Phase<In, Out> implements Task<In, Out> {
                 "name='" + name + '\'' +
                 '}';
     }
+
+    public <T> T get() throws Exception {
+        return (T) this;
+    }
 }

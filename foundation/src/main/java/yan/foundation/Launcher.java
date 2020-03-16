@@ -12,14 +12,14 @@ import java.util.List;
 
 public class Launcher {
 
-    public static void launch(Language<?> language, String[] args) {
+    public static void launch(Language language, String[] args) {
         int exitCode = new Launcher(language).launch(args);
         System.exit(exitCode);
     }
 
-    public final Language<?> language;
+    public final Language language;
 
-    public Launcher(Language<?> language) {
+    public Launcher(Language language) {
         this.language = language;
     }
 

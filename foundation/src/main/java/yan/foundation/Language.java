@@ -1,19 +1,19 @@
 package yan.foundation;
 
-import yan.foundation.compiler.frontend.lex.Token;
-import yan.foundation.compiler.middlend.instruction.IRProgram;
 import yan.foundation.driver.BaseConfig;
 import yan.foundation.driver.Phase;
 import yan.foundation.driver.Task;
 import yan.foundation.driver.error.ErrorCollector;
+import yan.foundation.interpreter.Interpretable;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 
-public abstract class Language<TopLevel> implements BaseConfig.compilerTargetProvider {
+public class Language implements BaseConfig.compilerTargetProvider, Interpretable {
 
     // ------------------- Basic Configuration ------------------- //
 
@@ -48,50 +48,41 @@ public abstract class Language<TopLevel> implements BaseConfig.compilerTargetPro
 
     // ------------------- Compiler Tasks ------------------- //
 
-    protected Map<String, Task<String, ?>> target2Task = new HashMap<>();
+    protected Map<String, Task<?, ?>> tasks = new HashMap<>();
 
-    protected Phase<String, List<Token>> lexer;
-    protected Phase<List<Token>, TopLevel> parser;
-    protected List<Phase<TopLevel, TopLevel>> semAnalyzers = new ArrayList<>();
-    protected Phase<TopLevel, IRProgram> irTranslator;
-    protected List<Phase<IRProgram, IRProgram>> optimizers = new ArrayList<>();
-//    protected Phase<IRProgram, String> llvmIRTranslator;
+    protected List<Phase<?, ?>> phases = new ArrayList<>();
 
-    protected void buildCompilerTargets() {
-        checkAndPutTarget(lexer, lexer);
-        checkAndPutTarget(parser, lexer.then(parser));
-
-        if (semAnalyzers.isEmpty()) return;
-        var semTask = lexer.then(parser);
-        for (var semAnalyzer : semAnalyzers) {
-            semTask = semTask.then(semAnalyzer);
-            checkAndPutTarget(semAnalyzer, semTask);
-        }
-
-        checkAndPutTarget(irTranslator, semTask.then(irTranslator));
-
-        var optTask = semTask.then(irTranslator);
-        for (var optimizer : optimizers) {
-            optTask = optTask.then(optimizer);
-            checkAndPutTarget(optimizer, optTask);
-        }
-    }
-
-    private void checkAndPutTarget(Phase<?, ?> phase, Task<String, ?> task) {
-        if (phase == null) return;
-        phase.getFormatter().ifPresent(formatter -> {
-            target2Task.put(formatter.targetName(), task);
-            compilerTargets.add(formatter.targetName());
-        });
+    public Language addPhase(Phase<?, ?> phase, String targetName) throws Exception {
+        phases.add(phase);
+        compilerTargets.add(targetName);
+        if (tasks.isEmpty()) tasks.put(targetName, phase);
+        else tasks.put(targetName, phases.get(phases.size() - 2).then(phase.get()));
+        return this;
     }
 
     // ---------------------- Core Functionality ---------------------- //
 
     public int compile() {
-        Task<String, ?> task = target2Task.get(config.target);
+        Task<String, ?> task = (Task<String, ?>) tasks.get(config.target);
         task.apply(config.source);
         config.out.close();
         return ErrorCollector.shared.numOfErrors();
     }
 
+    @Override
+    public Object execute(String statement, PrintWriter out) throws Exception {
+        config.out = out;
+        config.err = out;
+        config.target = getDefaultCompilerTarget();
+        Task<String, ?> task = (Task<String, ?>) tasks.get(config.target);
+        // clear errors
+        ErrorCollector.shared.clean();
+        try {
+            Object output = task.apply(statement);
+        } catch (RuntimeException e) {
+            e.printStackTrace(out);
+        }
+        // TODO: check if output is a R-Value, if it is, return the value.
+        return null;
+    }
 }
