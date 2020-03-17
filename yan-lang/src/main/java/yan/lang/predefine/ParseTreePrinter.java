@@ -22,7 +22,9 @@ public class ParseTreePrinter implements YanTree.YanVisitor<Object>, PhaseFormat
     public Object visit(YanTree.Program program) {
         printer.openElement("Program");
         program.stmts.forEach(stmt -> stmt.accept(this));
-//        printer.closeElement();
+        // Note: when XMLPrinter flush its content, it will close the root element.
+        //       So we should not close it here.
+        // printer.closeElement();
         return null;
     }
 
