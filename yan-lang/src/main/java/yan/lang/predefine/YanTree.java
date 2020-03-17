@@ -1,4 +1,4 @@
-package yan.lang;
+package yan.lang.predefine;
 
 import yan.foundation.compiler.frontend.ast.Tree;
 import yan.foundation.compiler.frontend.ast.TreeNode;
@@ -6,9 +6,6 @@ import yan.foundation.compiler.frontend.ast.TreeNode;
 import java.util.List;
 
 public class YanTree extends Tree {
-    public enum BinaryOp {
-        PLUS, MINUS, MULTI, DIV, EXP
-    }
 
     public static abstract class YanTreeNode extends TreeNode {
         public abstract <R> R accept(YanVisitor<R> visitor);
@@ -127,6 +124,10 @@ public class YanTree extends Tree {
         public <R> R accept(YanVisitor<R> visitor) {
             return visitor.visit(this);
         }
+    }
+
+    public enum BinaryOp {
+        PLUS, MINUS, MULTI, DIV, EXP
     }
 
     /**

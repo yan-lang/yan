@@ -5,6 +5,7 @@ import yan.foundation.compiler.frontend.lex.AbstractLexer;
 import yan.foundation.compiler.frontend.lex.Token;
 import yan.foundation.compiler.frontend.lex.Vocabulary;
 import yan.foundation.driver.BaseConfig;
+import yan.lang.predefine.YanTokens;
 
 
 public class YanLexer extends AbstractLexer implements YanTokens {

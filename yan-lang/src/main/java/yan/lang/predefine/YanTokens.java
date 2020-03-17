@@ -1,4 +1,4 @@
-package yan.lang;
+package yan.lang.predefine;
 
 import yan.foundation.compiler.frontend.lex.Token;
 

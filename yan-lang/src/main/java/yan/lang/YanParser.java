@@ -5,11 +5,13 @@ import yan.foundation.compiler.frontend.parse.AbstractParser;
 import yan.foundation.compiler.frontend.parse.ExpectationError;
 import yan.foundation.driver.BaseConfig;
 import yan.foundation.driver.error.Unexpected;
+import yan.lang.predefine.YanTokens;
+import yan.lang.predefine.YanTree;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static yan.lang.YanTree.*;
+import static yan.lang.predefine.YanTree.*;
 
 public class YanParser extends AbstractParser<YanTree.Program> implements YanTokens {
 

@@ -5,7 +5,7 @@ import yan.foundation.compiler.frontend.parse.Parser;
 import yan.foundation.driver.BaseConfig;
 import yan.lang.YanLexer;
 import yan.lang.YanParser;
-import yan.lang.YanTree;
+import yan.lang.predefine.YanTree;
 
 public class TestParser {
     @Test
