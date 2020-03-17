@@ -6,10 +6,10 @@ import yan.foundation.driver.PhaseFormatter;
 
 import java.util.Optional;
 
-public abstract class BaseYanParser extends AbstractParser<YanTree.Program> implements YanTokens {
+public abstract class AbstractYanParser extends AbstractParser<YanTree.Program> implements YanTokens {
     PhaseFormatter<YanTree.Program> formatter = new ParseTreePrinter();
 
-    public BaseYanParser(String name, BaseConfig config) {
+    public AbstractYanParser(String name, BaseConfig config) {
         super(name, config);
     }
 

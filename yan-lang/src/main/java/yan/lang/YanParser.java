@@ -4,7 +4,7 @@ import yan.foundation.compiler.frontend.lex.Token;
 import yan.foundation.compiler.frontend.parse.ExpectationError;
 import yan.foundation.driver.BaseConfig;
 import yan.foundation.driver.error.Unexpected;
-import yan.lang.predefine.BaseYanParser;
+import yan.lang.predefine.AbstractYanParser;
 import yan.lang.predefine.YanTree;
 
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ import java.util.List;
 
 import static yan.lang.predefine.YanTree.*;
 
-public class YanParser extends BaseYanParser {
+public class YanParser extends AbstractYanParser {
 
     public YanParser(String name, BaseConfig config) {
         super(name, config);
