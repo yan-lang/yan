@@ -29,7 +29,7 @@ public class YanParser extends AbstractYanParser {
                 recovery();
             }
         }
-        return new Program(stmts);
+        return setRange(new Program(stmts), 0);
     }
 
     private Stmt parseStmt() {
