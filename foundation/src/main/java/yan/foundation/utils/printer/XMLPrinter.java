@@ -37,6 +37,9 @@ public class XMLPrinter {
         openElement(root, false);
     }
 
+    public XMLPrinter() {
+    }
+
     public void openElement(String name) {
         openElement(name, false);
     }
