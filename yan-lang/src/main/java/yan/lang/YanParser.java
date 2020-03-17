@@ -1,11 +1,10 @@
 package yan.lang;
 
 import yan.foundation.compiler.frontend.lex.Token;
-import yan.foundation.compiler.frontend.parse.AbstractParser;
 import yan.foundation.compiler.frontend.parse.ExpectationError;
 import yan.foundation.driver.BaseConfig;
 import yan.foundation.driver.error.Unexpected;
-import yan.lang.predefine.YanTokens;
+import yan.lang.predefine.BaseYanParser;
 import yan.lang.predefine.YanTree;
 
 import java.util.ArrayList;
@@ -13,7 +12,7 @@ import java.util.List;
 
 import static yan.lang.predefine.YanTree.*;
 
-public class YanParser extends AbstractParser<YanTree.Program> implements YanTokens {
+public class YanParser extends BaseYanParser {
 
     public YanParser(String name, BaseConfig config) {
         super(name, config);
@@ -31,14 +30,6 @@ public class YanParser extends AbstractParser<YanTree.Program> implements YanTok
             }
         }
         return new Program(stmts);
-    }
-
-    protected void recovery() {
-        while (!isAtEnd()) {
-            if (previous().type == NEWLINE) return;
-            if (current().type == KW_VAR) return;
-            advance();
-        }
     }
 
     private Stmt parseStmt() {
