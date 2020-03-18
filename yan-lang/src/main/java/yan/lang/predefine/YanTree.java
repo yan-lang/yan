@@ -26,8 +26,24 @@ public class YanTree extends Tree {
             return visitOthers(varDef);
         }
 
+        default R visit(YanTree.If ifStmt) {
+            return visitOthers(ifStmt);
+        }
+
         default R visit(YanTree.ExprStmt exprStmt) {
             return visitOthers(exprStmt);
+        }
+
+        default R visit(YanTree.Block block) {
+            return visitOthers(block);
+        }
+
+        default R visit(YanTree.Print print) {
+            return visitOthers(print);
+        }
+
+        default R visit(YanTree.Empty empty) {
+            return visitOthers(empty);
         }
 
         default R visit(YanTree.Assign assign) {
@@ -46,6 +62,9 @@ public class YanTree extends Tree {
             return visitOthers(intConst);
         }
 
+        default R visit(YanTree.BoolConst boolConst) {
+            return visitOthers(boolConst);
+        }
     }
 
     public static final class Program extends YanTreeNode {
@@ -85,6 +104,23 @@ public class YanTree extends Tree {
         }
     }
 
+    public static final class If extends Stmt {
+        public final Expr condition;
+        public final Block ifBody;
+        public final Block elseBody;
+
+        public If(Expr condition, Block ifBody, Block elseBody) {
+            this.condition = condition;
+            this.ifBody = ifBody;
+            this.elseBody = elseBody;
+        }
+
+        @Override
+        public <R> R accept(YanVisitor<R> visitor) {
+            return visitor.visit(this);
+        }
+    }
+
     /**
      * Expression statement
      * <pre>
@@ -98,6 +134,39 @@ public class YanTree extends Tree {
             this.expr = expr;
         }
 
+        @Override
+        public <R> R accept(YanVisitor<R> visitor) {
+            return visitor.visit(this);
+        }
+    }
+
+    public static final class Block extends Stmt {
+        public final List<Stmt> stmts;
+
+        public Block(List<Stmt> stmts) {
+            this.stmts = stmts;
+        }
+
+        @Override
+        public <R> R accept(YanVisitor<R> visitor) {
+            return visitor.visit(this);
+        }
+    }
+
+    public final static class Print extends Stmt {
+        public final Expr expr;
+
+        public Print(Expr expr) {
+            this.expr = expr;
+        }
+
+        @Override
+        public <R> R accept(YanVisitor<R> visitor) {
+            return visitor.visit(this);
+        }
+    }
+
+    public final static class Empty extends Stmt {
         @Override
         public <R> R accept(YanVisitor<R> visitor) {
             return visitor.visit(this);
@@ -126,10 +195,6 @@ public class YanTree extends Tree {
         }
     }
 
-    public enum BinaryOp {
-        PLUS, MINUS, MULTI, DIV, EXP
-    }
-
     /**
      * Binary Expression
      * <pre>
@@ -150,6 +215,21 @@ public class YanTree extends Tree {
         @Override
         public <R> R accept(YanVisitor<R> visitor) {
             return visitor.visit(this);
+        }
+    }
+
+    public static final class BinaryOp extends TreeNode {
+        enum Type {PLUS, MINUS, MULTI, DIV, EXP, EQUAL, LARGE, LESS}
+
+        public final Type type;
+
+        public BinaryOp(Type type) {
+            this.type = type;
+        }
+
+        @Override
+        public String toString() {
+            return type.toString();
         }
     }
 
@@ -178,4 +258,18 @@ public class YanTree extends Tree {
             return visitor.visit(this);
         }
     }
+
+    public static final class BoolConst extends Expr {
+        public final boolean value;
+
+        public BoolConst(boolean value) {
+            this.value = value;
+        }
+
+        @Override
+        public <R> R accept(YanVisitor<R> visitor) {
+            return visitor.visit(this);
+        }
+    }
+
 }

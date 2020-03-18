@@ -9,3 +9,15 @@ div, Punctuator division/
 exp, Punctuator exponential**
 assign, Punctuator assign=
 newline, Newline
+kw_if, Keyword if
+kw_else, Keyword else
+left_paren, Left Parenthesis(
+right_paren, Right Parenthesis)
+left_brace, Left Brace{
+right_brace, Right Brace}
+equal, Equal==
+larger, Larger>
+less, Less<
+kw_true, Keyword true
+kw_false, Keyword false
+kw_print, Keyword print

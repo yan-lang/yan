@@ -4,14 +4,24 @@ import yan.common.error.lex.UnknownTokenError;
 import yan.foundation.compiler.frontend.lex.AbstractLexer;
 import yan.foundation.compiler.frontend.lex.Token;
 import yan.foundation.compiler.frontend.lex.Vocabulary;
+import yan.foundation.compiler.frontend.lex.formatter.SimpleTokenFormatter;
 import yan.foundation.driver.BaseConfig;
+import yan.foundation.driver.PhaseFormatter;
 import yan.lang.predefine.YanTokens;
+
+import java.util.List;
+import java.util.Optional;
 
 
 public class YanLexer extends AbstractLexer implements YanTokens {
 
     public YanLexer(String name, BaseConfig config) {
         super(name, config, new Vocabulary(tokenNames));
+    }
+
+    @Override
+    public Optional<PhaseFormatter<? super List<Token>>> getFormatter() {
+        return Optional.of(new SimpleTokenFormatter());
     }
 
     @Override
@@ -28,7 +38,13 @@ public class YanLexer extends AbstractLexer implements YanTokens {
             case '-' -> makeToken(MINUS);
             case '*' -> makeToken(buffer.peek('*') ? EXP : MULTI);
             case '/' -> makeToken(DIV);
-            case '=' -> makeToken(ASSIGN);
+            case '=' -> makeToken(buffer.peek('=') ? EQUAL : ASSIGN);
+            case '(' -> makeToken(LEFT_PAREN);
+            case ')' -> makeToken(RIGHT_PAREN);
+            case '{' -> makeToken(LEFT_BRACE);
+            case '}' -> makeToken(RIGHT_BRACE);
+            case '>' -> makeToken(LARGER);
+            case '<' -> makeToken(LESS);
             default -> makeToken(UNKNOWN);
         };
         buffer.consume();

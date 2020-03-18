@@ -34,6 +34,10 @@ public class YanParser extends AbstractYanParser {
 
     private Stmt parseStmt() {
         if (match(KW_VAR)) return parseVarDef();
+        if (match(KW_IF)) return parseIf();
+        if (match(KW_PRINT)) return parsePrint();
+        if (match(LEFT_BRACE)) return parseBlock();
+        if (match(NEWLINE, EOF)) return parseEmpty();
         return parseExprStmt();
     }
 
@@ -44,6 +48,49 @@ public class YanParser extends AbstractYanParser {
         Expr init = parseExpr();
         consume(NEWLINE, EOF);
         return setRange(new VarDef(id, init), start);
+    }
+
+    private If parseIf() {
+        int start = current - 1;
+        consume(LEFT_PAREN);
+        Expr condition = parseExpr();
+        consume(RIGHT_PAREN);
+        consume(LEFT_BRACE);
+        Block ifBody = parseBlock();
+        Block elseBody = null;
+        if (match(KW_ELSE)) {
+            consume(LEFT_BRACE);
+            elseBody = parseBlock();
+        }
+        consume(NEWLINE, EOF);
+        return setRange(new If(condition, ifBody, elseBody), start);
+    }
+
+    private Print parsePrint() {
+        int start = current - 1;
+        consume(LEFT_PAREN);
+        Expr expr = parseExpr();
+        consume(RIGHT_PAREN);
+        consume(NEWLINE, EOF);
+        return setRange(new Print(expr), start);
+    }
+
+    private Block parseBlock() {
+        int start = current - 1;
+        List<Stmt> stmts = new ArrayList<>();
+        while (!match(RIGHT_BRACE)) {
+            try {
+                stmts.add(parseStmt());
+            } catch (Unexpected error) {
+                errorCollector.addError(error);
+                recovery();
+            }
+        }
+        return setRange(new Block(stmts), start);
+    }
+
+    private Empty parseEmpty() {
+        return setRange(new Empty());
     }
 
     private ExprStmt parseExprStmt() {
@@ -59,7 +106,7 @@ public class YanParser extends AbstractYanParser {
 
     private Expr parseAssign() {
         int start = current;
-        Expr expr = parseAddition();
+        Expr expr = parseEquality();
         if (match(ASSIGN)) {
             if (expr instanceof Identifier) {
                 Expr value = parseExpr();
@@ -70,20 +117,26 @@ public class YanParser extends AbstractYanParser {
         return expr;
     }
 
-    private BinaryOp getBinaryOp(int tokenType) {
-        switch (tokenType) {
-            case PLUS:
-                return BinaryOp.PLUS;
-            case MINUS:
-                return BinaryOp.MINUS;
-            case MULTI:
-                return BinaryOp.MULTI;
-            case DIV:
-                return BinaryOp.DIV;
-            case EXP:
-                return BinaryOp.EXP;
+    private Expr parseEquality() {
+        int start = current;
+        Expr left = parseComparision();
+        while (check(EQUAL)) {
+            Token op = consume(EQUAL);
+            Expr right = parseComparision();
+            left = setRange(new Binary(left, getBinaryOp(op.type), right), start);
         }
-        throw new RuntimeException(String.format("Invalid token type {%d} for binary operator.", tokenType));
+        return left;
+    }
+
+    private Expr parseComparision() {
+        int start = current;
+        Expr left = parseAddition();
+        while (check(LARGER) || check(LESS)) {
+            Token op = consume(LARGER, LESS);
+            Expr right = parseAddition();
+            left = setRange(new Binary(left, getBinaryOp(op.type), right), start);
+        }
+        return left;
     }
 
     private Expr parseAddition() {
@@ -110,6 +163,8 @@ public class YanParser extends AbstractYanParser {
 
     private Expr parsePrimary() {
         if (match(INT_CONST)) return setRange(new IntConst(previous().getIntValue()));
+        if (match(KW_TRUE)) return setRange(new BoolConst(true));
+        if (match(KW_FALSE)) return setRange(new BoolConst(false));
         if (match(IDENTIFIER)) return setRange(new Identifier(previous().getStrValue()));
         throw new ExpectationError("expression", previous(), ExpectationError.AFTER);
     }

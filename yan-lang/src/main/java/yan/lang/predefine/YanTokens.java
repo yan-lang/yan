@@ -30,9 +30,36 @@ public interface YanTokens {
 
     int NEWLINE = 10;
 
+    int KW_IF = 11;
+
+    int KW_ELSE = 12;
+
+    int LEFT_PAREN = 13;
+
+    int RIGHT_PAREN = 14;
+
+    int LEFT_BRACE = 15;
+
+    int RIGHT_BRACE = 16;
+
+    int EQUAL = 17;
+
+    int LARGER = 18;
+
+    int LESS = 19;
+
+    int KW_TRUE = 20;
+
+    int KW_FALSE = 21;
+
+    int KW_PRINT = 22;
+
     List<String> tokenNames = List.of("Unknown character", "Identifier", "Keyword var", "Integer constant",
             "Punctuator plus+", "Punctuator minus-", "Punctuator multiply*", "Punctuator division/",
-            "Punctuator exponential**", "Punctuator assign=", "Newline");
+            "Punctuator exponential**", "Punctuator assign=", "Newline", "Keyword if", "Keyword else",
+            "Left Parenthesis(", "Right Parenthesis)", "Left Brace{", "Right Brace}", "Equal==", "Larger>",
+            "Less<", "Keyword true", "Keyword false", "Keyword print");
 
-    Map<String, Integer> keywords = Map.of("var", 2);
+    Map<String, Integer> keywords = Map.of("var", 2, "if", 11, "else", 12,
+            "true", 20, "false", 21, "print", 22);
 }
