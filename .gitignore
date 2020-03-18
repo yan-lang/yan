@@ -114,3 +114,6 @@ fabric.properties
 
 .idea/*
 docs/
+*.iml
+/yan-lang/scripts/
+/yan-lang/src/main/resources/YanTokens.java
