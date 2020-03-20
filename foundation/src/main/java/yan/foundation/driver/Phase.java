@@ -21,13 +21,17 @@ public abstract class Phase<In, Out> implements Task<In, Out> {
     /**
      * Compiler configuration.
      */
-    protected final BaseConfig config;
+    public BaseConfig config;
 
     /**
      * Global Error Collector
      */
     protected ErrorCollector errorCollector = ErrorCollector.shared;
     public PhaseFormatter<? super Out> shellFormatter;
+
+    public Phase() {
+        name = this.getClass().getSimpleName();
+    }
 
     public Phase(String name, BaseConfig config) {
         this.name = name;

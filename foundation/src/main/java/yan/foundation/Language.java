@@ -54,6 +54,7 @@ public class Language implements BaseConfig.compilerTargetProvider, Interpretabl
 
     public Language addPhase(Phase<?, ?> phase, String targetName) throws Exception {
         phases.add(phase);
+        if (phase.config == null) phase.config = config;
         compilerTargets.add(targetName);
         if (tasks.isEmpty()) tasks.put(targetName, phase);
         else tasks.put(targetName, phases.get(phases.size() - 2).then(phase.get()));

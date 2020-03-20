@@ -18,6 +18,14 @@ public abstract class AbstractLexer extends Phase<String, List<Token>>
 
     protected ReadTextBuffer buffer;
 
+    // TODO(3-20): optimize constructors
+
+    public AbstractLexer() {
+        super();
+        shellFormatter = new SimpleTokenFormatter();
+        vocabulary = new Vocabulary();
+    }
+
     public AbstractLexer(String name, BaseConfig config) {
         super(name, config);
         shellFormatter = new SimpleTokenFormatter();
