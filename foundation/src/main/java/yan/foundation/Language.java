@@ -75,6 +75,7 @@ public class Language implements BaseConfig.compilerTargetProvider, Interpretabl
         config.err = out;
         config.target = getDefaultCompilerTarget();
         Task<String, ?> task = (Task<String, ?>) tasks.get(config.target);
+        if (task == null) return null;
         // clear errors
         ErrorCollector.shared.clean();
         try {

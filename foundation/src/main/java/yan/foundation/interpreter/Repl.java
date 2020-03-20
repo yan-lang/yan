@@ -70,7 +70,7 @@ public class Repl {
                     reader.variable(LineReader.LINE_OFFSET, countLine);
                     line = reader.readLine(prompt);
                     Object result = engine.execute(line);
-//                    terminal.writer().println(result);
+                    if (result != null) terminal.writer().println(result);
                 } catch (UserInterruptException e) {
                     // Ignore
                 } catch (EndOfFileException e) {
