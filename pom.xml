@@ -14,7 +14,7 @@
     <artifactId>yan-parent</artifactId>
     <name>Yan Parent</name>
     <description>Yan</description>
-    <version>${revision}</version>
+    <version>0.1.2</version>
     <packaging>pom</packaging>
 
     <licenses>
@@ -48,9 +48,14 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <maven.deploy.skip>true</maven.deploy.skip>
-        <revision>0.1.0</revision>
         <additionalparam>-Xdoclint:none</additionalparam>
+
+        <picocli.version>4.2.0</picocli.version>
+        <junit.version>5.6.0</junit.version>
+        <common-io.version>2.6</common-io.version>
+        <jline.version>3.14.0</jline.version>
+        <jna.version>5.5.0</jna.version>
+        <common-lang.version>3.9</common-lang.version>
     </properties>
 
     <modules>
@@ -64,23 +69,43 @@
             <dependency>
                 <groupId>com.github.yan-lang</groupId>
                 <artifactId>yan-foundation</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.yan-lang</groupId>
+                <artifactId>yan-common</artifactId>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>info.picocli</groupId>
                 <artifactId>picocli</artifactId>
-                <version>4.2.0</version>
+                <version>${picocli.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter</artifactId>
-                <version>5.6.0</version>
+                <version>${junit.version}</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
-                <version>2.6</version>
+                <version>${common-io.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jline</groupId>
+                <artifactId>jline</artifactId>
+                <version>${jline.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.java.dev.jna</groupId>
+                <artifactId>jna</artifactId>
+                <version>${jna.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${common-lang.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -104,4 +129,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>
