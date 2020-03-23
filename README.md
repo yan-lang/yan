@@ -1,6 +1,6 @@
 # Yan
 
-[![License](https://img.shields.io/github/license/yan-lang/yan)](https://opensource.org/licenses/MIT) [![Build Status](https://travis-ci.com/yan-lang/yan.svg?branch=master)](https://travis-ci.com/yan-lang/yan) ![Java CI with Maven](https://github.com/yan-lang/yan/workflows/Java%20CI%20with%20Maven/badge.svg)
+[![License](https://img.shields.io/github/license/yan-lang/yan)](https://opensource.org/licenses/MIT) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.yan-lang/yan-foundation/badge.svg)](https://search.maven.org/artifact/com.github.yan-lang/yan-foundation)  [![Build Status](https://travis-ci.com/yan-lang/yan.svg?branch=master)](https://travis-ci.com/yan-lang/yan) ![Java CI with Maven](https://github.com/yan-lang/yan/workflows/Java%20CI%20with%20Maven/badge.svg) 
 
 Yan is composed of several different modules from three different sub-projects.
 
@@ -32,14 +32,18 @@ We use switch-expression, which is a preview feature of Java 1, during the devel
 
 ### Documentation
 
-- Yan 
+- [Yan](https://yan-lang.github.io/docs/) 
 
 ### Usage
 
 Maven 
 
 ```xml
-
+<dependency>
+  <groupId>com.github.yan-lang</groupId>
+  <artifactId>yan-foundation</artifactId>
+  <version>0.1.2</version>
+</dependency>
 ```
 
 ## Related Projects
