@@ -4,14 +4,53 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>9</version>
+    </parent>
+
     <groupId>com.github.yan-lang</groupId>
     <artifactId>yan-parent</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <name>Yan Parent</name>
+    <description>Yan</description>
+    <version>${revision}</version>
     <packaging>pom</packaging>
+
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>http://www.opensource.org/licenses/mit-license.php</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <scm>
+        <connection>scm:git:https://github.com/yan-lang/yan.git</connection>
+        <developerConnection>scm:git:ssh://github.com/yan-lang/yan.git</developerConnection>
+        <url>https://github.com/yan-lang/yan</url>
+        <tag>HEAD</tag>
+    </scm>
+
+    <issueManagement>
+        <system>github</system>
+        <url>https://github.com/yan-lang/yan/issues</url>
+    </issueManagement>
+
+    <developers>
+        <developer>
+            <name>Zeqiang-Lai</name>
+            <organization>Github</organization>
+            <organizationUrl>https://github.com/yan-lang</organizationUrl>
+        </developer>
+    </developers>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven.deploy.skip>true</maven.deploy.skip>
+        <revision>0.1.0</revision>
+        <additionalparam>-Xdoclint:none</additionalparam>
     </properties>
 
     <modules>
@@ -23,9 +62,9 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>org.yan</groupId>
+                <groupId>com.github.yan-lang</groupId>
                 <artifactId>yan-foundation</artifactId>
-                <version>1.0-SNAPSHOT</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>info.picocli</groupId>
@@ -51,11 +90,17 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.22.2</version>
-                <configuration>
-                    <reuseForks>false</reuseForks>
-                    <forkCount>1</forkCount>
-                </configuration>
+                <version>3.0.0-M3</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.1.1</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.0</version>
             </plugin>
         </plugins>
     </build>

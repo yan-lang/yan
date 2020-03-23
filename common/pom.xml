@@ -5,7 +5,7 @@
     <parent>
         <artifactId>yan-parent</artifactId>
         <groupId>com.github.yan-lang</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>${revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -18,7 +18,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.yan</groupId>
+            <groupId>com.github.yan-lang</groupId>
             <artifactId>yan-foundation</artifactId>
         </dependency>
         <dependency>
@@ -26,4 +26,5 @@
             <artifactId>junit-jupiter</artifactId>
         </dependency>
     </dependencies>
+
 </project>
