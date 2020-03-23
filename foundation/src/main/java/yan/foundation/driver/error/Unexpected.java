@@ -71,7 +71,6 @@ public abstract class Unexpected extends RuntimeException {
      * 错误数目提示
      * </pre>
      *
-     * <p>
      * 例子:
      * <pre>
      * test.c:2:9: yan.common.error: expected ';' after expression
@@ -79,7 +78,6 @@ public abstract class Unexpected extends RuntimeException {
      *                ^
      *                ;
      * </pre>
-     * </p>
      *
      * @return 格式化的错误表示
      */

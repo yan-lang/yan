@@ -9,7 +9,11 @@ import java.util.*;
  * <p>
  * Example:
  * <pre>
- *
+ * var printer = new XMLPrinter("note");
+ * printer.pushSimpleElement("to", "George");
+ * printer.pushSimpleElement("from", "John");
+ * printer.pushSimpleElement("heading", "Reminder");
+ * printer.pushSimpleElement("body", "Don't forget the meeting!");
  * </pre>
  * The output would be something like this:
  * <pre>

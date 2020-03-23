@@ -6,6 +6,9 @@ import java.util.function.Function;
 /**
  * Represents a "task" function that accepts one argument and may produce a result. Can be regarded as a "partial"
  * function.
+ *
+ * @param <T> Input
+ * @param <R> Output
  */
 public interface Task<T, R> extends Function<T, Optional<R>> {
     /**
