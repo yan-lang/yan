@@ -1,13 +1,13 @@
 package yan.lang.predefine;
 
+import yan.foundation.compiler.frontend.ast.AbstractTreeNode;
 import yan.foundation.compiler.frontend.ast.Tree;
-import yan.foundation.compiler.frontend.ast.TreeNode;
 
 import java.util.List;
 
 public class YanTree extends Tree {
 
-    public static abstract class YanTreeNode extends TreeNode {
+    public static abstract class YanTreeNode extends AbstractTreeNode {
         public abstract <R> R accept(YanVisitor<R> visitor);
     }
 
@@ -218,7 +218,7 @@ public class YanTree extends Tree {
         }
     }
 
-    public static final class BinaryOp extends TreeNode {
+    public static final class BinaryOp extends AbstractTreeNode {
         enum Type {PLUS, MINUS, MULTI, DIV, EXP, EQUAL, LARGE, LESS}
 
         public final Type type;

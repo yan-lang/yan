@@ -1,6 +1,6 @@
 package yan.lang.predefine;
 
-import yan.foundation.compiler.frontend.ast.TreeNode;
+import yan.foundation.compiler.frontend.ast.AbstractTreeNode;
 import yan.foundation.driver.PhaseFormatter;
 import yan.foundation.utils.printer.XMLPrinter;
 
@@ -112,11 +112,11 @@ public class ParseTreePrinter implements YanTree.YanVisitor<Void>, PhaseFormatte
         void print();
     }
 
-    private <T extends TreeNode> Void print(T node, DetailPrinter detailPrinter) {
+    private <T extends AbstractTreeNode> Void print(T node, DetailPrinter detailPrinter) {
         return print(node, false, detailPrinter);
     }
 
-    private <T extends TreeNode> Void print(T node, boolean compactMode, DetailPrinter detailPrinter) {
+    private <T extends AbstractTreeNode> Void print(T node, boolean compactMode, DetailPrinter detailPrinter) {
         printer.openElement(node.getClass().getSimpleName(), compactMode);
         printer.pushAttribute("from", String.valueOf(node.range.from));
         printer.pushAttribute("to", String.valueOf(node.range.to));
