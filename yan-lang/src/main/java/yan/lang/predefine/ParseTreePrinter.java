@@ -1,10 +1,10 @@
 package yan.lang.predefine;
 
-import yan.foundation.compiler.frontend.ast.AbstractTreeNode;
+import yan.foundation.compiler.frontend.ast.Tree;
 import yan.foundation.driver.PhaseFormatter;
 import yan.foundation.utils.printer.XMLPrinter;
 
-public class ParseTreePrinter implements YanTree.YanVisitor<Void>, PhaseFormatter<YanTree.Program> {
+public class ParseTreePrinter implements YanTree.Visitor, PhaseFormatter<YanTree.Program> {
 
     private XMLPrinter printer = new XMLPrinter();
 
@@ -20,7 +20,7 @@ public class ParseTreePrinter implements YanTree.YanVisitor<Void>, PhaseFormatte
     }
 
     @Override
-    public Void visit(YanTree.Program program) {
+    public void visit(YanTree.Program program) {
         printer.openElement("Program");
         printer.pushAttribute("from", String.valueOf(program.range.from));
         printer.pushAttribute("to", String.valueOf(program.range.to));
@@ -30,33 +30,32 @@ public class ParseTreePrinter implements YanTree.YanVisitor<Void>, PhaseFormatte
         // Note: when XMLPrinter flush its content, it will close the root element.
         //       So we should not close it here.
         // printer.closeElement();
-        return null;
     }
 
     @Override
-    public Void visit(YanTree.VarDef varDef) {
-        return print(varDef, () -> {
+    public void visit(YanTree.VarDef varDef) {
+        print(varDef, () -> {
             varDef.identifier.accept(this);
             varDef.initializer.accept(this);
         });
     }
 
     @Override
-    public Void visit(YanTree.ExprStmt exprStmt) {
-        return print(exprStmt, () -> exprStmt.expr.accept(this));
+    public void visit(YanTree.ExprStmt exprStmt) {
+        print(exprStmt, () -> exprStmt.expr.accept(this));
     }
 
     @Override
-    public Void visit(YanTree.Assign assign) {
-        return print(assign, () -> {
+    public void visit(YanTree.Assign assign) {
+        print(assign, () -> {
             assign.identifier.accept(this);
             assign.expr.accept(this);
         });
     }
 
     @Override
-    public Void visit(YanTree.Binary binary) {
-        return print(binary, () -> {
+    public void visit(YanTree.Binary binary) {
+        print(binary, () -> {
             printer.pushAttribute("type", binary.op.toString());
             binary.left.accept(this);
             binary.right.accept(this);
@@ -64,18 +63,18 @@ public class ParseTreePrinter implements YanTree.YanVisitor<Void>, PhaseFormatte
     }
 
     @Override
-    public Void visit(YanTree.Identifier identifier) {
-        return print(identifier, true, () -> printer.pushText(identifier.name));
+    public void visit(YanTree.Identifier identifier) {
+        print(identifier, true, () -> printer.pushText(identifier.name));
     }
 
     @Override
-    public Void visit(YanTree.IntConst intConst) {
-        return print(intConst, true, () -> printer.pushText(String.valueOf(intConst.value)));
+    public void visit(YanTree.IntConst intConst) {
+        print(intConst, true, () -> printer.pushText(String.valueOf(intConst.value)));
     }
 
     @Override
-    public Void visit(YanTree.If ifStmt) {
-        return print(ifStmt, () -> {
+    public void visit(YanTree.If ifStmt) {
+        print(ifStmt, () -> {
             ifStmt.condition.accept(this);
             ifStmt.ifBody.accept(this);
             if (ifStmt.elseBody != null) ifStmt.elseBody.accept(this);
@@ -83,8 +82,8 @@ public class ParseTreePrinter implements YanTree.YanVisitor<Void>, PhaseFormatte
     }
 
     @Override
-    public Void visit(YanTree.Block block) {
-        return print(block, () -> {
+    public void visit(YanTree.Block block) {
+        print(block, () -> {
             for (var stmt : block.stmts) {
                 stmt.accept(this);
             }
@@ -92,51 +91,42 @@ public class ParseTreePrinter implements YanTree.YanVisitor<Void>, PhaseFormatte
     }
 
     @Override
-    public Void visit(YanTree.Print print) {
-        return print(print, () -> {
-            print.expr.accept(this);
-        });
+    public void visit(YanTree.Print print) {
+        print(print, () -> print.expr.accept(this));
     }
 
     @Override
-    public Void visit(YanTree.Empty empty) {
-        return print(empty, true, null);
+    public void visit(YanTree.Empty empty) {
+        print(empty, true, null);
     }
 
     @Override
-    public Void visit(YanTree.BoolConst boolConst) {
-        return print(boolConst, true, () -> printer.pushText(String.valueOf(boolConst.value)));
+    public void visit(YanTree.BoolConst boolConst) {
+        print(boolConst, true, () -> printer.pushText(String.valueOf(boolConst.value)));
     }
 
     private interface DetailPrinter {
         void print();
     }
 
-    private <T extends AbstractTreeNode> Void print(T node, DetailPrinter detailPrinter) {
-        return print(node, false, detailPrinter);
+    private <T extends Tree> void print(T node, DetailPrinter detailPrinter) {
+        print(node, false, detailPrinter);
     }
 
-    private <T extends AbstractTreeNode> Void print(T node, boolean compactMode, DetailPrinter detailPrinter) {
+    private <T extends Tree> void print(T node, boolean compactMode, DetailPrinter detailPrinter) {
         printer.openElement(node.getClass().getSimpleName(), compactMode);
         printer.pushAttribute("from", String.valueOf(node.range.from));
         printer.pushAttribute("to", String.valueOf(node.range.to));
         if (detailPrinter != null) detailPrinter.print();
         printer.closeElement();
-        return null;
     }
 
     @Override
-    public String toString(YanTree.Program program) {
-        return print(program);
-    }
+    public String toString(YanTree.Program program) { return print(program); }
 
     @Override
-    public String fileExtension() {
-        return "xml";
-    }
+    public String fileExtension() { return "xml"; }
 
     @Override
-    public String targetName() {
-        return "parse";
-    }
+    public String targetName() { return "parse"; }
 }

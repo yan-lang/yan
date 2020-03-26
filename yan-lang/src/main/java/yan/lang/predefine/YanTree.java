@@ -1,73 +1,16 @@
 package yan.lang.predefine;
 
-import yan.foundation.compiler.frontend.ast.AbstractTreeNode;
 import yan.foundation.compiler.frontend.ast.Tree;
 
 import java.util.List;
 
-public class YanTree extends Tree {
+public abstract class YanTree extends Tree {
 
-    public static abstract class YanTreeNode extends AbstractTreeNode {
-        public abstract <R> R accept(YanVisitor<R> visitor);
-    }
+    public abstract <R> R accept(YanVisitor<R> visitor);
 
-    public interface YanVisitor<R> {
-        /* 默认的处理方法 */
-        default R visitOthers(YanTreeNode node) {
-            // 什么都不做
-            return null;
-        }
+    public abstract void accept(Visitor visitor);
 
-        default R visit(YanTree.Program program) {
-            return visitOthers(program);
-        }
-
-        default R visit(YanTree.VarDef varDef) {
-            return visitOthers(varDef);
-        }
-
-        default R visit(YanTree.If ifStmt) {
-            return visitOthers(ifStmt);
-        }
-
-        default R visit(YanTree.ExprStmt exprStmt) {
-            return visitOthers(exprStmt);
-        }
-
-        default R visit(YanTree.Block block) {
-            return visitOthers(block);
-        }
-
-        default R visit(YanTree.Print print) {
-            return visitOthers(print);
-        }
-
-        default R visit(YanTree.Empty empty) {
-            return visitOthers(empty);
-        }
-
-        default R visit(YanTree.Assign assign) {
-            return visitOthers(assign);
-        }
-
-        default R visit(YanTree.Binary binary) {
-            return visitOthers(binary);
-        }
-
-        default R visit(YanTree.Identifier identifier) {
-            return visitOthers(identifier);
-        }
-
-        default R visit(YanTree.IntConst intConst) {
-            return visitOthers(intConst);
-        }
-
-        default R visit(YanTree.BoolConst boolConst) {
-            return visitOthers(boolConst);
-        }
-    }
-
-    public static final class Program extends YanTreeNode {
+    public static final class Program extends YanTree {
         public final List<Stmt> stmts;
 
         public Program(List<Stmt> stmts) {
@@ -75,12 +18,13 @@ public class YanTree extends Tree {
         }
 
         @Override
-        public <R> R accept(YanVisitor<R> visitor) {
-            return visitor.visit(this);
-        }
+        public <R> R accept(YanVisitor<R> visitor) { return visitor.visit(this); }
+
+        @Override
+        public void accept(Visitor visitor) { visitor.visit(this); }
     }
 
-    public static abstract class Stmt extends YanTreeNode {
+    public static abstract class Stmt extends YanTree {
     }
 
     /**
@@ -99,9 +43,10 @@ public class YanTree extends Tree {
         }
 
         @Override
-        public <R> R accept(YanVisitor<R> visitor) {
-            return visitor.visit(this);
-        }
+        public <R> R accept(YanVisitor<R> visitor) { return visitor.visit(this); }
+
+        @Override
+        public void accept(Visitor visitor) { visitor.visit(this); }
     }
 
     public static final class If extends Stmt {
@@ -116,9 +61,10 @@ public class YanTree extends Tree {
         }
 
         @Override
-        public <R> R accept(YanVisitor<R> visitor) {
-            return visitor.visit(this);
-        }
+        public <R> R accept(YanVisitor<R> visitor) { return visitor.visit(this); }
+
+        @Override
+        public void accept(Visitor visitor) { visitor.visit(this); }
     }
 
     /**
@@ -135,9 +81,10 @@ public class YanTree extends Tree {
         }
 
         @Override
-        public <R> R accept(YanVisitor<R> visitor) {
-            return visitor.visit(this);
-        }
+        public <R> R accept(YanVisitor<R> visitor) { return visitor.visit(this); }
+
+        @Override
+        public void accept(Visitor visitor) { visitor.visit(this); }
     }
 
     public static final class Block extends Stmt {
@@ -148,9 +95,10 @@ public class YanTree extends Tree {
         }
 
         @Override
-        public <R> R accept(YanVisitor<R> visitor) {
-            return visitor.visit(this);
-        }
+        public <R> R accept(YanVisitor<R> visitor) { return visitor.visit(this); }
+
+        @Override
+        public void accept(Visitor visitor) { visitor.visit(this); }
     }
 
     public final static class Print extends Stmt {
@@ -161,19 +109,21 @@ public class YanTree extends Tree {
         }
 
         @Override
-        public <R> R accept(YanVisitor<R> visitor) {
-            return visitor.visit(this);
-        }
+        public <R> R accept(YanVisitor<R> visitor) { return visitor.visit(this); }
+
+        @Override
+        public void accept(Visitor visitor) { visitor.visit(this); }
     }
 
     public final static class Empty extends Stmt {
         @Override
-        public <R> R accept(YanVisitor<R> visitor) {
-            return visitor.visit(this);
-        }
+        public <R> R accept(YanVisitor<R> visitor) { return visitor.visit(this); }
+
+        @Override
+        public void accept(Visitor visitor) { visitor.visit(this); }
     }
 
-    public static abstract class Expr extends YanTreeNode {
+    public static abstract class Expr extends YanTree {
     }
 
     /**
@@ -190,9 +140,10 @@ public class YanTree extends Tree {
         }
 
         @Override
-        public <R> R accept(YanVisitor<R> visitor) {
-            return visitor.visit(this);
-        }
+        public <R> R accept(YanVisitor<R> visitor) { return visitor.visit(this); }
+
+        @Override
+        public void accept(Visitor visitor) { visitor.visit(this); }
     }
 
     /**
@@ -213,12 +164,13 @@ public class YanTree extends Tree {
         }
 
         @Override
-        public <R> R accept(YanVisitor<R> visitor) {
-            return visitor.visit(this);
-        }
+        public <R> R accept(YanVisitor<R> visitor) { return visitor.visit(this); }
+
+        @Override
+        public void accept(Visitor visitor) { visitor.visit(this); }
     }
 
-    public static final class BinaryOp extends AbstractTreeNode {
+    public static final class BinaryOp extends Tree {
         enum Type {PLUS, MINUS, MULTI, DIV, EXP, EQUAL, LARGE, LESS}
 
         public final Type type;
@@ -228,9 +180,7 @@ public class YanTree extends Tree {
         }
 
         @Override
-        public String toString() {
-            return type.toString();
-        }
+        public String toString() { return type.toString(); }
     }
 
     public static final class Identifier extends Expr {
@@ -241,9 +191,10 @@ public class YanTree extends Tree {
         }
 
         @Override
-        public <R> R accept(YanVisitor<R> visitor) {
-            return visitor.visit(this);
-        }
+        public <R> R accept(YanVisitor<R> visitor) { return visitor.visit(this); }
+
+        @Override
+        public void accept(Visitor visitor) { visitor.visit(this); }
     }
 
     public static final class IntConst extends Expr {
@@ -254,9 +205,10 @@ public class YanTree extends Tree {
         }
 
         @Override
-        public <R> R accept(YanVisitor<R> visitor) {
-            return visitor.visit(this);
-        }
+        public <R> R accept(YanVisitor<R> visitor) { return visitor.visit(this); }
+
+        @Override
+        public void accept(Visitor visitor) { visitor.visit(this); }
     }
 
     public static final class BoolConst extends Expr {
@@ -267,9 +219,37 @@ public class YanTree extends Tree {
         }
 
         @Override
-        public <R> R accept(YanVisitor<R> visitor) {
-            return visitor.visit(this);
-        }
+        public <R> R accept(YanVisitor<R> visitor) { return visitor.visit(this); }
+
+        @Override
+        public void accept(Visitor visitor) { visitor.visit(this); }
     }
 
+    public interface Visitor {
+        default void visitOthers(YanTree node) { }
+
+        default void visit(Program program) { visitOthers(program);}
+
+        default void visit(VarDef varDef) { visitOthers(varDef); }
+
+        default void visit(If ifStmt) { visitOthers(ifStmt); }
+
+        default void visit(ExprStmt exprStmt) { visitOthers(exprStmt); }
+
+        default void visit(Block block) { visitOthers(block); }
+
+        default void visit(Print print) { visitOthers(print); }
+
+        default void visit(Empty empty) { visitOthers(empty); }
+
+        default void visit(Assign assign) { visitOthers(assign); }
+
+        default void visit(Binary binary) { visitOthers(binary); }
+
+        default void visit(Identifier identifier) { visitOthers(identifier); }
+
+        default void visit(IntConst intConst) { visitOthers(intConst); }
+
+        default void visit(BoolConst boolConst) { visitOthers(boolConst); }
+    }
 }
