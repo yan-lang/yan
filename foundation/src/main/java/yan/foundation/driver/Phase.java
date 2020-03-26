@@ -33,6 +33,10 @@ public abstract class Phase<In, Out> implements Task<In, Out> {
         name = this.getClass().getSimpleName();
     }
 
+    public Phase(String name) {
+        this.name = name;
+    }
+
     public Phase(String name, BaseConfig config) {
         this.name = name;
         this.config = config;
