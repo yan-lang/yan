@@ -16,7 +16,7 @@ public abstract class Phase<In, Out> implements Task<In, Out> {
     /**
      * Name.
      */
-    public final String name;
+    public String name;
 
     /**
      * Compiler configuration.
