@@ -47,7 +47,7 @@ public abstract class AbstractLexer extends Phase<String, List<Token>>
     }
 
     protected Token makeToken(int type) {
-        return makeToken(type, null);
+        return makeToken(type, currentTokenString());
     }
 
     protected Token makeToken(int type, Object value) {
