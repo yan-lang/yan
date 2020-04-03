@@ -78,9 +78,13 @@ public abstract class AbstractParser<Out> extends Phase<List<Token>, Out> implem
         return false;
     }
 
-    protected boolean check(int type) {
+    protected boolean check(int... types) {
         if (isAtEnd()) return false;
-        return current().type == type;
+        for (int type : types) {
+            if (current().type == type)
+                return true;
+        }
+        return false;
     }
 
     protected Token current() {
