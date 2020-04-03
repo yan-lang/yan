@@ -7,7 +7,13 @@ package yan.foundation.compiler.frontend.ast;
 public abstract class Tree {
     public Range range;
 
-    public void setRange(Range range) {
+    public <T> T setRange(Range range) {
         this.range = range;
+        return (T) this;
+    }
+
+    public <T> T setRange(int from, int to) {
+        this.range = new Range(from, to);
+        return (T) this;
     }
 }
