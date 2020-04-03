@@ -15,6 +15,10 @@ public abstract class AbstractParser<Out> extends Phase<List<Token>, Out> implem
     protected List<Token> tokens;
     protected int current;
 
+    public AbstractParser(String name) {
+        super(name);
+    }
+
     public AbstractParser(String name, BaseConfig config) {
         super(name, config);
     }
