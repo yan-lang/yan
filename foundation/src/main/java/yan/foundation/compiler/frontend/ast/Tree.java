@@ -16,4 +16,7 @@ public abstract class Tree {
         return setRange(new Range(from, to));
     }
 
+    public void accept(ReflectiveVisitor v) {
+        v.dispatch(this);
+    }
 }
