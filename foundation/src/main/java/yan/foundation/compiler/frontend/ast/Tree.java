@@ -13,7 +13,7 @@ public abstract class Tree {
     }
 
     public <T> T setRange(int from, int to) {
-        this.range = new Range(from, to);
-        return (T) this;
+        return setRange(new Range(from, to));
     }
+
 }
