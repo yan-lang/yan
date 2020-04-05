@@ -7,32 +7,31 @@ import java.util.Map;
 
 public interface YanTokens {
     int EOF = Token.EOF;
-
     int UNKNOWN = 0;
 
-    int IDENTIFIER = 1;
+    int NEWLINE = 1;
 
-    int KW_VAR = 2;
+    int COLON = 2;
 
-    int INT_CONST = 3;
+    int COMMA = 3;
 
-    int PLUS = 4;
+    int ARROW = 4;
 
-    int MINUS = 5;
+    int IDENTIFIER = 5;
 
-    int MULTI = 6;
+    int INT_CONST = 6;
 
-    int DIV = 7;
+    int PLUS = 7;
 
-    int EXP = 8;
+    int MINUS = 8;
 
-    int ASSIGN = 9;
+    int MULTI = 9;
 
-    int NEWLINE = 10;
+    int DIV = 10;
 
-    int KW_IF = 11;
+    int EXP = 11;
 
-    int KW_ELSE = 12;
+    int ASSIGN = 12;
 
     int LEFT_PAREN = 13;
 
@@ -42,24 +41,58 @@ public interface YanTokens {
 
     int RIGHT_BRACE = 16;
 
-    int EQUAL = 17;
+    int LEFT_BRACKET = 17;
 
-    int LARGER = 18;
+    int RIGHT_BRACKET = 18;
 
-    int LESS = 19;
+    int EQ = 19;
 
-    int KW_TRUE = 20;
+    int NEQ = 20;
 
-    int KW_FALSE = 21;
+    int GT = 21;
 
-    int KW_PRINT = 22;
+    int GTE = 22;
 
-    List<String> tokenNames = List.of("Unknown character", "Identifier", "Keyword var", "Integer constant",
-            "Punctuator plus+", "Punctuator minus-", "Punctuator multiply*", "Punctuator division/",
-            "Punctuator exponential**", "Punctuator assign=", "Newline", "Keyword if", "Keyword else",
-            "Left Parenthesis(", "Right Parenthesis)", "Left Brace{", "Right Brace}", "Equal==", "Larger>",
-            "Less<", "Keyword true", "Keyword false", "Keyword print");
+    int LT = 23;
 
-    Map<String, Integer> keywords = Map.of("var", 2, "if", 11, "else", 12,
-            "true", 20, "false", 21, "print", 22);
+    int LTE = 24;
+
+    int REL_NOT = 25;
+
+    int REL_OR = 26;
+
+    int REL_AND = 27;
+
+    int KW_FUNC = 28;
+
+    int KW_VAR = 29;
+
+    int KW_CLASS = 30;
+
+    int KW_NEW = 31;
+
+    int KW_IF = 32;
+
+    int KW_ELSE = 33;
+
+    int KW_WHILE = 34;
+
+    int KW_PRINT = 35;
+
+    int KW_READ = 36;
+
+    int KW_TRUE = 37;
+
+    int KW_FALSE = 38;
+
+    int KW_INT = 39;
+
+
+    List<String> tokenNames = List.of("Unknown character", "Newline", "colon", "comma", "arrow", "Identifier", "Integer constant", "plus", "minus", "multiply", "division", "exponential", "assign", "Left Parenthesis", "Right Parenthesis", "Left Brace", "Right Brace", "Left bracket", "right bracket", "Equal", "Not equal", "Greater than", "Greater than or equal", "Less than", "Less than or equal", "relation not", "relation or", "relation and", "Keyword func", "Keyword var", "Keyword class", "Keyword new", "Keyword if", "Keyword else", "Keyword while", "Keyword print", "keyword read", "Keyword true", "Keyword false", "Keyword int");
+
+    List<String> tokenSymbolNames = List.of("Unknown character", "\n", ":", "comma", "->", "Identifier", "Integer constant", "+", "-", "*", "/", "^", "assign", "(", ")", "{", "}", "[", "]", "Equal", "Not equal", ">", "Greater than or equal", "<", "Less than or equal", "!", "||", "&&", "func", "var", "class", "new", "if", "else", "while", "print", "read", "true", "false", "int");
+
+    Map<String, Integer> keywords = Map.ofEntries(Map.entry("func", 28), Map.entry("var", 29), Map.entry("class", 30), Map.entry("new", 31), Map.entry("if", 32), Map.entry("else", 33), Map.entry("while", 34), Map.entry("print", 35), Map.entry("read", 36), Map.entry("true", 37), Map.entry("false", 38), Map.entry("int", 39));
+
+
 }

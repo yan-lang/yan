@@ -39,11 +39,11 @@ public abstract class AbstractYanParser extends AbstractParser<YanTree.Program> 
                 return new BinaryOp(BinaryOp.Type.DIV);
             case EXP:
                 return new BinaryOp(BinaryOp.Type.EXP);
-            case EQUAL:
+            case EQ:
                 return new BinaryOp(BinaryOp.Type.EQUAL);
-            case LARGER:
+            case GT:
                 return new BinaryOp(BinaryOp.Type.LARGE);
-            case LESS:
+            case LT:
                 return new BinaryOp(BinaryOp.Type.LESS);
         }
         throw new RuntimeException(String.format("Invalid token type {%d} for binary operator.", tokenType));

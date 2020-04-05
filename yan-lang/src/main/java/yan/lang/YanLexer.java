@@ -35,16 +35,29 @@ public class YanLexer extends AbstractLexer implements YanTokens {
 
         Token token = switch (buffer.current()) {
             case '+' -> makeToken(PLUS);
-            case '-' -> makeToken(MINUS);
-            case '*' -> makeToken(buffer.peek('*') ? EXP : MULTI);
+            case '-' -> makeToken(buffer.peek('>') ? ARROW : MINUS);
+            case '*' -> makeToken(MULTI);
             case '/' -> makeToken(DIV);
-            case '=' -> makeToken(buffer.peek('=') ? EQUAL : ASSIGN);
+            case '^' -> makeToken(EXP);
+
+            case ':' -> makeToken(COLON);
+            case ',' -> makeToken(COMMA);
+
             case '(' -> makeToken(LEFT_PAREN);
             case ')' -> makeToken(RIGHT_PAREN);
             case '{' -> makeToken(LEFT_BRACE);
             case '}' -> makeToken(RIGHT_BRACE);
-            case '>' -> makeToken(LARGER);
-            case '<' -> makeToken(LESS);
+            case '[' -> makeToken(RIGHT_BRACKET);
+            case ']' -> makeToken(LEFT_BRACKET);
+
+            case '=' -> makeToken(buffer.peek('=') ? EQ : ASSIGN);
+            case '!' -> makeToken(buffer.peek('=') ? NEQ : REL_NOT);
+            case '>' -> makeToken(buffer.peek('=') ? GTE : GT);
+            case '<' -> makeToken(buffer.peek('=') ? LTE : LT);
+
+            case '|' -> makeToken(buffer.peek('|') ? REL_OR : UNKNOWN);
+            case '&' -> makeToken(buffer.peek('&') ? REL_AND : UNKNOWN);
+
             default -> makeToken(UNKNOWN);
         };
         buffer.consume();
