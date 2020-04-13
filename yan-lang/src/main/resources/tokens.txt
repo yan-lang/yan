@@ -1,23 +1,54 @@
 unknown, Unknown character
+
+newline, Newline, \n
+colon, colon, :
+comma, comma
+arrow, arrow, ->
+dot,   dot,   .
+
 identifier, Identifier
-kw_var, Keyword var
-int_const, Integer constant
-plus, Punctuator plus+
-minus,  Punctuator minus-
-multi, Punctuator multiply*
-div, Punctuator division/
-exp, Punctuator exponential**
-assign, Punctuator assign=
-newline, Newline
-kw_if, Keyword if
-kw_else, Keyword else
-left_paren, Left Parenthesis(
-right_paren, Right Parenthesis)
-left_brace, Left Brace{
-right_brace, Right Brace}
-equal, Equal==
-larger, Larger>
-less, Less<
-kw_true, Keyword true
-kw_false, Keyword false
-kw_print, Keyword print
+int_const,  Integer constant
+
+plus,   plus,        +
+minus,  minus,       -
+multi,  multiply,    *
+div,    division,    /
+exp,    exponential, ^
+assign, assign
+
+left_paren,   Left Parenthesis,  (
+right_paren,  Right Parenthesis, )
+left_brace,   Left Brace,        {
+right_brace,  Right Brace,       }
+left_bracket, Left bracket,      [
+right_bracket, right bracket,    ]
+
+EQ,  Equal
+NEQ, Not equal
+GT,  Greater than,          >
+GTE, Greater than or equal
+LT,  Less than,             <
+LTE, Less than or equal
+
+rel_not, relation not,  !
+rel_or,  relation or,   ||
+rel_and, relation and,  &&
+
+kw_func,  Keyword func,  func,  group=keywords
+kw_var,   Keyword var,   var,   group=keywords
+kw_class, Keyword class, class, group=keywords
+
+kw_new,   Keyword new,   new,   group=keywords
+
+kw_if,    Keyword if,    if,    group=keywords
+kw_else,  Keyword else,  else,  group=keywords
+
+kw_while, Keyword while, while, group=keywords
+
+kw_print, Keyword print, print, group=keywords
+kw_read,  keyword read,  read,  group=keywords
+
+kw_true,  Keyword true,  true,  group=keywords
+kw_false, Keyword false, false, group=keywords
+
+kw_int,   Keyword int,   int,   group=keywords

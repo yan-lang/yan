@@ -62,14 +62,23 @@ public class ReadTextBuffer implements CodeSource {
      * <p>如果当前字符是最后一个字符，则函数将返回一个特殊字符EOF - '\0'，
      * 之后再调用这个函数，不会抛出异常，仍然返回EOF。</p>
      *
-     * @return 下一个字符
+     * @return 刚刚消耗的字符
      */
     public char consume() {
         if (offset < length) {
             updateLoc();
             offset += 1;
         }
-        return current();
+        return previous();
+    }
+
+    /**
+     * 返回<strong>当前字符</strong>。当所有字符都消耗完后，该函数返回EOF。
+     *
+     * @return 当前字符
+     */
+    public char previous() {
+        return offset - 1 < length ? source.charAt(offset - 1) : '\0';
     }
 
     /**

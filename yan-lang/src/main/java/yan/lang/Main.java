@@ -1,14 +1,13 @@
 package yan.lang;
 
-import yan.foundation.Language;
-import yan.foundation.Launcher;
+import yan.foundation.driver.Launcher;
+import yan.lang.predefine.YanLang;
 
 public class Main {
 
-    public static void main(String[] args) throws Exception {
-        Language language = new Language();
-        language.addPhase(new YanLexer("YanLexer", language.config), "lex");
-        language.addPhase(new YanParser("Parser", language.config), "parse");
-        Launcher.launch(language, args);
+    public static void main(String[] args) {
+        YanLang yan = new YanLang(new TaskFactoryImpl());
+        Launcher.instance(yan).commandName("yan").launch(args);
     }
+
 }

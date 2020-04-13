@@ -3,9 +3,8 @@ package yan.foundation.compiler.frontend.parse;
 import yan.foundation.compiler.frontend.ast.Range;
 import yan.foundation.compiler.frontend.ast.Tree;
 import yan.foundation.compiler.frontend.lex.Token;
-import yan.foundation.driver.BaseConfig;
-import yan.foundation.driver.Phase;
-import yan.foundation.driver.error.Unexpected;
+import yan.foundation.driver.lang.Phase;
+import yan.foundation.driver.log.Diagnostic;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,12 +14,12 @@ public abstract class AbstractParser<Out> extends Phase<List<Token>, Out> implem
     protected List<Token> tokens;
     protected int current;
 
-    public AbstractParser(String name) {
-        super(name);
+    public AbstractParser() {
+        super();
     }
 
-    public AbstractParser(String name, BaseConfig config) {
-        super(name, config);
+    public AbstractParser(String name) {
+        super(name);
     }
 
     @Override
@@ -61,11 +60,11 @@ public abstract class AbstractParser<Out> extends Phase<List<Token>, Out> implem
     //      Helper Functions for accessing tokens       //
     // ------------------------------------------------ //
 
-    protected Token consume(int... types) throws Unexpected {
+    protected Token consume(int... types) throws Diagnostic {
         for (int type : types) {
             if (check(type)) return advance();
         }
-        throw new ExpectationError(types2Str(types), previous(), ExpectationError.AFTER);
+        throw BaseParserDiagnostic.Errors.ExpectationError(types2Str(types), previous(), "after");
     }
 
     protected boolean match(int... types) {
@@ -92,7 +91,7 @@ public abstract class AbstractParser<Out> extends Phase<List<Token>, Out> implem
     }
 
     protected Token previous() {
-        return tokens.get(current - 1);
+        return tokens.get(Integer.max(current - 1, 0));
     }
 
     protected Token advance() {
@@ -112,8 +111,16 @@ public abstract class AbstractParser<Out> extends Phase<List<Token>, Out> implem
     //       Helper functions for throwing errors       //
     // ------------------------------------------------ //
 
+    protected interface TokenTypeStringMapper {
+        String toString(int tokenType);
+    }
+
+    protected abstract TokenTypeStringMapper getTokenTypeStringMapper();
+
     protected String type2Str(int tokenType) {
-        return String.valueOf(tokenType);
+        // Note: EOF(-1) need special handler, it is not token specified by token file.
+        if (tokenType == Token.EOF) return "EOF";
+        return getTokenTypeStringMapper().toString(tokenType);
     }
 
     protected String types2Str(int... tokenTypes) {

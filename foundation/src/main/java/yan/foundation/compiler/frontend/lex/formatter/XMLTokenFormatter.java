@@ -1,13 +1,14 @@
 package yan.foundation.compiler.frontend.lex.formatter;
 
 import yan.foundation.compiler.frontend.lex.Token;
+import yan.foundation.driver.lang.Formatter;
 import yan.foundation.utils.printer.XMLPrinter;
 
 import java.util.List;
 
-public class XMLTokenFormatter extends TokenFormatter {
+public class XMLTokenFormatter implements Formatter<List<Token>> {
     @Override
-    public String toString(List<Token> tokens) {
+    public String format(List<Token> tokens) {
         XMLPrinter printer = new XMLPrinter("tokens");
         for (Token token : tokens) {
             printer.openElement("token");
@@ -22,10 +23,5 @@ public class XMLTokenFormatter extends TokenFormatter {
             printer.closeElement();
         }
         return printer.flush();
-    }
-
-    @Override
-    public String fileExtension() {
-        return "xml";
     }
 }

@@ -1,4 +1,4 @@
-package yan.foundation.interpreter;
+package yan.foundation.driver.shell;
 
 import org.jline.builtins.Widgets;
 import org.jline.reader.EndOfFileException;
@@ -24,7 +24,7 @@ public class Repl {
     private static final String debugPrompt = "\u001b[38;5;250mDebug %N> ";
     private static final String debugSecondaryPrompt = "debug\u001b[38;5;250Debug m%N. ";
 
-    public static int run(Interpretable scriptEngine) {
+    public static int run(ScriptEngine scriptEngine) {
         try {
             DefaultParser parser = new DefaultParser();
             parser.setEofOnUnclosedBracket(Bracket.CURLY, Bracket.ROUND, Bracket.SQUARE);
@@ -34,7 +34,7 @@ public class Repl {
             Terminal terminal = TerminalBuilder.builder().system(true).build();
 
             LineReader reader = LineReaderBuilder.builder()
-                    .terminal(terminal)
+                                                 .terminal(terminal)
                     .parser(parser)
                     .variable(LineReader.SECONDARY_PROMPT_PATTERN, defaultSecondaryPrompt)
                     .variable(LineReader.INDENTATION, 2)

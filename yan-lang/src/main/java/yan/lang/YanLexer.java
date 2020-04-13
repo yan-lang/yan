@@ -1,28 +1,10 @@
 package yan.lang;
 
-import yan.common.error.lex.UnknownTokenError;
-import yan.foundation.compiler.frontend.lex.AbstractLexer;
 import yan.foundation.compiler.frontend.lex.Token;
-import yan.foundation.compiler.frontend.lex.Vocabulary;
-import yan.foundation.compiler.frontend.lex.formatter.SimpleTokenFormatter;
-import yan.foundation.driver.BaseConfig;
-import yan.foundation.driver.PhaseFormatter;
-import yan.lang.predefine.YanTokens;
-
-import java.util.List;
-import java.util.Optional;
+import yan.lang.predefine.AbstractYanLexer;
 
 
-public class YanLexer extends AbstractLexer implements YanTokens {
-
-    public YanLexer(String name, BaseConfig config) {
-        super(name, config, new Vocabulary(tokenNames));
-    }
-
-    @Override
-    public Optional<PhaseFormatter<? super List<Token>>> getFormatter() {
-        return Optional.of(new SimpleTokenFormatter());
-    }
+public class YanLexer extends AbstractYanLexer {
 
     @Override
     public Token nextToken() {
@@ -33,9 +15,9 @@ public class YanLexer extends AbstractLexer implements YanTokens {
         if (Character.isDigit(buffer.current())) return number();
         if (Character.isLetter(buffer.current()) || buffer.current() == '_') return identifier();
 
-        Token token = switch (buffer.current()) {
+        Token token = switch (buffer.consume()) {
             case '+' -> makeToken(PLUS);
-            case '-' -> makeToken(buffer.peek('>') ? ARROW : MINUS);
+            case '-' -> makeToken(buffer.current('>') ? ARROW : MINUS);
             case '*' -> makeToken(MULTI);
             case '/' -> makeToken(DIV);
             case '^' -> makeToken(EXP);
@@ -51,20 +33,19 @@ public class YanLexer extends AbstractLexer implements YanTokens {
             case '[' -> makeToken(RIGHT_BRACKET);
             case ']' -> makeToken(LEFT_BRACKET);
 
-            case '=' -> makeToken(buffer.peek('=') ? EQ : ASSIGN);
-            case '!' -> makeToken(buffer.peek('=') ? NEQ : REL_NOT);
-            case '>' -> makeToken(buffer.peek('=') ? GTE : GT);
-            case '<' -> makeToken(buffer.peek('=') ? LTE : LT);
+            case '=' -> makeToken(buffer.current('=') ? EQ : ASSIGN);
+            case '!' -> makeToken(buffer.current('=') ? NEQ : REL_NOT);
+            case '>' -> makeToken(buffer.current('=') ? GTE : GT);
+            case '<' -> makeToken(buffer.current('=') ? LTE : LT);
 
-            case '|' -> makeToken(buffer.peek('|') ? REL_OR : UNKNOWN);
-            case '&' -> makeToken(buffer.peek('&') ? REL_AND : UNKNOWN);
+            case '|' -> makeToken(buffer.current('|') ? REL_OR : UNKNOWN);
+            case '&' -> makeToken(buffer.current('&') ? REL_AND : UNKNOWN);
 
             default -> makeToken(UNKNOWN);
         };
-        buffer.consume();
 
         if (token.type == UNKNOWN) {
-            errorCollector.addError(new UnknownTokenError(this));
+//            log.addError(new UnknownTokenError(this));
         }
 
         return token;

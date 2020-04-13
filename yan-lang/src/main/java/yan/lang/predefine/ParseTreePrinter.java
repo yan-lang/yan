@@ -1,10 +1,10 @@
 package yan.lang.predefine;
 
 import yan.foundation.compiler.frontend.ast.Tree;
-import yan.foundation.driver.PhaseFormatter;
+import yan.foundation.driver.lang.Formatter;
 import yan.foundation.utils.printer.XMLPrinter;
 
-public class ParseTreePrinter implements YanTree.Visitor, PhaseFormatter<YanTree.Program> {
+public class ParseTreePrinter implements YanTree.Visitor, Formatter<YanTree.Program> {
 
     private XMLPrinter printer = new XMLPrinter();
 
@@ -25,7 +25,7 @@ public class ParseTreePrinter implements YanTree.Visitor, PhaseFormatter<YanTree
         printer.pushAttribute("from", String.valueOf(program.range.from));
         printer.pushAttribute("to", String.valueOf(program.range.to));
 
-        program.stmts.forEach(stmt -> stmt.accept(this));
+        program.defs.forEach(def -> def.accept(this));
 
         // Note: when XMLPrinter flush its content, it will close the root element.
         //       So we should not close it here.
@@ -33,10 +33,53 @@ public class ParseTreePrinter implements YanTree.Visitor, PhaseFormatter<YanTree
     }
 
     @Override
+    public void visit(YanTree.ClassDef that) {
+
+    }
+
+    @Override
+    public void visit(YanTree.FuncDef that) {
+        print(that, () -> {
+            that.id.accept(this);
+//            that.retType.accept(this);
+            that.params.forEach(param -> param.accept(this));
+            that.body.accept(this);
+        });
+    }
+
+    @Override
+    public void visit(YanTree.While that) {
+        print(that, () -> {
+            that.condition.accept(this);
+            that.body.accept(this);
+        });
+    }
+
+    @Override
+    public void visit(YanTree.Continue that) {
+        print(that, true, () -> {});
+    }
+
+    @Override
+    public void visit(YanTree.Break that) {
+        print(that, true, () -> {});
+    }
+
+    @Override
+    public void visit(YanTree.Operator that) {
+        print(that, true, () -> printer.pushText(that.tag.toString().toLowerCase()));
+    }
+
+    @Override
+    public void visit(YanTree.TypeCast that) {
+
+    }
+
+    @Override
     public void visit(YanTree.VarDef varDef) {
         print(varDef, () -> {
-            varDef.identifier.accept(this);
-            varDef.initializer.accept(this);
+            varDef.id.accept(this);
+            varDef.init.accept(this);
         });
     }
 
@@ -46,17 +89,17 @@ public class ParseTreePrinter implements YanTree.Visitor, PhaseFormatter<YanTree
     }
 
     @Override
-    public void visit(YanTree.Assign assign) {
-        print(assign, () -> {
-            assign.identifier.accept(this);
-            assign.expr.accept(this);
+    public void visit(YanTree.Unary unary) {
+        print(unary, () -> {
+            printer.pushAttribute("type", unary.op.tag.toString().toLowerCase());
+            unary.expr.accept(this);
         });
     }
 
     @Override
     public void visit(YanTree.Binary binary) {
         print(binary, () -> {
-            printer.pushAttribute("type", binary.op.toString());
+            printer.pushAttribute("type", binary.op.tag.toString().toLowerCase());
             binary.left.accept(this);
             binary.right.accept(this);
         });
@@ -68,8 +111,8 @@ public class ParseTreePrinter implements YanTree.Visitor, PhaseFormatter<YanTree
     }
 
     @Override
-    public void visit(YanTree.IntConst intConst) {
-        print(intConst, true, () -> printer.pushText(String.valueOf(intConst.value)));
+    public void visit(YanTree.Literal literal) {
+        print(literal, true, () -> printer.pushText(String.valueOf(literal.value)));
     }
 
     @Override
@@ -100,11 +143,6 @@ public class ParseTreePrinter implements YanTree.Visitor, PhaseFormatter<YanTree
         print(empty, true, null);
     }
 
-    @Override
-    public void visit(YanTree.BoolConst boolConst) {
-        print(boolConst, true, () -> printer.pushText(String.valueOf(boolConst.value)));
-    }
-
     private interface DetailPrinter {
         void print();
     }
@@ -122,11 +160,7 @@ public class ParseTreePrinter implements YanTree.Visitor, PhaseFormatter<YanTree
     }
 
     @Override
-    public String toString(YanTree.Program program) { return print(program); }
-
-    @Override
-    public String fileExtension() { return "xml"; }
-
-    @Override
-    public String targetName() { return "parse"; }
+    public String format(YanTree.Program program) {
+        return print(program);
+    }
 }

@@ -1,18 +1,14 @@
 package yan.foundation.compiler.frontend.lex;
 
 
-import yan.foundation.compiler.frontend.lex.formatter.SimpleTokenFormatter;
-import yan.foundation.compiler.frontend.lex.formatter.XMLTokenFormatter;
-import yan.foundation.driver.BaseConfig;
-import yan.foundation.driver.Phase;
-import yan.foundation.driver.PhaseFormatter;
+import yan.foundation.driver.lang.Code;
+import yan.foundation.driver.lang.Phase;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 
-public abstract class AbstractLexer extends Phase<String, List<Token>>
+public abstract class AbstractLexer extends Phase<Code, List<Token>>
         implements Lexer {
     protected Vocabulary vocabulary;
 
@@ -22,19 +18,16 @@ public abstract class AbstractLexer extends Phase<String, List<Token>>
 
     public AbstractLexer() {
         super();
-        shellFormatter = new SimpleTokenFormatter();
         vocabulary = new Vocabulary();
     }
 
-    public AbstractLexer(String name, BaseConfig config) {
-        super(name, config);
-        shellFormatter = new SimpleTokenFormatter();
+    public AbstractLexer(String name) {
+        super(name);
         vocabulary = new Vocabulary();
     }
 
-    public AbstractLexer(String name, BaseConfig config, Vocabulary vocabulary) {
-        super(name, config);
-        shellFormatter = new SimpleTokenFormatter();
+    public AbstractLexer(String name, Vocabulary vocabulary) {
+        super(name);
         this.vocabulary = vocabulary;
     }
 
@@ -60,14 +53,9 @@ public abstract class AbstractLexer extends Phase<String, List<Token>>
     }
 
     @Override
-    public Optional<PhaseFormatter<? super List<Token>>> getFormatter() {
-        return Optional.of(new XMLTokenFormatter());
-    }
-
-    @Override
-    public List<Token> transform(String input) {
+    public List<Token> transform(Code input) {
         List<Token> tokenList = new ArrayList<>();
-        buffer = new ReadTextBuffer(input, config.getInputSourceName());
+        buffer = new ReadTextBuffer(input.content, input.filename);
         Token token;
         do {
             token = nextToken();
