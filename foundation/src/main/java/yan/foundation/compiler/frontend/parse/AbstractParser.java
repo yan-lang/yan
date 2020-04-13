@@ -86,6 +86,11 @@ public abstract class AbstractParser<Out> extends Phase<List<Token>, Out> implem
         return false;
     }
 
+    protected Token LA(int x) {
+        // TODO(Important): 如果index out of bound应该如何处理比较好
+        return tokens.get(current + x);
+    }
+
     protected Token current() {
         return tokens.get(current);
     }

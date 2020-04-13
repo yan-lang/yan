@@ -21,6 +21,7 @@ public interface YanVisitor<R> {
     default R visit(Unary that)         { return visitOthers(that); }
     default R visit(Binary that)        { return visitOthers(that); }
     default R visit(TypeCast that)      { return visitOthers(that); }
+    default R visit(FunCall that)       { return visitOthers(that); }
     default R visit(Identifier that)    { return visitOthers(that); }
     default R visit(Literal that)       { return visitOthers(that); }
 }

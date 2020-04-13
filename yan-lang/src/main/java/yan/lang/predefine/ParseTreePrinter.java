@@ -130,6 +130,16 @@ public class ParseTreePrinter implements YanTree.Visitor, Formatter<YanTree.Prog
     }
 
     @Override
+    public void visit(YanTree.FunCall that) {
+        print(that, () -> {
+            printer.pushSimpleElement("FuncName", that.funcName.name);
+            printer.openElement("Args");
+            that.args.forEach(arg -> arg.accept(this));
+            printer.closeElement();
+        });
+    }
+
+    @Override
     public void visit(YanTree.Identifier identifier) {
         print(identifier, true, () -> printer.pushText(identifier.name));
     }

@@ -24,5 +24,9 @@ public class YanDiagnostic {
         default Diagnostic ConsecutiveStatements() {
             return new Diagnostic("ConsecutiveStatements");
         }
+
+        default Diagnostic InvalidFunctionName() {
+            return new Diagnostic("InvalidFunctionName");
+        }
     }
 }

@@ -306,7 +306,21 @@ public class YanParser extends AbstractYanParser {
     }
 
     Expr parsePostfix() {
-        return parsePrimary();
+        int start = current;
+        Expr expr = parsePrimary();
+        if (match(LEFT_PAREN)) {
+            if (!(expr instanceof Identifier)) logger.log(YanDiagnostic.Errors.InvalidFunctionName());
+            List<Expr> args = new ArrayList<>();
+            if (!match(RIGHT_PAREN)) {
+                do {
+                    args.add(parseExpr());
+                } while (match(COMMA));
+                consume(RIGHT_PAREN);
+            }
+            Identifier name = (expr instanceof Identifier) ? (Identifier) expr : null;
+            return setRange(new FunCall(name, args), start);
+        }
+        return expr;
     }
 
     Expr parsePrimary() {

@@ -308,6 +308,16 @@ public abstract class YanTree extends Tree {
         }
     }
 
+    public static class FunCall extends Expr {
+        public Identifier funcName;
+        public List<Expr> args;
+
+        public FunCall(Identifier funcName, List<Expr> args) {
+            this.funcName = funcName;
+            this.args = args;
+        }
+    }
+
     /**
      * Identifier
      */
@@ -372,6 +382,7 @@ public abstract class YanTree extends Tree {
         default void visit(Unary that)         { visitOthers(that); }
         default void visit(Binary that)        { visitOthers(that); }
         default void visit(TypeCast that)      { visitOthers(that); }
+        default void visit(FunCall that)       { visitOthers(that); }
         default void visit(Identifier that)    { visitOthers(that); }
         default void visit(Literal that)       { visitOthers(that); }
     }
