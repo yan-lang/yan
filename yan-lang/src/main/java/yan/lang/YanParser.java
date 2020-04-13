@@ -18,7 +18,8 @@ public class YanParser extends AbstractYanParser {
         List<YanTree> defs = new ArrayList<>();
         while (!isAtEnd()) {
             try {
-                if (defs.size() > 0) consume(NEWLINE, SEMICOLON, EOF);
+                if (defs.size() > 0 && !(defs.get(defs.size() - 1) instanceof Empty))
+                    consume(NEWLINE, SEMICOLON, EOF);
                 if (isAtEnd()) break; // handle statements like -> var a = 10\n
                 defs.add(parseDefs());
             } catch (Diagnostic diagnostic) {
@@ -118,7 +119,9 @@ public class YanParser extends AbstractYanParser {
         List<Stmt> stmts = new ArrayList<>();
         while (!match(RIGHT_BRACE)) {
             try {
-                if (stmts.size() > 0) consume(NEWLINE, SEMICOLON);
+                if (stmts.size() > 0 && !(stmts.get(stmts.size() - 1) instanceof Empty))
+                    consume(NEWLINE, SEMICOLON);
+                if (match(RIGHT_BRACE)) break;
                 stmts.add(parseStmt());
             } catch (Diagnostic diagnostic) {
                 logger.log(diagnostic);
@@ -137,7 +140,7 @@ public class YanParser extends AbstractYanParser {
         if (check(KW_RETURN)) return parseReturn();
         if (check(KW_PRINT)) return parsePrint();
         if (check(LEFT_BRACE)) return parseBlock();
-        if (check(NEWLINE, EOF)) return parseEmpty();
+        if (check(NEWLINE, SEMICOLON)) return parseEmpty();
         return parseExprStmt();
     }
 

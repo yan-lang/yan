@@ -16,15 +16,15 @@ public class TestParser {
         YanTree.Program out = parser.parse(tokens);
 
         YanTree.VarDef def0 = (YanTree.VarDef) out.defs.get(0);
-        Assertions.assertEquals(def0.id.range, new Range(1, 1));
-        Assertions.assertEquals(def0.init.range, new Range(3, 5));
+        Assertions.assertEquals(new Range(1, 1), def0.id.range);
+        Assertions.assertEquals(new Range(3, 5), def0.init.range);
 
         YanTree.ExprStmt stmt1 = (YanTree.ExprStmt) out.defs.get(1);
         YanTree.Binary expr = (YanTree.Binary) stmt1.expr;
-        Assertions.assertEquals(stmt1.range, new Range(7, 12));
-        Assertions.assertEquals(expr.op.tag, YanTree.Operator.Tag.ASSIGN);
-        Assertions.assertEquals(expr.left.range, new Range(7, 7));
-        Assertions.assertEquals(expr.right.range, new Range(9, 11));
+        Assertions.assertEquals(new Range(7, 11), stmt1.range);
+        Assertions.assertEquals(YanTree.Operator.Tag.ASSIGN, expr.op.tag);
+        Assertions.assertEquals(new Range(7, 7), expr.left.range);
+        Assertions.assertEquals(new Range(9, 11), expr.right.range);
     }
 
     public void testExpr() {
