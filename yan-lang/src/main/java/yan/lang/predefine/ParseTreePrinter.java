@@ -34,7 +34,13 @@ public class ParseTreePrinter implements YanTree.Visitor, Formatter<YanTree.Prog
 
     @Override
     public void visit(YanTree.ClassDef that) {
-
+        print(that, () -> {
+            printer.pushSimpleElement("Name", that.id.name);
+            printer.pushSimpleElement("SuperClass", that.superClass == null ? "null" : that.superClass.name);
+            printer.openElement("Members");
+            that.defs.forEach(def -> def.accept(this));
+            printer.closeElement();
+        });
     }
 
     @Override

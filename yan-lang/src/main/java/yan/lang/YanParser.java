@@ -41,14 +41,6 @@ public class YanParser extends AbstractYanParser {
         if (check(KW_FUNC)) return parseFuncDef();
 
         return parseStmt();
-        // special error case: top level statement
-//        try {
-//            YanTree tree = parseStmt();
-//            logger.log(YanDiagnostic.Errors.TopLevelStatement(tree));
-//            return tree;
-//        } catch (Diagnostic error) {
-//            throw YanDiagnostic.Errors.UnknownTopLevelDefinition();
-//        }
     }
 
     YanTree parseClassDef() {
