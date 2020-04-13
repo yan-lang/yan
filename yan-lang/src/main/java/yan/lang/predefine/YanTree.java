@@ -61,9 +61,12 @@ public abstract class YanTree extends Tree {
     public static class VarDef extends Stmt {
         public Identifier id;
         public Expr init;
-        public YanTree varType;
 
-        public VarDef(Identifier id, Expr init, YanTree varType) {
+        // A var type could also be a class type, so we just treat var type as identifier,
+        // and check it while performing semantic analysis.
+        public Identifier varType;
+
+        public VarDef(Identifier id, Expr init, Identifier varType) {
             this.id = id;
             this.init = init;
             this.varType = varType;
@@ -109,11 +112,11 @@ public abstract class YanTree extends Tree {
      */
     public static class FuncDef extends YanTree {
         public Identifier id;
-        public YanTree retType;
+        public Identifier retType;
         public List<VarDef> params;
         public Block body;
 
-        public FuncDef(Identifier id, YanTree retType, List<VarDef> params, Block body) {
+        public FuncDef(Identifier id, Identifier retType, List<VarDef> params, Block body) {
             this.id = id;
             this.retType = retType;
             this.params = params;
@@ -293,10 +296,10 @@ public abstract class YanTree extends Tree {
      * </pre>
      */
     public static class TypeCast extends Expr {
-        public YanTree castedType;
+        public Identifier castedType;
         public Expr expr;
 
-        public TypeCast(YanTree castedType, Expr expr) {
+        public TypeCast(Identifier castedType, Expr expr) {
             this.castedType = castedType;
             this.expr = expr;
         }

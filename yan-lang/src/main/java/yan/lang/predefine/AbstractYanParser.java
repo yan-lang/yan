@@ -3,8 +3,6 @@ package yan.lang.predefine;
 import yan.foundation.compiler.frontend.lex.Token;
 import yan.foundation.compiler.frontend.parse.AbstractParser;
 
-import java.util.Set;
-
 public abstract class AbstractYanParser extends AbstractParser<YanTree.Program> implements YanTokens {
 
     @Override
@@ -39,11 +37,4 @@ public abstract class AbstractYanParser extends AbstractParser<YanTree.Program> 
             default -> throw new IllegalStateException(token.getText() + " is not a operator token.");
         };
     }
-
-    protected final Set<Integer> typeTokenTypes = Set.of(KW_INT, IDENTIFIER);
-
-    protected boolean isTypeToken(Token token) {
-        return typeTokenTypes.contains(token.type);
-    }
-
 }

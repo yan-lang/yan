@@ -80,13 +80,13 @@ public class YanParser extends AbstractYanParser {
         consume(KW_FUNC);
         Identifier id = parseIdentifier();
         List<VarDef> params = parseParameters();
-        YanTree retType = null;
+        Identifier retType = null;
         if (check(ARROW)) { retType = parseType(); }
         Block body = parseBlock();
         return setRange(new FuncDef(id, retType, params, body), start);
     }
 
-    YanTree parseType() {
+    Identifier parseType() {
         return parseIdentifier();
     }
 
@@ -106,7 +106,7 @@ public class YanParser extends AbstractYanParser {
         int start = current;
         Identifier id = parseIdentifier();
         consume(COLON);
-        YanTree type = parseType();
+        Identifier type = parseType();
         return setRange(new VarDef(id, null, type), start);
     }
 
@@ -142,7 +142,7 @@ public class YanParser extends AbstractYanParser {
         int start = current;
         consume(KW_VAR);
         Identifier id = parseIdentifier();
-        YanTree type = match(COLON) ? parseType() : null;
+        Identifier type = match(COLON) ? parseType() : null;
         Expr init = match(ASSIGN) ? parseExpr() : null;
         consume(NEWLINE, EOF);
         return setRange(new VarDef(id, init, type), start);
@@ -281,12 +281,12 @@ public class YanParser extends AbstractYanParser {
     }
 
     Expr parseTypeCast() {
-//        if(match(LEFT_PAREN) && isTypeToken(current())) {
-//            Token type =  consume();
-//            consume(RIGHT_PAREN);
-//            Expr expr = parseUnary();
-//            return new YanTree.TypeCast(type, expr);
-//        }
+        if (match(LEFT_PAREN) && check(IDENTIFIER)) {
+            Identifier type = parseType();
+            consume(RIGHT_PAREN);
+            Expr expr = parseUnary();
+            return new YanTree.TypeCast(type, expr);
+        }
         return parseUnary();
     }
 

@@ -41,7 +41,7 @@ public class ParseTreePrinter implements YanTree.Visitor, Formatter<YanTree.Prog
     public void visit(YanTree.FuncDef that) {
         print(that, () -> {
             that.id.accept(this);
-//            that.retType.accept(this);
+            that.retType.accept(this);
             that.params.forEach(param -> param.accept(this));
             that.body.accept(this);
         });
@@ -72,13 +72,17 @@ public class ParseTreePrinter implements YanTree.Visitor, Formatter<YanTree.Prog
 
     @Override
     public void visit(YanTree.TypeCast that) {
-
+        print(that, () -> {
+            that.castedType.accept(this);
+            that.expr.accept(this);
+        });
     }
 
     @Override
     public void visit(YanTree.VarDef varDef) {
         print(varDef, () -> {
             varDef.id.accept(this);
+            varDef.varType.accept(this);
             varDef.init.accept(this);
         });
     }

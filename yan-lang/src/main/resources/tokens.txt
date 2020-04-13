@@ -50,5 +50,3 @@ kw_read,  keyword read,  read,  group=keywords
 
 kw_true,  Keyword true,  true,  group=keywords
 kw_false, Keyword false, false, group=keywords
-
-kw_int,   Keyword int,   int,   group=keywords

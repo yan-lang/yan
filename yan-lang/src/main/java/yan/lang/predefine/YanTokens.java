@@ -7,6 +7,7 @@ import java.util.Map;
 
 public interface YanTokens {
     int EOF = Token.EOF;
+
     int UNKNOWN = 0;
 
     int NEWLINE = 1;
@@ -87,14 +88,12 @@ public interface YanTokens {
 
     int KW_FALSE = 39;
 
-    int KW_INT = 40;
 
+    List<String> tokenNames = List.of("Unknown character", "Newline", "colon", "comma", "arrow", "dot", "Identifier", "Integer constant", "plus", "minus", "multiply", "division", "exponential", "assign", "Left Parenthesis", "Right Parenthesis", "Left Brace", "Right Brace", "Left bracket", "right bracket", "Equal", "Not equal", "Greater than", "Greater than or equal", "Less than", "Less than or equal", "relation not", "relation or", "relation and", "Keyword func", "Keyword var", "Keyword class", "Keyword new", "Keyword if", "Keyword else", "Keyword while", "Keyword print", "keyword read", "Keyword true", "Keyword false");
 
-    List<String> tokenNames = List.of("Unknown character", "Newline", "colon", "comma", "arrow", "dot", "Identifier", "Integer constant", "plus", "minus", "multiply", "division", "exponential", "assign", "Left Parenthesis", "Right Parenthesis", "Left Brace", "Right Brace", "Left bracket", "right bracket", "Equal", "Not equal", "Greater than", "Greater than or equal", "Less than", "Less than or equal", "relation not", "relation or", "relation and", "Keyword func", "Keyword var", "Keyword class", "Keyword new", "Keyword if", "Keyword else", "Keyword while", "Keyword print", "keyword read", "Keyword true", "Keyword false", "Keyword int");
+    List<String> tokenSymbolNames = List.of("Unknown character", "\n", ":", "comma", "->", ".", "Identifier", "Integer constant", "+", "-", "*", "/", "^", "assign", "(", ")", "{", "}", "[", "]", "Equal", "Not equal", ">", "Greater than or equal", "<", "Less than or equal", "!", "||", "&&", "func", "var", "class", "new", "if", "else", "while", "print", "read", "true", "false");
 
-    List<String> tokenSymbolNames = List.of("Unknown character", "\n", ":", "comma", "->", ".", "Identifier", "Integer constant", "+", "-", "*", "/", "^", "assign", "(", ")", "{", "}", "[", "]", "Equal", "Not equal", ">", "Greater than or equal", "<", "Less than or equal", "!", "||", "&&", "func", "var", "class", "new", "if", "else", "while", "print", "read", "true", "false", "int");
-
-    Map<String, Integer> keywords = Map.ofEntries(Map.entry("func", 29), Map.entry("var", 30), Map.entry("class", 31), Map.entry("new", 32), Map.entry("if", 33), Map.entry("else", 34), Map.entry("while", 35), Map.entry("print", 36), Map.entry("read", 37), Map.entry("true", 38), Map.entry("false", 39), Map.entry("int", 40));
+    Map<String, Integer> keywords = Map.ofEntries(Map.entry("func", 29), Map.entry("var", 30), Map.entry("class", 31), Map.entry("new", 32), Map.entry("if", 33), Map.entry("else", 34), Map.entry("while", 35), Map.entry("print", 36), Map.entry("read", 37), Map.entry("true", 38), Map.entry("false", 39));
 
 
 }
