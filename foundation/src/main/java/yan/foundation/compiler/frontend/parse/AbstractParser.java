@@ -128,6 +128,7 @@ public abstract class AbstractParser<Out> extends Phase<List<Token>, Out> implem
         for (int type : tokenTypes) {
             strs.add(String.format("'%s'", type2Str(type)));
         }
-        return "[" + String.join(",", strs) + "]";
+        if (strs.size() > 1) return "[" + String.join(",", strs) + "]";
+        else return String.join(",", strs);
     }
 }

@@ -37,7 +37,7 @@ public class YanParser extends AbstractYanParser {
      */
     YanTree parseDefs() {
         if (check(KW_VAR)) return parseVarDef();
-//        if (check(KW_CLASS)) return parseClassDef();
+        if (check(KW_CLASS)) return parseClassDef();
         if (check(KW_FUNC)) return parseFuncDef();
 
         return parseStmt();
@@ -55,8 +55,7 @@ public class YanParser extends AbstractYanParser {
         int start = current;
         consume(KW_CLASS);
         Identifier id = parseIdentifier();
-        Identifier superClass = null;
-        if (match(COLON)) superClass = parseIdentifier();
+        Identifier superClass = match(COLON) ? parseIdentifier() : null;
         List<YanTree> defs = parseClassBody();
         return setRange(new ClassDef(id, superClass, defs), start);
     }
@@ -140,7 +139,7 @@ public class YanParser extends AbstractYanParser {
         if (check(KW_RETURN)) return parseReturn();
         if (check(KW_PRINT)) return parsePrint();
         if (check(LEFT_BRACE)) return parseBlock();
-        if (check(NEWLINE, SEMICOLON)) return parseEmpty();
+        if (check(NEWLINE, SEMICOLON, EOF)) return parseEmpty();
         return parseExprStmt();
     }
 
