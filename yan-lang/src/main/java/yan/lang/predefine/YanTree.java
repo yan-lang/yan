@@ -222,17 +222,6 @@ public abstract class YanTree extends Tree {
     }
 
     /**
-     * Print statement is a special builtin function
-     */
-    public static class Print extends Stmt {
-        public final Expr expr;
-
-        public Print(Expr expr) {
-            this.expr = expr;
-        }
-    }
-
-    /**
      * Empty statement is just a empty line.
      */
     public static class Empty extends Stmt {
@@ -378,7 +367,6 @@ public abstract class YanTree extends Tree {
         default void visit(Break that)         { visitOthers(that); }
         default void visit(ExprStmt that)      { visitOthers(that); }
         default void visit(Block that)         { visitOthers(that); }
-        default void visit(Print that)         { visitOthers(that); }
         default void visit(Empty that)         { visitOthers(that); }
         default void visit(Operator that)      { visitOthers(that); }
         default void visit(Unary that)         { visitOthers(that); }

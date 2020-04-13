@@ -158,11 +158,6 @@ public class ParseTreePrinter implements YanTree.Visitor, Formatter<YanTree.Prog
     }
 
     @Override
-    public void visit(YanTree.Print print) {
-        print(print, () -> print.expr.accept(this));
-    }
-
-    @Override
     public void visit(YanTree.Empty empty) {
         print(empty, true, null);
     }

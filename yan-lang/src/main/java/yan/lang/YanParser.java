@@ -129,7 +129,6 @@ public class YanParser extends AbstractYanParser {
         if (check(KW_BREAK)) return parseBreak();
         if (check(KW_CONTINUE)) return parseContinue();
         if (check(KW_RETURN)) return parseReturn();
-        if (check(KW_PRINT)) return parsePrint();
         if (check(LEFT_BRACE)) return parseBlock();
         if (check(NEWLINE, SEMICOLON, EOF)) return parseEmpty();
         return parseExprStmt();
@@ -189,15 +188,6 @@ public class YanParser extends AbstractYanParser {
         int start = current;
         consume(KW_BREAK);
         return setRange(new Break(), start);
-    }
-
-    Print parsePrint() {
-        int start = current;
-        consume(KW_PRINT);
-        consume(LEFT_PAREN);
-        Expr expr = parseExpr();
-        consume(RIGHT_PAREN);
-        return setRange(new Print(expr), start);
     }
 
     Empty parseEmpty() {

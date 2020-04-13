@@ -88,20 +88,16 @@ public interface YanTokens {
 
     int KW_BREAK = 39;
 
-    int KW_PRINT = 40;
+    int KW_TRUE = 40;
 
-    int KW_READ = 41;
-
-    int KW_TRUE = 42;
-
-    int KW_FALSE = 43;
+    int KW_FALSE = 41;
 
 
-    List<String> tokenNames = List.of("Unknown character", "Newline", "colon", "comma", "arrow", "dot", "semicolon", "Identifier", "Integer constant", "plus", "minus", "multiply", "division", "exponential", "assign", "Left Parenthesis", "Right Parenthesis", "Left Brace", "Right Brace", "Left bracket", "right bracket", "Equal", "Not equal", "Greater than", "Greater than or equal", "Less than", "Less than or equal", "relation not", "relation or", "relation and", "Keyword var", "Keyword func", "Keyword return", "Keyword class", "Keyword new", "Keyword if", "Keyword else", "Keyword while", "Keyword continue", "Keyword break", "Keyword print", "keyword read", "Keyword true", "Keyword false");
+    List<String> tokenNames = List.of("Unknown character", "Newline", "colon", "comma", "arrow", "dot", "semicolon", "Identifier", "Integer constant", "plus", "minus", "multiply", "division", "exponential", "assign", "Left Parenthesis", "Right Parenthesis", "Left Brace", "Right Brace", "Left bracket", "right bracket", "Equal", "Not equal", "Greater than", "Greater than or equal", "Less than", "Less than or equal", "relation not", "relation or", "relation and", "Keyword var", "Keyword func", "Keyword return", "Keyword class", "Keyword new", "Keyword if", "Keyword else", "Keyword while", "Keyword continue", "Keyword break", "Keyword true", "Keyword false");
 
-    List<String> tokenSymbolNames = List.of("Unknown character", "\\n", ":", "comma", "->", ".", ";", "Identifier", "Integer constant", "+", "-", "*", "/", "^", "assign", "(", ")", "{", "}", "[", "]", "Equal", "Not equal", ">", "Greater than or equal", "<", "Less than or equal", "!", "||", "&&", "var", "func", "return", "class", "new", "if", "else", "while", "continue", "break", "print", "read", "true", "false");
+    List<String> tokenSymbolNames = List.of("Unknown character", "\\n", ":", "comma", "->", ".", ";", "Identifier", "Integer constant", "+", "-", "*", "/", "^", "assign", "(", ")", "{", "}", "[", "]", "Equal", "Not equal", ">", "Greater than or equal", "<", "Less than or equal", "!", "||", "&&", "var", "func", "return", "class", "new", "if", "else", "while", "continue", "break", "true", "false");
 
-    Map<String, Integer> keywords = Map.ofEntries(Map.entry("var", 30), Map.entry("func", 31), Map.entry("return", 32), Map.entry("class", 33), Map.entry("new", 34), Map.entry("if", 35), Map.entry("else", 36), Map.entry("while", 37), Map.entry("continue", 38), Map.entry("break", 39), Map.entry("print", 40), Map.entry("read", 41), Map.entry("true", 42), Map.entry("false", 43));
+    Map<String, Integer> keywords = Map.ofEntries(Map.entry("var", 30), Map.entry("func", 31), Map.entry("return", 32), Map.entry("class", 33), Map.entry("new", 34), Map.entry("if", 35), Map.entry("else", 36), Map.entry("while", 37), Map.entry("continue", 38), Map.entry("break", 39), Map.entry("true", 40), Map.entry("false", 41));
 
 
 }

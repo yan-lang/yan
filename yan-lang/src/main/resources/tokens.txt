@@ -50,8 +50,5 @@ kw_while,    Keyword while,    while,    group=keywords
 kw_continue, Keyword continue, continue, group=keywords
 kw_break,    Keyword break,    break,    group=keywords
 
-kw_print, Keyword print, print, group=keywords
-kw_read,  keyword read,  read,  group=keywords
-
 kw_true,  Keyword true,  true,  group=keywords
 kw_false, Keyword false, false, group=keywords

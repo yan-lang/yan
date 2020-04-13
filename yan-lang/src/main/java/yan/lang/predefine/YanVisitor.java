@@ -16,7 +16,6 @@ public interface YanVisitor<R> {
     default R visit(Break that)         { return visitOthers(that); }
     default R visit(ExprStmt that)      { return visitOthers(that); }
     default R visit(Block that)         { return visitOthers(that); }
-    default R visit(Print that)         { return visitOthers(that); }
     default R visit(Empty that)         { return visitOthers(that); }
     default R visit(Operator that)      { return visitOthers(that); }
     default R visit(Unary that)         { return visitOthers(that); }
