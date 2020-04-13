@@ -25,6 +25,7 @@ public class YanLexer extends AbstractYanLexer {
             case ':' -> makeToken(COLON);
             case ',' -> makeToken(COMMA);
             case '.' -> makeToken(DOT);
+            case ';' -> makeToken(SEMICOLON);
 
             case '(' -> makeToken(LEFT_PAREN);
             case ')' -> makeToken(RIGHT_PAREN);

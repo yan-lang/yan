@@ -125,6 +125,20 @@ public abstract class YanTree extends Tree {
     }
 
     /**
+     * Return statement (expression is optional)
+     * <pre>
+     *     return [expr]
+     * </pre>
+     */
+    public static class Return extends Stmt {
+        public Expr expr;
+
+        public Return(Expr expr) {
+            this.expr = expr;
+        }
+    }
+
+    /**
      * If statement only allow {@code if} and {@code else},
      * {@code else if} is not allowed for now.
      */
@@ -356,7 +370,8 @@ public abstract class YanTree extends Tree {
         default void visit(Program that)       { visitOthers(that);}
         default void visit(VarDef that)        { visitOthers(that); }
         default void visit(ClassDef that)      { visitOthers(that); }
-        default void visit(FuncDef that)     { visitOthers(that); }
+        default void visit(FuncDef that)       { visitOthers(that); }
+        default void visit(Return that)        { visitOthers(that); }
         default void visit(If that)            { visitOthers(that); }
         default void visit(While that)         { visitOthers(that); }
         default void visit(Continue that)      { visitOthers(that); }

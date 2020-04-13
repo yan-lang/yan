@@ -18,6 +18,8 @@ public class YanParser extends AbstractYanParser {
         List<YanTree> defs = new ArrayList<>();
         while (!isAtEnd()) {
             try {
+                if (defs.size() > 0) consume(NEWLINE, SEMICOLON, EOF);
+                if (isAtEnd()) break; // handle statements like -> var a = 10\n
                 defs.add(parseDefs());
             } catch (Diagnostic diagnostic) {
                 logger.log(diagnostic);
@@ -81,7 +83,7 @@ public class YanParser extends AbstractYanParser {
         Identifier id = parseIdentifier();
         List<VarDef> params = parseParameters();
         Identifier retType = null;
-        if (check(ARROW)) { retType = parseType(); }
+        if (match(ARROW)) { retType = parseType(); }
         Block body = parseBlock();
         return setRange(new FuncDef(id, retType, params, body), start);
     }
@@ -116,6 +118,7 @@ public class YanParser extends AbstractYanParser {
         List<Stmt> stmts = new ArrayList<>();
         while (!match(RIGHT_BRACE)) {
             try {
+                if (stmts.size() > 0) consume(NEWLINE, SEMICOLON);
                 stmts.add(parseStmt());
             } catch (Diagnostic diagnostic) {
                 logger.log(diagnostic);
@@ -129,10 +132,21 @@ public class YanParser extends AbstractYanParser {
         if (check(KW_VAR)) return parseVarDef();
         if (check(KW_IF)) return parseIf();
         if (check(KW_WHILE)) return parseWhile();
+        if (check(KW_BREAK)) return parseBreak();
+        if (check(KW_CONTINUE)) return parseContinue();
+        if (check(KW_RETURN)) return parseReturn();
         if (check(KW_PRINT)) return parsePrint();
         if (check(LEFT_BRACE)) return parseBlock();
         if (check(NEWLINE, EOF)) return parseEmpty();
         return parseExprStmt();
+    }
+
+    Return parseReturn() {
+        int start = current;
+        consume(KW_RETURN);
+        if (match(NEWLINE, EOF)) { return setRange(new Return(null), start); }
+        Expr expr = parseExpr();
+        return setRange(new Return(expr), start);
     }
 
     /**
@@ -144,7 +158,6 @@ public class YanParser extends AbstractYanParser {
         Identifier id = parseIdentifier();
         Identifier type = match(COLON) ? parseType() : null;
         Expr init = match(ASSIGN) ? parseExpr() : null;
-        consume(NEWLINE, EOF);
         return setRange(new VarDef(id, init, type), start);
     }
 
@@ -161,7 +174,6 @@ public class YanParser extends AbstractYanParser {
         Expr condition = parseCondition();
         Block ifBody = parseBlock();
         Block elseBody = match(KW_ELSE) ? parseBlock() : null;
-        consume(NEWLINE, EOF);
         return setRange(new If(condition, ifBody, elseBody), start);
     }
 
@@ -170,8 +182,19 @@ public class YanParser extends AbstractYanParser {
         consume(KW_WHILE);
         Expr condition = parseCondition();
         Block body = parseBlock();
-        consume(NEWLINE, EOF);
         return setRange(new While(condition, body), start);
+    }
+
+    Continue parseContinue() {
+        int start = current;
+        consume(KW_CONTINUE);
+        return setRange(new Continue(), start);
+    }
+
+    Break parseBreak() {
+        int start = current;
+        consume(KW_BREAK);
+        return setRange(new Break(), start);
     }
 
     Print parsePrint() {
@@ -180,7 +203,6 @@ public class YanParser extends AbstractYanParser {
         consume(LEFT_PAREN);
         Expr expr = parseExpr();
         consume(RIGHT_PAREN);
-        consume(NEWLINE, EOF);
         return setRange(new Print(expr), start);
     }
 
@@ -193,7 +215,6 @@ public class YanParser extends AbstractYanParser {
     ExprStmt parseExprStmt() {
         int start = current;
         Expr expr = parseExpr();
-        consume(NEWLINE, EOF);
         return setRange(new ExprStmt(expr), start);
     }
 

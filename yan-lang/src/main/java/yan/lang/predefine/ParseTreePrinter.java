@@ -41,9 +41,20 @@ public class ParseTreePrinter implements YanTree.Visitor, Formatter<YanTree.Prog
     public void visit(YanTree.FuncDef that) {
         print(that, () -> {
             that.id.accept(this);
-            that.retType.accept(this);
+            printer.pushSimpleElement("ReturnType", that.id == null ? "void" : that.id.name);
+            printer.openElement("Params");
             that.params.forEach(param -> param.accept(this));
+            printer.closeElement();
             that.body.accept(this);
+        });
+    }
+
+    @Override
+    public void visit(YanTree.Return that) {
+        print(that, () -> {
+            printer.openElement("Value");
+            if (that.expr != null) that.expr.accept(this);
+            printer.closeElement();
         });
     }
 
@@ -81,11 +92,14 @@ public class ParseTreePrinter implements YanTree.Visitor, Formatter<YanTree.Prog
     @Override
     public void visit(YanTree.VarDef varDef) {
         print(varDef, () -> {
-            varDef.id.accept(this);
-            varDef.varType.accept(this);
-            varDef.init.accept(this);
+            printer.pushSimpleElement("Name", varDef.id.name);
+            printer.pushSimpleElement("Type", varDef.varType == null ? "inferred" : varDef.varType.name);
+            printer.openElement("Init");
+            if (varDef.init != null) varDef.init.accept(this);
+            printer.closeElement();
         });
     }
+
 
     @Override
     public void visit(YanTree.ExprStmt exprStmt) {

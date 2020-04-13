@@ -1,10 +1,11 @@
 unknown, Unknown character
 
-newline, Newline, \n
+newline, Newline, \\n
 colon, colon, :
 comma, comma
 arrow, arrow, ->
 dot,   dot,   .
+semicolon, semicolon, ;
 
 identifier, Identifier
 int_const,  Integer constant
@@ -34,16 +35,20 @@ rel_not, relation not,  !
 rel_or,  relation or,   ||
 rel_and, relation and,  &&
 
-kw_func,  Keyword func,  func,  group=keywords
 kw_var,   Keyword var,   var,   group=keywords
-kw_class, Keyword class, class, group=keywords
 
+kw_func,   Keyword func,   func,   group=keywords
+kw_return, Keyword return, return, group=keywords
+
+kw_class, Keyword class, class, group=keywords
 kw_new,   Keyword new,   new,   group=keywords
 
 kw_if,    Keyword if,    if,    group=keywords
 kw_else,  Keyword else,  else,  group=keywords
 
-kw_while, Keyword while, while, group=keywords
+kw_while,    Keyword while,    while,    group=keywords
+kw_continue, Keyword continue, continue, group=keywords
+kw_break,    Keyword break,    break,    group=keywords
 
 kw_print, Keyword print, print, group=keywords
 kw_read,  keyword read,  read,  group=keywords

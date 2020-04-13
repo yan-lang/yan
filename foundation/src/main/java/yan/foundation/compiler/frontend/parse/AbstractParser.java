@@ -126,8 +126,8 @@ public abstract class AbstractParser<Out> extends Phase<List<Token>, Out> implem
     protected String types2Str(int... tokenTypes) {
         List<String> strs = new ArrayList<>();
         for (int type : tokenTypes) {
-            strs.add(type2Str(type));
+            strs.add(String.format("'%s'", type2Str(type)));
         }
-        return String.join(",", strs);
+        return "[" + String.join(",", strs) + "]";
     }
 }

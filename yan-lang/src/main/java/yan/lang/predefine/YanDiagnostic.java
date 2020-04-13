@@ -20,5 +20,9 @@ public class YanDiagnostic {
         default Diagnostic InvalidAssignmentTarget() {
             return new Diagnostic("InvalidAssignmentTarget");
         }
+
+        default Diagnostic ConsecutiveStatements() {
+            return new Diagnostic("ConsecutiveStatements");
+        }
     }
 }
