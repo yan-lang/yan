@@ -20,7 +20,7 @@ public abstract class YanTree extends Tree {
      * </pre>
      * <p>
      * Example of a valid program:
-     * <pre>
+     * <pre>{@code
      *     func add(x: int, y: int) -> int {
      *       return x + y
      *     }
@@ -31,7 +31,7 @@ public abstract class YanTree extends Tree {
      *     func main() {
      *       var b = 10
      *     }
-     * </pre>
+     * }</pre>
      */
     public static class Program extends YanTree {
         public List<YanTree> defs;
@@ -104,11 +104,11 @@ public abstract class YanTree extends Tree {
      * Method definitions include global methods and class methods
      * (static class method is not supported yet).
      * <p>Example:</p>
-     * <pre>
+     * <pre>{@code
      *    func add(x:int, y:int) -> int {
      *        return x + y
      *    }
-     * </pre>
+     * }</pre>
      */
     public static class FuncDef extends YanTree {
         public Identifier id;
