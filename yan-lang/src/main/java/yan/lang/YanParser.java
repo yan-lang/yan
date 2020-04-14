@@ -108,8 +108,9 @@ public class YanParser extends AbstractYanParser {
         int start = current;
         consume(LEFT_BRACE);
         List<Stmt> stmts = new ArrayList<>();
-        while (!match(RIGHT_BRACE)) {
+        while (!isAtEnd() && !match(RIGHT_BRACE)) {
             try {
+                // 一行只能有一个statement, 除非它们之间有分号分隔
                 if (stmts.size() > 0 && !(stmts.get(stmts.size() - 1) instanceof Empty))
                     consume(NEWLINE, SEMICOLON);
                 if (match(RIGHT_BRACE)) break;
@@ -117,6 +118,8 @@ public class YanParser extends AbstractYanParser {
             } catch (Diagnostic diagnostic) {
                 logger.log(diagnostic);
                 recovery();
+                // recovery之后有可能把这个Block的右括号消耗掉
+                if (previous().type == RIGHT_BRACE) break;
             }
         }
         return setRange(new Block(stmts), start);

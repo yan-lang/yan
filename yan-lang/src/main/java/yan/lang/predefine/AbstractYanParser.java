@@ -8,13 +8,17 @@ public abstract class AbstractYanParser extends AbstractParser<YanTree.Program> 
     @Override
     protected TokenTypeStringMapper getTokenTypeStringMapper() { return tokenSymbolNames::get; }
 
+    /**
+     * 朴素的出错恢复处理方法: 跳过出错Token之后的所有除了换行和右大括号的Token,
+     * 然后消耗掉遇到的第一个换行或大括号。
+     */
     protected void recovery() {
-        advance();
         while (!isAtEnd()) {
-            if (previous().type == NEWLINE) return;
-            if (previous().type == LEFT_BRACE) return;
+            if (current().type == NEWLINE) break;
+            if (current().type == RIGHT_BRACE) break;
             advance();
         }
+        advance();
     }
 
     protected YanTree.Operator.Tag getOperatorTag(Token token) {
