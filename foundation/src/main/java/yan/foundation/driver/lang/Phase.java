@@ -2,6 +2,7 @@ package yan.foundation.driver.lang;
 
 import yan.foundation.driver.log.DiagnosticLogger;
 
+import java.io.PrintStream;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -15,6 +16,8 @@ import java.util.function.Function;
  * @param <R> Output
  */
 public abstract class Phase<T, R> implements Function<T, Optional<R>> {
+    public static PrintStream out = System.out;
+    public static PrintStream err = System.err;
     public static DiagnosticLogger logger = new DiagnosticLogger();
 
     public String name;
