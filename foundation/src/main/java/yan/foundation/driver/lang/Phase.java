@@ -50,6 +50,7 @@ public abstract class Phase<T, R> implements Function<T, Optional<R>> {
      * In terms of monad, this is just a Kleisli composition.
      *
      * @param next the next function
+     * @param <V>  output type of next phase
      * @return the piped (Kleisli-composed) function
      */
     public <V> Phase<T, V> pipe(Phase<R, V> next) {

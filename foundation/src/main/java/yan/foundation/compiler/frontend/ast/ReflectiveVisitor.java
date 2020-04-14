@@ -30,8 +30,10 @@ public interface ReflectiveVisitor {
 
     /**
      * Find the closest visit method that handles the supplied object
+     *
+     * @param o tree object
+     * @return best method for the provided tree object
      */
-
     default Method getBestMethodFor(Tree o) {
         Class<?> nodeClass = o.getClass();
         Method ans = null;

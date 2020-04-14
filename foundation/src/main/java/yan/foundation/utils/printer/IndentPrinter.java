@@ -40,6 +40,9 @@ public class IndentPrinter {
 
     /**
      * Print a string.
+     *
+     * @param s string to be printed
+     * @return current IndentPrinter object
      */
     public IndentPrinter print(String s) {
         write(s, false);
@@ -48,6 +51,8 @@ public class IndentPrinter {
 
     /**
      * Print a string, with end of line.
+     * @param s string to be printed
+     * @return current IndentPrinter object
      */
     public IndentPrinter println(String s) {
         write(s, true);
@@ -56,6 +61,7 @@ public class IndentPrinter {
 
     /**
      * Print end of line.
+     * @return current IndentPrinter object
      */
     public IndentPrinter println() {
         write("", true);
@@ -67,6 +73,7 @@ public class IndentPrinter {
      *
      * @param fmt  format
      * @param args arguments
+     * @return current IndentPrinter object
      */
     public IndentPrinter format(String fmt, Object... args) {
         write(String.format(fmt, args), false);
@@ -78,6 +85,7 @@ public class IndentPrinter {
      *
      * @param fmt  format
      * @param args arguments
+     * @return current IndentPrinter object
      */
     public IndentPrinter formatln(String fmt, Object... args) {
         write(String.format(fmt, args), true);
