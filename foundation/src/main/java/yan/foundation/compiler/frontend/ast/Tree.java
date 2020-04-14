@@ -9,8 +9,11 @@ import yan.foundation.compiler.frontend.semantic.symbol.Type;
  * 当你在定义特定语言语法树时，树中的节点都应继承该类。
  */
 public abstract class Tree {
-    // 语法分析时需要初始化
+
+    // 语法分析时需要初始化, 所有语法树都有Range
     public Range range;
+
+    /* 部分语法树需要填symbol和scope */
 
     // 建立符号表时需要初始化
     public Symbol symbol;
