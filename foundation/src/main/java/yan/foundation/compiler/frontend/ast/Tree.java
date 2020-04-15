@@ -1,8 +1,8 @@
 package yan.foundation.compiler.frontend.ast;
 
-import yan.foundation.compiler.frontend.semantic.symbol.Scope;
-import yan.foundation.compiler.frontend.semantic.symbol.Symbol;
-import yan.foundation.compiler.frontend.semantic.symbol.Type;
+import yan.foundation.compiler.frontend.semantic.Scope;
+import yan.foundation.compiler.frontend.semantic.Symbol;
+import yan.foundation.compiler.frontend.semantic.Type;
 
 /**
  * {@code TreeNode}是语法树节点的基类，提供常见的数据结构与方法。
