@@ -133,6 +133,12 @@ public abstract class YanTree extends Tree {
     public static class Return extends Stmt {
         public Expr expr;
 
+        /**
+         * The corresponding function of this return,
+         * it should be populated by Parser or ControlStructureAnalyzer.
+         */
+        public FuncDef func;
+
         public Return(Expr expr) {
             this.expr = expr;
         }
@@ -179,14 +185,14 @@ public abstract class YanTree extends Tree {
      * Continue statement is only allowed to appear in loop body.
      */
     public static class Continue extends Stmt {
-
+        public While attachedLoop;
     }
 
     /**
      * Break statement is only allowed to appear in loop body.
      */
     public static class Break extends Stmt {
-
+        public While attachedLoop;
     }
 
     /**
@@ -364,7 +370,7 @@ public abstract class YanTree extends Tree {
     }
 
     //    @formatter:off
-    public interface Visitor extends ReflectiveVisitor {
+    public interface VoidVisitor extends ReflectiveVisitor {
         default void visitOthers(YanTree that) { }
         default void visit(Program that)       { visitOthers(that);}
         default void visit(VarDef that)        { visitOthers(that); }
@@ -386,4 +392,29 @@ public abstract class YanTree extends Tree {
         default void visit(Identifier that)    { visitOthers(that); }
         default void visit(Literal that)       { visitOthers(that); }
     }
+
+    //@formatter:off
+    public interface Visitor<R> {
+        default R visitOthers(YanTree that) { return null; }
+        default R visit(Program that)       { return visitOthers(that);}
+        default R visit(VarDef that)        { return visitOthers(that); }
+        default R visit(ClassDef that)      { return visitOthers(that); }
+        default R visit(FuncDef that)       { return visitOthers(that); }
+        default R visit(Return that)        { return visitOthers(that); }
+        default R visit(If that)            { return visitOthers(that); }
+        default R visit(While that)         { return visitOthers(that); }
+        default R visit(Continue that)      { return visitOthers(that); }
+        default R visit(Break that)         { return visitOthers(that); }
+        default R visit(ExprStmt that)      { return visitOthers(that); }
+        default R visit(Block that)         { return visitOthers(that); }
+        default R visit(Empty that)         { return visitOthers(that); }
+        default R visit(Operator that)      { return visitOthers(that); }
+        default R visit(Unary that)         { return visitOthers(that); }
+        default R visit(Binary that)        { return visitOthers(that); }
+        default R visit(TypeCast that)      { return visitOthers(that); }
+        default R visit(FunCall that)       { return visitOthers(that); }
+        default R visit(Identifier that)    { return visitOthers(that); }
+        default R visit(Literal that)       { return visitOthers(that); }
+    }
+
 }

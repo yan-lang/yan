@@ -1,12 +1,13 @@
-package yan.lang.predefine;
+package yan.lang.predefine.abc;
 
 import yan.foundation.compiler.frontend.lex.Token;
 import yan.foundation.compiler.frontend.parse.AbstractParser;
+import yan.foundation.compiler.frontend.parse.BaseParserDiagnostic;
+import yan.foundation.driver.log.Diagnostic;
+import yan.lang.predefine.YanTokens;
+import yan.lang.predefine.YanTree;
 
 public abstract class AbstractYanParser extends AbstractParser<YanTree.Program> implements YanTokens {
-
-    @Override
-    protected TokenTypeStringMapper getTokenTypeStringMapper() { return tokenSymbolNames::get; }
 
     /**
      * 朴素的出错恢复处理方法: 跳过出错Token之后的所有除了换行和右大括号的Token,
@@ -40,5 +41,36 @@ public abstract class AbstractYanParser extends AbstractParser<YanTree.Program> 
             case REL_NOT -> YanTree.Operator.Tag.REL_NOT;
             default -> throw new IllegalStateException(token.getText() + " is not a operator token.");
         };
+    }
+
+    @Override
+    protected TokenTypeStringMapper getTokenTypeStringMapper() { return tokenSymbolNames::get; }
+
+    // ------- Errors that might be thrown in this phase ------- //
+
+    public static IErrors Errors = new IErrors() {
+    };
+
+    public interface IErrors extends BaseParserDiagnostic.IErrors {
+        default Diagnostic TopLevelStatement(YanTree tree) {
+            return new Diagnostic("TopLevelStatement");
+        }
+
+        default Diagnostic UnknownTopLevelDefinition() {
+            return new Diagnostic("UnknownTopLevelDefinition");
+
+        }
+
+        default Diagnostic InvalidAssignmentTarget() {
+            return new Diagnostic("InvalidAssignmentTarget");
+        }
+
+        default Diagnostic ConsecutiveStatements() {
+            return new Diagnostic("ConsecutiveStatements");
+        }
+
+        default Diagnostic InvalidFunctionName() {
+            return new Diagnostic("InvalidFunctionName");
+        }
     }
 }

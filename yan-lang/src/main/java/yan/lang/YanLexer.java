@@ -1,7 +1,7 @@
 package yan.lang;
 
 import yan.foundation.compiler.frontend.lex.Token;
-import yan.lang.predefine.AbstractYanLexer;
+import yan.lang.predefine.abc.AbstractYanLexer;
 
 
 public class YanLexer extends AbstractYanLexer {

@@ -2,9 +2,8 @@ package yan.lang;
 
 import yan.foundation.compiler.frontend.lex.Token;
 import yan.foundation.driver.log.Diagnostic;
-import yan.lang.predefine.AbstractYanParser;
-import yan.lang.predefine.YanDiagnostic;
 import yan.lang.predefine.YanTree;
+import yan.lang.predefine.abc.AbstractYanParser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -140,7 +139,7 @@ public class YanParser extends AbstractYanParser {
     Return parseReturn() {
         int start = current;
         consume(KW_RETURN);
-        if (match(NEWLINE, EOF)) { return setRange(new Return(null), start); }
+        if (check(NEWLINE, EOF)) { return setRange(new Return(null), start); }
         Expr expr = parseExpr();
         return setRange(new Return(expr), start);
     }
@@ -217,7 +216,7 @@ public class YanParser extends AbstractYanParser {
                 Expr value = parseExpr();
                 return setRange(new Binary(setRange(new Operator(Operator.Tag.ASSIGN)), expr, value), start);
             }
-            logger.log(YanDiagnostic.Errors.InvalidAssignmentTarget());
+            logger.log(Errors.InvalidAssignmentTarget());
         }
         return expr;
     }
@@ -312,7 +311,7 @@ public class YanParser extends AbstractYanParser {
         int start = current;
         Expr expr = parsePrimary();
         if (match(LEFT_PAREN)) {
-            if (!(expr instanceof Identifier)) logger.log(YanDiagnostic.Errors.InvalidFunctionName());
+            if (!(expr instanceof Identifier)) logger.log(Errors.InvalidFunctionName());
             List<Expr> args = new ArrayList<>();
             if (!match(RIGHT_PAREN)) {
                 do {
@@ -337,7 +336,7 @@ public class YanParser extends AbstractYanParser {
             return expr;
         }
         // TODO(4-12): 照理说anchor应该是前一个Token，但是这样的话，当出错的是第一个Token的时候，previous会出错。
-        throw YanDiagnostic.Errors.ExpectationError("primary expression", previous(), "after");
+        throw Errors.ExpectationError("primary expression", previous(), "after");
     }
 
     Identifier parseIdentifier() {

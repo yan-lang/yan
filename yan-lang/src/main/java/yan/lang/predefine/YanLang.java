@@ -5,6 +5,8 @@ import yan.foundation.compiler.frontend.lex.Token;
 import yan.foundation.compiler.frontend.lex.formatter.SimpleTokenFormatter;
 import yan.foundation.compiler.frontend.lex.formatter.XMLTokenFormatter;
 import yan.foundation.driver.lang.*;
+import yan.lang.predefine.formatter.CSTreeFormatter;
+import yan.lang.predefine.formatter.ParseTreeFormatter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,12 +46,30 @@ public class YanLang extends Language {
                                                          .cformatter(f.parse())
                                                          .iformatter(f.parse())
                                                          .build()));
+        t.resolveName().ifPresent(phase -> targets.add(new Target.Builder<Code, YanTree.Program>()
+                                                               .name("name_resolve")
+                                                               .phase(phase)
+                                                               .compatibility(Target.Compatibility.BOTH)
+                                                               .cformatter(f.parse())
+                                                               .iformatter(f.parse())
+                                                               .build()));
+        t.checkControlStructure().ifPresent(phase -> targets.add(new Target.Builder<Code, YanTree.Program>()
+                                                                         .name("cs")
+                                                                         .phase(phase)
+                                                                         .compatibility(Target.Compatibility.BOTH)
+                                                                         .cformatter(f.cs())
+                                                                         .iformatter(f.cs())
+                                                                         .build()));
     }
 
     public interface TaskFactory {
         Optional<Phase<Code, List<Token>>> lex();
 
         Optional<Phase<Code, YanTree.Program>> parse();
+
+        Optional<Phase<Code, YanTree.Program>> checkControlStructure();
+
+        Optional<Phase<Code, YanTree.Program>> resolveName();
     }
 
     public interface FormatterFactory {
@@ -58,6 +78,8 @@ public class YanLang extends Language {
         Formatter<List<Token>> ilex();
 
         Formatter<YanTree.Program> parse();
+
+        Formatter<YanTree.Program> cs();
     }
 
     public static class DefaultFormatterFactory implements FormatterFactory {
@@ -73,7 +95,12 @@ public class YanLang extends Language {
 
         @Override
         public Formatter<YanTree.Program> parse() {
-            return new ParseTreePrinter();
+            return new ParseTreeFormatter();
+        }
+
+        @Override
+        public Formatter<YanTree.Program> cs() {
+            return new CSTreeFormatter();
         }
     }
 }

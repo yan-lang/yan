@@ -3,6 +3,7 @@ import org.junit.jupiter.api.Test;
 import yan.foundation.compiler.frontend.ast.Range;
 import yan.foundation.compiler.frontend.parse.Parser;
 import yan.foundation.driver.lang.Code;
+import yan.foundation.driver.lang.Phase;
 import yan.lang.YanLexer;
 import yan.lang.YanParser;
 import yan.lang.predefine.YanTree;
@@ -27,7 +28,8 @@ public class TestParser {
         Assertions.assertEquals(new Range(9, 11), expr.right.range);
     }
 
-    public void testExpr() {
-
+    @Test
+    public void testFuncDef() {
+        Phase<Code, YanTree.Program> parser = new YanLexer().pipe(new YanParser());
     }
 }

@@ -87,4 +87,5 @@ public interface ReflectiveVisitor {
         return ans;
     }
 
+    default void defaultVisit(Tree tree) {}
 }

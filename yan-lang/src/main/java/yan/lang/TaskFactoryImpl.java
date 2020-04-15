@@ -19,4 +19,14 @@ public class TaskFactoryImpl implements YanLang.TaskFactory {
     public Optional<Phase<Code, YanTree.Program>> parse() {
         return Optional.of(new YanLexer().pipe(new YanParser()));
     }
+
+    @Override
+    public Optional<Phase<Code, YanTree.Program>> checkControlStructure() {
+        return Optional.of(new YanLexer().pipe(new YanParser()).pipe(new YanCSAnalyzer()));
+    }
+
+    @Override
+    public Optional<Phase<Code, YanTree.Program>> resolveName() {
+        return Optional.of(new YanLexer().pipe(new YanParser()).pipe(new YanNamer()));
+    }
 }

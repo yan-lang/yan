@@ -1,10 +1,11 @@
-package yan.lang.predefine;
+package yan.lang.predefine.formatter;
 
 import yan.foundation.compiler.frontend.ast.Tree;
 import yan.foundation.driver.lang.Formatter;
 import yan.foundation.utils.printer.XMLPrinter;
+import yan.lang.predefine.YanTree;
 
-public class ParseTreePrinter implements YanTree.Visitor, Formatter<YanTree.Program> {
+public class ParseTreeFormatter implements YanTree.VoidVisitor, Formatter<YanTree.Program> {
 
     private XMLPrinter printer = new XMLPrinter();
 
