@@ -65,7 +65,7 @@ public class YanParser extends AbstractYanParser {
         if (match(NEWLINE)) return List.of();
         if (check(KW_VAR)) return List.of(parseVarDef());
         if (check(KW_FUNC)) return List.of(parseFuncDef());
-        throw new Diagnostic("only variable and function are allowed in class body");
+        throw Diagnostic.Error("only variable and function are allowed in class body");
     }
 
     YanTree parseFuncDef() {

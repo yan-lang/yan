@@ -1,5 +1,6 @@
 package yan.lang.predefine.abc;
 
+import yan.foundation.compiler.frontend.ast.Tree;
 import yan.foundation.driver.lang.Phase;
 import yan.foundation.driver.log.Diagnostic;
 import yan.lang.predefine.YanTree;
@@ -47,16 +48,25 @@ public abstract class AbstractControlStructureAnalyzer extends Phase<YanTree.Pro
     };
 
     public interface IErrors {
-        default Diagnostic BreakNotInLoop() {
-            return new Diagnostic("BreakNotInLoop");
+        default Diagnostic BreakNotInLoop(YanTree.Break that) {
+            return getDiagnostic(that, "break", "loop");
         }
 
-        default Diagnostic ContinueNotInLoop() {
-            return new Diagnostic("ContinueNotInLoop");
+        default Diagnostic ContinueNotInLoop(YanTree.Continue that) {
+            return getDiagnostic(that, "continue", "loop");
         }
 
-        default Diagnostic ReturnNotInFunction() {
-            return new Diagnostic("ReturnNotInFunction");
+        default Diagnostic ReturnNotInFunction(YanTree.Return that) {
+            return getDiagnostic(that, "return", "function");
+        }
+
+        private Diagnostic getDiagnostic(Tree that, String item, String container) {
+            Diagnostic diagnostic = Diagnostic.Error(String.format("'%s' is only allowed inside a %s", item, container));
+            diagnostic.sourceName = that.start.source.getSourceName();
+            diagnostic.line = that.start.line;
+            diagnostic.column = that.start.col;
+            diagnostic.context = that.start.source.get(diagnostic.line);
+            return diagnostic;
         }
     }
 }

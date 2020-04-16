@@ -20,20 +20,22 @@ public class CSTreeFormatter implements YanTree.VoidVisitor, Formatter<YanTree.P
 
     @Override
     public void visit(YanTree.Return that) {
-        String detail = that.func == null ? "invalid" : String.format(detailTemplate, "func", 0);
-        builder.append(String.format(template, 0, "return", detail));
+        String detail = that.func == null ? "invalid" : String.format(detailTemplate, "func", that.func.start.line);
+        builder.append(String.format(template, that.start.line, "return", detail));
     }
 
     @Override
     public void visit(YanTree.Continue that) {
-        String detail = that.attachedLoop == null ? "invalid" : String.format(detailTemplate, "loop", 0);
-        builder.append(String.format(template, 0, "continue", detail));
+        String detail = that.attachedLoop == null ? "invalid" :
+                String.format(detailTemplate, "loop", that.attachedLoop.start.line);
+        builder.append(String.format(template, that.start.line, "continue", detail));
     }
 
     @Override
     public void visit(YanTree.Break that) {
-        String detail = that.attachedLoop == null ? "invalid" : String.format(detailTemplate, "loop", 0);
-        builder.append(String.format(template, 0, "break", detail));
+        String detail = that.attachedLoop == null ? "invalid" :
+                String.format(detailTemplate, "loop", that.attachedLoop.start.line);
+        builder.append(String.format(template, that.start.line, "break", detail));
     }
 
     @Override

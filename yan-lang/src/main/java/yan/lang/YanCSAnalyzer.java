@@ -38,7 +38,7 @@ public class YanCSAnalyzer extends AbstractControlStructureAnalyzer {
     public void visit(YanTree.Return that) {
         that.func = currentFunc;
         if (that.func == null)
-            logger.log(Errors.ReturnNotInFunction());
+            logger.log(Errors.ReturnNotInFunction(that));
     }
 
     @Override
@@ -51,7 +51,7 @@ public class YanCSAnalyzer extends AbstractControlStructureAnalyzer {
     @Override
     public void visit(YanTree.Continue that) {
         if (loopStack.empty()) {
-            logger.log(Errors.ContinueNotInLoop());
+            logger.log(Errors.ContinueNotInLoop(that));
             return;
         }
         that.attachedLoop = loopStack.peek();
@@ -60,7 +60,7 @@ public class YanCSAnalyzer extends AbstractControlStructureAnalyzer {
     @Override
     public void visit(YanTree.Break that) {
         if (loopStack.empty()) {
-            logger.log(Errors.BreakNotInLoop());
+            logger.log(Errors.BreakNotInLoop(that));
             return;
         }
         that.attachedLoop = loopStack.peek();

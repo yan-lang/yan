@@ -53,24 +53,24 @@ public abstract class AbstractYanParser extends AbstractParser<YanTree.Program> 
 
     public interface IErrors extends BaseParserDiagnostic.IErrors {
         default Diagnostic TopLevelStatement(YanTree tree) {
-            return new Diagnostic("TopLevelStatement");
+            return Diagnostic.Error("TopLevelStatement");
         }
 
         default Diagnostic UnknownTopLevelDefinition() {
-            return new Diagnostic("UnknownTopLevelDefinition");
+            return Diagnostic.Error("UnknownTopLevelDefinition");
 
         }
 
         default Diagnostic InvalidAssignmentTarget() {
-            return new Diagnostic("InvalidAssignmentTarget");
+            return Diagnostic.Error("InvalidAssignmentTarget");
         }
 
         default Diagnostic ConsecutiveStatements() {
-            return new Diagnostic("ConsecutiveStatements");
+            return Diagnostic.Error("ConsecutiveStatements");
         }
 
         default Diagnostic InvalidFunctionName() {
-            return new Diagnostic("InvalidFunctionName");
+            return Diagnostic.Error("InvalidFunctionName");
         }
     }
 }

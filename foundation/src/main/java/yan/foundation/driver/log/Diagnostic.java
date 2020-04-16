@@ -6,6 +6,14 @@ public class Diagnostic extends RuntimeException {
     public static final String WARNING = "warning";
     public static final String NOTE = "note";
 
+    public static Diagnostic Error(String message) { return new Diagnostic(message, ERROR); }
+
+    public static Diagnostic Warning(String message) { return new Diagnostic(message, WARNING); }
+
+    public static Diagnostic Note(String message) { return new Diagnostic(message, NOTE); }
+
+    // Instance fields
+
     public String type;
 
     public int line;
@@ -17,9 +25,9 @@ public class Diagnostic extends RuntimeException {
     public String context;
     public String hint;
 
-    public Diagnostic(String message) {
+    public Diagnostic(String message, String type) {
         this.message = message;
-        this.type = ERROR;
+        this.type = type;
     }
 
     public boolean is(String type) {

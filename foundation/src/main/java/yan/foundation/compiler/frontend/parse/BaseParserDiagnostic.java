@@ -9,7 +9,7 @@ public class BaseParserDiagnostic {
 
     public interface IErrors {
         default Diagnostic ExpectationError(String expectation, Token anchor, String pos) {
-            Diagnostic diagnostic = new Diagnostic(String.format("expect %s %s \"%s\".", expectation, pos, anchor.getText()));
+            Diagnostic diagnostic = Diagnostic.Error(String.format("expect %s %s \"%s\".", expectation, pos, anchor.getText()));
             diagnostic.line = anchor.line;
             diagnostic.column = anchor.col;
             diagnostic.sourceName = anchor.source.getSourceName();

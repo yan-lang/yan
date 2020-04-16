@@ -82,33 +82,33 @@ public abstract class AbstractNameResolver extends Phase<YanTree.Program, YanTre
     public interface IErrors {
 
         default Diagnostic VariableNotDefine() {
-            return new Diagnostic("VariableNotDefine");
+            return Diagnostic.Error("VariableNotDefine");
         }
 
         default Diagnostic FunctionNotDefine() {
-            return new Diagnostic("FunctionNotDefine");
+            return Diagnostic.Error("FunctionNotDefine");
         }
 
         // expect function, but got variable
 
         default Diagnostic InvalidSymbol() {
-            return new Diagnostic("InvalidSymbol");
+            return Diagnostic.Error("InvalidSymbol");
         }
 
         default Diagnostic SymbolAlreadyDefined() {
-            return new Diagnostic("SymbolAlreadyDefined");
+            return Diagnostic.Error("SymbolAlreadyDefined");
         }
 
         default Diagnostic FunctionAlreadyDefined() {
-            return new Diagnostic("FunctionAlreadyDefined");
+            return Diagnostic.Error("FunctionAlreadyDefined");
         }
 
         default Diagnostic MethodNotDefine() {
-            return new Diagnostic("MethodNotDefine");
+            return Diagnostic.Error("MethodNotDefine");
         }
 
         default Diagnostic FieldNotDefine() {
-            return new Diagnostic("FieldNotDefine");
+            return Diagnostic.Error("FieldNotDefine");
         }
     }
 }
