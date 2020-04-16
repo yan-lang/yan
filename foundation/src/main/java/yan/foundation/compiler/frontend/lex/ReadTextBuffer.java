@@ -151,7 +151,7 @@ public class ReadTextBuffer implements CodeSource {
         previousLine = line;
         previousCol = col;
 
-        char ch = peek();
+        char ch = current();
         if (ch == '\n') {
             line += 1;
             col = 0;
