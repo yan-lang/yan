@@ -18,7 +18,8 @@ public class YanParser extends AbstractYanParser {
         while (!isAtEnd()) {
             try {
                 if (defs.size() > 0 && !(defs.get(defs.size() - 1) instanceof Empty))
-                    consume(NEWLINE, SEMICOLON, EOF);
+                    consume(() -> Errors.ConsecutiveStatements(defs.get(defs.size() - 1)),
+                            NEWLINE, SEMICOLON, EOF);
                 if (isAtEnd()) break; // handle statements like -> var a = 10\n
                 defs.add(parseDefs());
             } catch (Diagnostic diagnostic) {
@@ -111,7 +112,8 @@ public class YanParser extends AbstractYanParser {
             try {
                 // 一行只能有一个statement, 除非它们之间有分号分隔
                 if (stmts.size() > 0 && !(stmts.get(stmts.size() - 1) instanceof Empty))
-                    consume(NEWLINE, SEMICOLON);
+                    consume(() -> Errors.ConsecutiveStatements(stmts.get(stmts.size() - 1)),
+                            NEWLINE, SEMICOLON);
                 if (match(RIGHT_BRACE)) break;
                 stmts.add(parseStmt());
             } catch (Diagnostic diagnostic) {
@@ -212,11 +214,11 @@ public class YanParser extends AbstractYanParser {
         int start = current;
         Expr expr = parseLogicalOr();
         if (match(ASSIGN)) {
+            Expr value = parseExpr();
             if (expr instanceof Identifier) {
-                Expr value = parseExpr();
                 return setRange(new Binary(setRange(new Operator(Operator.Tag.ASSIGN)), expr, value), start);
             }
-            logger.log(Errors.InvalidAssignmentTarget());
+            logger.log(Errors.InvalidAssignmentTarget(expr));
         }
         return expr;
     }
@@ -311,7 +313,7 @@ public class YanParser extends AbstractYanParser {
         int start = current;
         Expr expr = parsePrimary();
         if (match(LEFT_PAREN)) {
-            if (!(expr instanceof Identifier)) logger.log(Errors.InvalidFunctionName());
+            if (!(expr instanceof Identifier)) logger.log(Errors.InvalidFunctionName(expr));
             List<Expr> args = new ArrayList<>();
             if (!match(RIGHT_PAREN)) {
                 do {
@@ -336,7 +338,7 @@ public class YanParser extends AbstractYanParser {
             return expr;
         }
         // TODO(4-12): 照理说anchor应该是前一个Token，但是这样的话，当出错的是第一个Token的时候，previous会出错。
-        throw Errors.ExpectationError("primary expression", previous(), "after");
+        throw Errors.ExpectationError("expression", previous(), "after");
     }
 
     Identifier parseIdentifier() {

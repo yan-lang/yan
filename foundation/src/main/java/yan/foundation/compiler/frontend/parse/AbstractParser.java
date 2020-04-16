@@ -7,6 +7,7 @@ import yan.foundation.driver.log.Diagnostic;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 public abstract class AbstractParser<Out> extends Phase<List<Token>, Out> implements Parser<Out> {
 
@@ -59,6 +60,13 @@ public abstract class AbstractParser<Out> extends Phase<List<Token>, Out> implem
     // ------------------------------------------------ //
     //      Helper Functions for accessing tokens       //
     // ------------------------------------------------ //
+
+    protected Token consume(Supplier<Diagnostic> diagnosticSupplier, int... types) throws Diagnostic {
+        for (int type : types) {
+            if (check(type)) return advance();
+        }
+        throw diagnosticSupplier.get();
+    }
 
     protected Token consume(int... types) throws Diagnostic {
         for (int type : types) {
