@@ -1,12 +1,11 @@
 package yan.lang.predefine;
 
-import yan.foundation.compiler.frontend.lex.Token;
+import yan.foundation.compiler.frontend.lex.BasicTokens;
 
 import java.util.List;
 import java.util.Map;
 
-public interface YanTokens {
-    int EOF = Token.EOF;
+public interface YanTokens extends BasicTokens {
 
     int UNKNOWN = 0;
 
