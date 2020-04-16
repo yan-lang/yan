@@ -3,6 +3,8 @@ package yan.foundation.compiler.frontend.ast;
 import java.util.Objects;
 
 public final class Range {
+    public static final Range INVALID = new Range(-1, -1);
+
     public final int from;
     public final int to;
 

@@ -1,6 +1,5 @@
 package yan.lang.predefine;
 
-import yan.foundation.compiler.frontend.ast.Range;
 import yan.foundation.compiler.frontend.ast.ReflectiveVisitor;
 import yan.foundation.compiler.frontend.ast.Tree;
 
@@ -363,8 +362,6 @@ public abstract class YanTree extends Tree {
 
         public Program Program(List<YanTree> defs) {
             var tree = new Program(defs);
-            tree.range = new Range(context.getTokenStartIndex(),
-                                   context.getTokenEndIndex());
             return tree;
         }
     }

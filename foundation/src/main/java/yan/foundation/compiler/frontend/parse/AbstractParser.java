@@ -1,6 +1,5 @@
 package yan.foundation.compiler.frontend.parse;
 
-import yan.foundation.compiler.frontend.ast.Range;
 import yan.foundation.compiler.frontend.ast.Tree;
 import yan.foundation.compiler.frontend.lex.Token;
 import yan.foundation.driver.lang.Phase;
@@ -51,7 +50,8 @@ public abstract class AbstractParser<Out> extends Phase<List<Token>, Out> implem
     }
 
     protected <T extends Tree> T setRange(T node, int from, int to) {
-        node.setRange(new Range(from, to));
+        node.start = tokens.get(from);
+        node.end = tokens.get(to);
         return node;
     }
 

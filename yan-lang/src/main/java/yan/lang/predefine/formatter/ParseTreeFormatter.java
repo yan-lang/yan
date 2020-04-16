@@ -23,8 +23,8 @@ public class ParseTreeFormatter implements YanTree.VoidVisitor, Formatter<YanTre
     @Override
     public void visit(YanTree.Program program) {
         printer.openElement("Program");
-        printer.pushAttribute("from", String.valueOf(program.range.from));
-        printer.pushAttribute("to", String.valueOf(program.range.to));
+        printer.pushAttribute("from", String.valueOf(program.getRange().from));
+        printer.pushAttribute("to", String.valueOf(program.getRange().to));
 
         program.defs.forEach(def -> def.accept(this));
 
@@ -183,8 +183,8 @@ public class ParseTreeFormatter implements YanTree.VoidVisitor, Formatter<YanTre
 
     private <T extends Tree> void print(T node, boolean compactMode, DetailPrinter detailPrinter) {
         printer.openElement(node.getClass().getSimpleName(), compactMode);
-        printer.pushAttribute("from", String.valueOf(node.range.from));
-        printer.pushAttribute("to", String.valueOf(node.range.to));
+        printer.pushAttribute("from", String.valueOf(node.getRange().from));
+        printer.pushAttribute("to", String.valueOf(node.getRange().to));
         if (detailPrinter != null) detailPrinter.print();
         printer.closeElement();
     }

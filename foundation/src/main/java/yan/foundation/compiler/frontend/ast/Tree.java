@@ -1,5 +1,6 @@
 package yan.foundation.compiler.frontend.ast;
 
+import yan.foundation.compiler.frontend.lex.Token;
 import yan.foundation.compiler.frontend.semantic.Scope;
 import yan.foundation.compiler.frontend.semantic.Symbol;
 import yan.foundation.compiler.frontend.semantic.Type;
@@ -10,8 +11,8 @@ import yan.foundation.compiler.frontend.semantic.Type;
  */
 public abstract class Tree {
 
-    // 语法分析时需要初始化, 所有语法树都有Range
-    public Range range;
+    // 语法分析时需要初始化, 分别标记了当前这个语法树的第一个Token和最后一个Token.
+    public Token start, end;
 
     /* 部分语法树需要填symbol和scope */
 
@@ -22,13 +23,11 @@ public abstract class Tree {
     // 类型检查时初始化
     public Type evalType;
 
-    public <T> T setRange(Range range) {
-        this.range = range;
-        return (T) this;
-    }
 
-    public <T> T setRange(int from, int to) {
-        return setRange(new Range(from, to));
+    public Range getRange() {
+        if (start == null || end == null)
+            return Range.INVALID;
+        return new Range(start.index, end.index);
     }
 
     public void accept(ReflectiveVisitor v) {
