@@ -329,7 +329,7 @@ public class YanParser extends AbstractYanParser {
         if (match(INT_CONST)) return setRange(new Literal(Literal.Tag.INT, previous().getIntValue()));
         if (match(KW_TRUE)) return setRange(new Literal(Literal.Tag.BOOL, true));
         if (match(KW_FALSE)) return setRange(new Literal(Literal.Tag.BOOL, false));
-        if (match(IDENTIFIER)) return setRange(new Identifier(previous().getStrValue()));
+        if (match(IDENTIFIER)) return setRange(new Identifier(previous().getStringValue()));
         if (match(LEFT_PAREN)) {
             Expr expr = parseExpr();
             consume(RIGHT_PAREN);
@@ -341,7 +341,7 @@ public class YanParser extends AbstractYanParser {
 
     Identifier parseIdentifier() {
         Token id = consume(IDENTIFIER);
-        return setRange(new Identifier(id.getStrValue()));
+        return setRange(new Identifier(id.getStringValue()));
     }
 
 }

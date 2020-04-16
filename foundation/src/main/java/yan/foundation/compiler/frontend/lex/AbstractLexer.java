@@ -14,6 +14,8 @@ public abstract class AbstractLexer extends Phase<Code, List<Token>>
 
     protected ReadTextBuffer buffer;
 
+    protected int index;
+
     // TODO(3-20): optimize constructors
 
     public AbstractLexer() {
@@ -44,8 +46,9 @@ public abstract class AbstractLexer extends Phase<Code, List<Token>>
     }
 
     protected Token makeToken(int type, Object value) {
-        return new Token(type, buffer.marked_line, buffer.marked_col,
-                buffer.marked_offset, buffer.offset, value, buffer, this);
+        return new Token.Builder(type, index)
+                .pos(buffer.marked_line, buffer.marked_col, buffer.marked_offset, buffer.offset)
+                .value(value).source(buffer).lexer(this).build();
     }
 
     protected String currentTokenString() {
@@ -56,13 +59,19 @@ public abstract class AbstractLexer extends Phase<Code, List<Token>>
     public List<Token> transform(Code input) {
         List<Token> tokenList = new ArrayList<>();
         buffer = new ReadTextBuffer(input.content, input.filename);
+        index = 0;
         Token token;
         do {
             token = nextToken();
             tokenList.add(token);
+            index += 1;
         } while (token.type != Token.EOF);
         return tokenList;
     }
+
+    // --------------------------------- //
+    // Implementation of Lexer interface //
+    // --------------------------------- //
 
     @Override
     public Vocabulary getVocabulary() {

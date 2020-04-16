@@ -13,17 +13,21 @@ public class SimpleTokenFormatter implements Formatter<List<Token>> {
 
     @Override
     public String format(List<Token> tokens) {
+        List<String> block0 = new ArrayList<>();
         List<String> block1 = new ArrayList<>();
         List<String> block2 = new ArrayList<>();
         List<String> block3 = new ArrayList<>();
+        List<String> block4 = new ArrayList<>();
 
         for (var token : tokens) {
-            block1.add(token.getTypeString());
-            block2.add(String.format("- %s:%d:%d;%d:%d", token.source.getSourceName(),
+            block0.add(String.format("%d. ", token.index));
+            block1.add(token.getText());
+            block2.add(token.getTypeString());
+            block3.add(String.format("loc=%s:%d:%d;%d:%d", token.source.getSourceName(),
                                      token.line, token.col, token.start, token.stop));
-            block3.add(String.format("-> \"%s\"", token.value));
+            block4.add(String.format("val=\"%s\"", token.value));
         }
 
-        return contentAligner.align(List.of(block1, block2, block3));
+        return contentAligner.align(List.of(block0, block1, block2, block3, block4));
     }
 }

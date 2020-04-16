@@ -31,6 +31,11 @@ public class Token {
     final public int stop;
 
     /**
+     * 该Token在Token序列中的下标
+     */
+    final public int index;
+
+    /**
      * Token所在的源代码, 一般用于错误提示
      */
     final public CodeSource source;
@@ -43,7 +48,7 @@ public class Token {
     final public Lexer lexer;
 
     /**
-     * Token存储的语义值, 不可以直接访问, 应先判断Token类型,再通过对应函数访问。
+     * Token存储的语义值, 不推荐直接访问, 应先判断Token类型,再通过对应函数访问。
      * 以下为预定义的Token类型和value类型的对应关系:
      * <pre>{@code
      * 1. identifier -> String
@@ -59,17 +64,30 @@ public class Token {
     /**
      * Backend field for {@link Token#getText()}
      */
-    private String text;
+    protected String text;
 
-    public Token(int type, int line, int col, int start, int stop, Object value, CodeSource source, Lexer lexer) {
+    public Token(int type, int line, int col, int start, int stop, int index, Object value, CodeSource source, Lexer lexer) {
         this.type = type;
         this.line = line;
         this.col = col;
         this.start = start;
         this.stop = stop;
+        this.index = index;
         this.value = value;
         this.source = source;
         this.lexer = lexer;
+    }
+
+    public Token(Builder builder) {
+        this.type = builder.type;
+        this.line = builder.line;
+        this.col = builder.col;
+        this.start = builder.start;
+        this.stop = builder.stop;
+        this.index = builder.index;
+        this.value = builder.value;
+        this.source = builder.source;
+        this.lexer = builder.lexer;
     }
 
     public String getText() {
@@ -83,7 +101,7 @@ public class Token {
         return (boolean) value;
     }
 
-    public String getStrValue() {
+    public String getStringValue() {
         return (String) value;
     }
 
@@ -110,17 +128,45 @@ public class Token {
                 '}';
     }
 
-    /**
-     * Get the simple string representation of this token.
-     * <pre>{@code
-     *     format: type - source:line:col;start:stop -> "value"
-     *     e.g. Identifier - test.yan:10:5;120:234 -> "x"
-     * }</pre>
-     *
-     * @return Simple string representation
-     */
-    public String toSimpleString() {
-        return String.format("%s - %s:%d:%d;%d:%d -> \"%s\"", getTypeString(), source.getSourceName(),
-                line, col, start, stop, value);
+    public static class Builder {
+        protected int type;
+        protected int line, col;
+        protected int start, stop;
+        protected int index;
+        protected Object value;
+        protected CodeSource source;
+        protected Lexer lexer;
+
+        public Builder(int type, int index) {
+            this.type = type;
+            this.index = index;
+        }
+
+        public Builder pos(int line, int col, int start, int stop) {
+            this.line = line;
+            this.col = col;
+            this.start = start;
+            this.stop = stop;
+            return this;
+        }
+
+        public Builder value(Object value) {
+            this.value = value;
+            return this;
+        }
+
+        public Builder source(CodeSource source) {
+            this.source = source;
+            return this;
+        }
+
+        public Builder lexer(Lexer lexer) {
+            this.lexer = lexer;
+            return this;
+        }
+
+        public Token build() {
+            return new Token(this);
+        }
     }
 }
