@@ -66,7 +66,8 @@ public class Diagnostic extends RuntimeException {
 
         if (context == null) return builder.toString();
         builder.append(context).append('\n');
-        builder.append(padPrefixSpace(column - 1, "^"));
+        builder.append(padPrefixSpace(column - 1, "^"))
+               .append("~".repeat(Integer.max(0, length - 1)));
         if (hint != null) builder.append('\n').append(padPrefixSpace(column - 1, hint));
 
         return builder.toString();
