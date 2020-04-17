@@ -24,7 +24,7 @@ public abstract class Tree {
     public Type evalType;
 
 
-    public Range getRange() {
+    public Range range() {
         if (start == null || end == null)
             return Range.INVALID;
         return new Range(start.index, end.index);

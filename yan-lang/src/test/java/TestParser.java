@@ -17,15 +17,15 @@ public class TestParser {
         YanTree.Program out = parser.parse(tokens);
 
         YanTree.VarDef def0 = (YanTree.VarDef) out.defs.get(0);
-        Assertions.assertEquals(new Range(1, 1), def0.id.getRange());
-        Assertions.assertEquals(new Range(3, 5), def0.init.getRange());
+        Assertions.assertEquals(new Range(1, 1), def0.id.range());
+        Assertions.assertEquals(new Range(3, 5), def0.init.range());
 
         YanTree.ExprStmt stmt1 = (YanTree.ExprStmt) out.defs.get(1);
         YanTree.Binary expr = (YanTree.Binary) stmt1.expr;
-        Assertions.assertEquals(new Range(7, 11), stmt1.getRange());
+        Assertions.assertEquals(new Range(7, 11), stmt1.range());
         Assertions.assertEquals(YanTree.Operator.Tag.ASSIGN, expr.op.tag);
-        Assertions.assertEquals(new Range(7, 7), expr.left.getRange());
-        Assertions.assertEquals(new Range(9, 11), expr.right.getRange());
+        Assertions.assertEquals(new Range(7, 7), expr.left.range());
+        Assertions.assertEquals(new Range(9, 11), expr.right.range());
     }
 
     @Test
