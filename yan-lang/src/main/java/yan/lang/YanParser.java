@@ -290,13 +290,21 @@ public class YanParser extends AbstractYanParser {
     }
 
     Expr parseTypeCast() {
-        if (match(LEFT_PAREN) && check(IDENTIFIER)) {
+        // (identifier) 也有可能是括号表达式, 如果)后面不是运算符, 则一定是类型转换式
+        if (check(LEFT_PAREN) && LA(1).type == IDENTIFIER &&
+            LA(2).type == RIGHT_PAREN && isUnaryPrefix(LA(3).type)) {
             Identifier type = parseType();
             consume(RIGHT_PAREN);
             Expr expr = parseUnary();
             return new YanTree.TypeCast(type, expr);
         }
         return parseUnary();
+    }
+
+    private boolean isUnaryPrefix(int type) {
+        return type == INT_CONST || type == KW_TRUE || type == KW_FALSE ||
+               type == IDENTIFIER || type == LEFT_PAREN ||
+               type == MINUS || type == REL_NOT;
     }
 
     Expr parseUnary() {
