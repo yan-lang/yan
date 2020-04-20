@@ -2,6 +2,11 @@ package yan.lang.predefine;
 
 import yan.foundation.compiler.frontend.ast.ReflectiveVisitor;
 import yan.foundation.compiler.frontend.ast.Tree;
+import yan.foundation.compiler.frontend.semantic.v1.Scope;
+import yan.foundation.compiler.frontend.semantic.v1.Symbol;
+import yan.foundation.compiler.frontend.semantic.v1.Type;
+import yan.foundation.compiler.frontend.semantic.v1.symbol.MethodSymbol;
+import yan.foundation.compiler.frontend.semantic.v1.symbol.VarSymbol;
 
 import java.util.List;
 
@@ -35,6 +40,8 @@ public abstract class YanTree extends Tree {
     public static class Program extends YanTree {
         public List<YanTree> defs;
 
+        public Scope scope;
+
         public Program(List<YanTree> defs) { this.defs = defs; }
 
     }
@@ -64,6 +71,8 @@ public abstract class YanTree extends Tree {
         // A var type could also be a class type, so we just treat var type as identifier,
         // and check it while performing semantic analysis.
         public Identifier varType;
+
+        public VarSymbol symbol;
 
         public VarDef(Identifier id, Expr init, Identifier varType) {
             this.id = id;
@@ -114,6 +123,8 @@ public abstract class YanTree extends Tree {
         public Identifier retType;
         public List<VarDef> params;
         public Block body;
+
+        public MethodSymbol symbol;
 
         public FuncDef(Identifier id, Identifier retType, List<VarDef> params, Block body) {
             this.id = id;
@@ -236,6 +247,7 @@ public abstract class YanTree extends Tree {
      * Super class for all expressions.
      */
     public static abstract class Expr extends YanTree {
+        public Type evalType;
     }
 
     /**
@@ -328,6 +340,8 @@ public abstract class YanTree extends Tree {
      */
     public static class Identifier extends Expr {
         public final String name;
+
+        public Symbol symbol;
 
         public Identifier(String name) {
             this.name = name;

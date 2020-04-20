@@ -1,4 +1,4 @@
-package yan.lang;
+package yan.lang.semantic;
 
 import yan.lang.predefine.YanTree;
 import yan.lang.predefine.abc.AbstractControlStructureAnalyzer;

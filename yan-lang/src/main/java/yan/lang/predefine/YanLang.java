@@ -6,6 +6,7 @@ import yan.foundation.compiler.frontend.lex.formatter.SimpleTokenFormatter;
 import yan.foundation.compiler.frontend.lex.formatter.XMLTokenFormatter;
 import yan.foundation.driver.lang.*;
 import yan.lang.predefine.formatter.CSTreeFormatter;
+import yan.lang.predefine.formatter.NameTreeFormatter;
 import yan.lang.predefine.formatter.ParseTreeFormatter;
 
 import java.util.ArrayList;
@@ -46,13 +47,6 @@ public class YanLang extends Language {
                                                          .cformatter(f.parse())
                                                          .iformatter(f.parse())
                                                          .build()));
-        t.resolveName().ifPresent(phase -> targets.add(new Target.Builder<Code, YanTree.Program>()
-                                                               .name("name_resolve")
-                                                               .phase(phase)
-                                                               .compatibility(Target.Compatibility.BOTH)
-                                                               .cformatter(f.parse())
-                                                               .iformatter(f.parse())
-                                                               .build()));
         t.checkControlStructure().ifPresent(phase -> targets.add(new Target.Builder<Code, YanTree.Program>()
                                                                          .name("cs")
                                                                          .phase(phase)
@@ -60,6 +54,13 @@ public class YanLang extends Language {
                                                                          .cformatter(f.cs())
                                                                          .iformatter(f.cs())
                                                                          .build()));
+        t.resolveName().ifPresent(phase -> targets.add(new Target.Builder<Code, YanTree.Program>()
+                                                               .name("name_resolve")
+                                                               .phase(phase)
+                                                               .compatibility(Target.Compatibility.BOTH)
+                                                               .cformatter(new NameTreeFormatter())
+                                                               .iformatter(f.parse())
+                                                               .build()));
     }
 
     public interface TaskFactory {
