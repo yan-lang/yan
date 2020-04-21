@@ -8,6 +8,7 @@ import yan.lang.predefine.YanTree;
 import yan.lang.semantic.YanCSAnalyzer;
 import yan.lang.semantic.YanNameResolver;
 import yan.lang.semantic.YanTypeBuilder;
+import yan.lang.semantic.YanTypeChecker;
 
 import java.util.List;
 import java.util.Optional;
@@ -34,5 +35,14 @@ public class TaskFactoryImpl implements YanLang.TaskFactory {
                                          .pipe(new YanCSAnalyzer())
                                          .pipe(new YanTypeBuilder())
                                          .pipe(new YanNameResolver()));
+    }
+
+    @Override
+    public Optional<Phase<Code, YanTree.Program>> checkType() {
+        return Optional.of(new YanLexer().pipe(new YanParser())
+                                         .pipe(new YanCSAnalyzer())
+                                         .pipe(new YanTypeBuilder())
+                                         .pipe(new YanNameResolver())
+                                         .pipe(new YanTypeChecker()));
     }
 }

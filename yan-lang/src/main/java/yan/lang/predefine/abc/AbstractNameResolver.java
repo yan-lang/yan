@@ -85,6 +85,7 @@ public abstract class AbstractNameResolver extends Phase<YanTree.Program, YanTre
 
     @Override
     public void visit(YanTree.If ifStmt) {
+        ifStmt.condition.accept(this);
         ifStmt.ifBody.accept(this);
         if (ifStmt.elseBody != null) ifStmt.elseBody.accept(this);
     }

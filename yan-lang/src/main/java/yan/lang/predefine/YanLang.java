@@ -8,6 +8,7 @@ import yan.foundation.driver.lang.*;
 import yan.lang.predefine.formatter.CSTreeFormatter;
 import yan.lang.predefine.formatter.NameTreeFormatter;
 import yan.lang.predefine.formatter.ParseTreeFormatter;
+import yan.lang.predefine.formatter.TypeTreeFormatter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,9 +59,16 @@ public class YanLang extends Language {
                                                                .name("name_resolve")
                                                                .phase(phase)
                                                                .compatibility(Target.Compatibility.BOTH)
-                                                               .cformatter(new NameTreeFormatter())
-                                                               .iformatter(f.parse())
+                                                               .cformatter(f.nameResolve())
+                                                               .iformatter(f.nameResolve())
                                                                .build()));
+        t.checkType().ifPresent(phase -> targets.add(new Target.Builder<Code, YanTree.Program>()
+                                                             .name("typecheck")
+                                                             .phase(phase)
+                                                             .compatibility(Target.Compatibility.BOTH)
+                                                             .cformatter(f.typeCheck())
+                                                             .iformatter(f.typeCheck())
+                                                             .build()));
     }
 
     public interface TaskFactory {
@@ -71,6 +79,8 @@ public class YanLang extends Language {
         Optional<Phase<Code, YanTree.Program>> checkControlStructure();
 
         Optional<Phase<Code, YanTree.Program>> resolveName();
+
+        Optional<Phase<Code, YanTree.Program>> checkType();
     }
 
     public interface FormatterFactory {
@@ -81,6 +91,10 @@ public class YanLang extends Language {
         Formatter<YanTree.Program> parse();
 
         Formatter<YanTree.Program> cs();
+
+        Formatter<YanTree.Program> nameResolve();
+
+        Formatter<YanTree.Program> typeCheck();
     }
 
     public static class DefaultFormatterFactory implements FormatterFactory {
@@ -102,6 +116,16 @@ public class YanLang extends Language {
         @Override
         public Formatter<YanTree.Program> cs() {
             return new CSTreeFormatter();
+        }
+
+        @Override
+        public Formatter<YanTree.Program> nameResolve() {
+            return new NameTreeFormatter();
+        }
+
+        @Override
+        public Formatter<YanTree.Program> typeCheck() {
+            return new TypeTreeFormatter();
         }
     }
 }

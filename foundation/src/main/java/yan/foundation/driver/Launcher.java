@@ -70,6 +70,13 @@ public class Launcher implements Config.ConfigSpecProvider {
             }
             return cmd.getCommandSpec().exitCodeOnInvalidInput();
         }
+        // TODO(2020-4-21): validate target name
+        if (!getCompilerTargets().contains(config.targetName)) {
+            cmd.getOut().println("invalid target name: " + config.targetName);
+            cmd.getOut().println("allowed values: " + getCompilerTargets());
+            return cmd.getCommandSpec().exitCodeOnInvalidInput();
+        }
+
         // run with parsed args
         return language.compile(config.inputFile, config.outputFile, config.targetName);
     }
