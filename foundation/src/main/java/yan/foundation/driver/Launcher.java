@@ -93,7 +93,8 @@ public class Launcher implements Config.ConfigSpecProvider {
     @Override
     public String getDefaultCompilerTarget() {
         var targets = getCompilerTargets();
-        return targets.get(targets.size() - 1);
+        if (!targets.isEmpty()) return targets.get(targets.size() - 1);
+        else return null;
     }
 
     @Override
