@@ -11,7 +11,7 @@ import java.util.function.Supplier;
 
 public abstract class AbstractParser<Out> extends Phase<List<Token>, Out> implements Parser<Out> {
 
-    protected List<Token> tokens;
+    protected List<Token> tokens = new ArrayList<>();
     protected int current;
 
     public AbstractParser() {
@@ -29,7 +29,8 @@ public abstract class AbstractParser<Out> extends Phase<List<Token>, Out> implem
 
     @Override
     public Out parse(List<Token> tokens) {
-        this.tokens = tokens;
+        this.tokens.clear();
+        this.tokens.addAll(tokens);
         this.current = 0;
         return parse();
     }
