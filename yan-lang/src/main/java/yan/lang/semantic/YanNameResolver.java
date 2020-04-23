@@ -7,6 +7,7 @@ import yan.foundation.compiler.frontend.semantic.v1.symbol.MethodSymbol;
 import yan.foundation.compiler.frontend.semantic.v1.symbol.TypeSymbol;
 import yan.foundation.compiler.frontend.semantic.v1.symbol.VarSymbol;
 import yan.foundation.compiler.frontend.semantic.v1.type.MethodType;
+import yan.foundation.driver.log.Diagnostic;
 import yan.lang.predefine.YanTree;
 import yan.lang.predefine.YanTypes;
 import yan.lang.predefine.abc.AbstractNameResolver;
@@ -104,6 +105,14 @@ public class YanNameResolver extends AbstractNameResolver {
         that.funcName.symbol = currentScope.resolve(that.funcName.name);
         if (!(that.funcName.symbol instanceof MethodSymbol)) {
             logger.log(Errors.MethodNotDefine());
+        } else {
+            // check arity
+            var expected = ((MethodSymbol) that.funcName.symbol).methodType.argTypes.size();
+            var actual = that.args.size();
+            if (expected != actual) {
+                logger.log(Diagnostic.Error("arity mismatched, expect " +
+                                            expected + " args, but got " + actual + " args."));
+            }
         }
     }
 
