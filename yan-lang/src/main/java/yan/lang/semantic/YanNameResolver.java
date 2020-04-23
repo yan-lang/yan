@@ -26,7 +26,7 @@ public class YanNameResolver extends AbstractNameResolver {
     public void visit(YanTree.VarDef varDef) {
         var previous = currentScope.resolveLocally(varDef.id.name);
         if (previous != null) {
-            logger.log(Errors.SymbolAlreadyDefined()); // duplicate definition
+            logger.log(Errors.SymbolAlreadyDefined(varDef.id.name, varDef.id)); // duplicate definition
         }
 
         var varSymbol = new VarSymbol(varDef.id.name);
@@ -34,19 +34,19 @@ public class YanNameResolver extends AbstractNameResolver {
 
         if (varDef.varType != null) {
             // All type definitions should be resolve by the previous phase TypeBuilder
-            varSymbol.type = resolveType(varDef.varType.name);
+            varSymbol.type = resolveType(varDef.varType);
         }
 
         currentScope.define(varSymbol);
         varDef.symbol = varSymbol;
     }
 
-    public Type resolveType(String name) {
-        Symbol symbol = currentScope.resolve(name);
+    public Type resolveType(YanTree.Identifier id) {
+        Symbol symbol = currentScope.resolve(id.name);
         if (symbol instanceof TypeSymbol) {
             return ((TypeSymbol) symbol).getType();
         } else {
-            logger.log(Errors.InvalidSymbol()); // not a type, we could tell what it is via symbol.kind
+            logger.log(Errors.InvalidSymbol(id, "type")); // not a type, we could tell what it is via symbol.kind
             return YanTypes.Error;
         }
     }
@@ -60,7 +60,7 @@ public class YanNameResolver extends AbstractNameResolver {
     public void visit(YanTree.FuncDef that) {
         var previous = currentScope.resolveLocally(that.id.name);
         if (previous != null) {
-            logger.log(Errors.SymbolAlreadyDefined()); // duplicate definition
+            logger.log(Errors.SymbolAlreadyDefined(that.id.name, that)); // duplicate definition
             return;
         }
 
@@ -71,7 +71,7 @@ public class YanNameResolver extends AbstractNameResolver {
         currentScope.define(that.symbol);
 
         // process return type
-        that.symbol.methodType.retType = that.retType == null ? YanTypes.Void : resolveType(that.retType.name);
+        that.symbol.methodType.retType = that.retType == null ? YanTypes.Void : resolveType(that.retType);
 
         // process parameter type
         currentScope = new Scope(currentScope);
@@ -96,7 +96,7 @@ public class YanNameResolver extends AbstractNameResolver {
 
     @Override
     public void visit(YanTree.TypeCast that) {
-        that.evalType = resolveType(that.castedType.name);
+        that.evalType = resolveType(that.castedType);
         that.expr.accept(this);
     }
 
@@ -104,7 +104,7 @@ public class YanNameResolver extends AbstractNameResolver {
     public void visit(YanTree.FunCall that) {
         that.funcName.symbol = currentScope.resolve(that.funcName.name);
         if (!(that.funcName.symbol instanceof MethodSymbol)) {
-            logger.log(Errors.MethodNotDefine());
+            logger.log(Errors.MethodNotDefine(that.funcName.name, that));
         } else {
             // check arity
             var expected = ((MethodSymbol) that.funcName.symbol).methodType.argTypes.size();
@@ -121,7 +121,7 @@ public class YanNameResolver extends AbstractNameResolver {
         // WARNING: this method should only handle identifiers in expression.
         identifier.symbol = currentScope.resolve(identifier.name);
         if (!(identifier.symbol instanceof VarSymbol)) {
-            logger.log(Errors.VariableNotDefine());
+            logger.log(Errors.VariableNotDefine(identifier.name, identifier));
         }
     }
 }

@@ -1,5 +1,6 @@
 package yan.lang.predefine.abc;
 
+import yan.foundation.compiler.frontend.ast.Tree;
 import yan.foundation.driver.lang.Phase;
 import yan.foundation.driver.log.Diagnostic;
 import yan.lang.predefine.YanTree;
@@ -37,38 +38,34 @@ public abstract class AbstractNameResolver extends Phase<YanTree.Program, YanTre
 
     public interface IErrors {
 
-        default Diagnostic VariableNotDefine() {
-            return Diagnostic.Error("VariableNotDefine");
+        default Diagnostic InvalidSymbol(Tree that, String expected) {
+            var diagnostic = Diagnostic.Error(that.toStringTree() + " is not a " + expected);
+            getDiagnostic(that, diagnostic);
+            diagnostic.length = that.end.stop - that.start.start;
+            return diagnostic;
         }
 
-        default Diagnostic FunctionNotDefine() {
-            return Diagnostic.Error("FunctionNotDefine");
+        default Diagnostic SymbolAlreadyDefined(String name, Tree that) {
+            var diagnostic = Diagnostic.Error(name + " has been already defined");
+            return getDiagnostic(that, diagnostic);
         }
 
-        // expect function, but got variable
-
-        default Diagnostic InvalidSymbol() {
-            return Diagnostic.Error("InvalidSymbol");
+        default Diagnostic MethodNotDefine(String name, Tree that) {
+            var diagnostic = Diagnostic.Error("method " + name + " has not been defined.");
+            return getDiagnostic(that, diagnostic);
         }
 
-        default Diagnostic SymbolAlreadyDefined() {
-            return Diagnostic.Error("SymbolAlreadyDefined");
+        default Diagnostic VariableNotDefine(String name, Tree that) {
+            var diagnostic = Diagnostic.Error("variable " + name + " has not been defined.");
+            return getDiagnostic(that, diagnostic);
         }
 
-        default Diagnostic typeNotFound() {
-            return Diagnostic.Error("typeNotFound");
-        }
-
-        default Diagnostic FunctionAlreadyDefined() {
-            return Diagnostic.Error("FunctionAlreadyDefined");
-        }
-
-        default Diagnostic MethodNotDefine() {
-            return Diagnostic.Error("MethodNotDefine");
-        }
-
-        default Diagnostic FieldNotDefine() {
-            return Diagnostic.Error("FieldNotDefine");
+        private Diagnostic getDiagnostic(Tree that, Diagnostic diagnostic) {
+            diagnostic.sourceName = that.start.source.getSourceName();
+            diagnostic.line = that.start.line;
+            diagnostic.column = that.start.col;
+            diagnostic.context = that.start.source.get(diagnostic.line);
+            return diagnostic;
         }
     }
 

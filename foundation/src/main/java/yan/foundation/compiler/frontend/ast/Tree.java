@@ -20,4 +20,8 @@ public abstract class Tree {
     public void accept(ReflectiveVisitor v) {
         v.dispatch(this);
     }
+
+    public String toStringTree() {
+        return start.source.getText(start.start, end.stop);
+    }
 }
