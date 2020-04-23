@@ -28,6 +28,8 @@ public class Target<In, Out> {
     }
 
     public int compile(In input, File output) {
+        Phase.logger.clear();
+        Phase.isInterpreting = false;
         var out = phase.apply(input);
         if (out.isPresent()) {
             try {
@@ -47,6 +49,7 @@ public class Target<In, Out> {
 
     public int interpret(In input, PrintStream out, PrintStream err) {
         Phase.logger.clear();
+        Phase.isInterpreting = true;
         var output = phase.apply(input);
         if (output.isPresent()) {
             out.println(iformatter.format(output.get()));

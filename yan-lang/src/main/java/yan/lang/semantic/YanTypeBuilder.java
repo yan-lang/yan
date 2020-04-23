@@ -15,10 +15,15 @@ public class YanTypeBuilder extends Phase<YanTree.Program, YanTree.Program> impl
 
     @Override
     public void visit(YanTree.Program that) {
-        that.scope = new Scope("global", null);
-        that.scope.define(new BuiltinSymbol("int", YanTypes.Int));
-        that.scope.define(new BuiltinSymbol("float", YanTypes.Float));
-        that.scope.define(new BuiltinSymbol("double", YanTypes.Double));
-        that.scope.define(new BuiltinSymbol("void", YanTypes.Void));
+        if (global == null || !isInterpreting) {
+            global = new Scope("global", null);
+            global.define(new BuiltinSymbol("int", YanTypes.Int));
+            global.define(new BuiltinSymbol("float", YanTypes.Float));
+            global.define(new BuiltinSymbol("double", YanTypes.Double));
+            global.define(new BuiltinSymbol("void", YanTypes.Void));
+        }
+        that.scope = global;
     }
+
+    public static Scope global;
 }
