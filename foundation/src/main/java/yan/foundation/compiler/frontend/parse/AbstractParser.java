@@ -118,7 +118,7 @@ public abstract class AbstractParser<Out> extends Phase<List<Token>, Out> implem
     }
 
     protected boolean isAtEnd() {
-        return current >= tokens.size();
+        return current >= tokens.size() - 1;
     }
 
     // ------------------------------------------------ //
