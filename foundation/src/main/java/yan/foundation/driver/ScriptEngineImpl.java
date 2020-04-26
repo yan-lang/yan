@@ -2,7 +2,6 @@ package yan.foundation.driver;
 
 import yan.foundation.driver.lang.Code;
 import yan.foundation.driver.lang.Language;
-import yan.foundation.driver.lang.Target;
 import yan.foundation.driver.shell.ScriptEngine;
 
 import java.io.PrintStream;
@@ -37,9 +36,9 @@ public class ScriptEngineImpl implements ScriptEngine {
 
     @Override
     public List<String> getTargets() {
-        if (targets == null) targets = language.getTargets()
+        if (targets == null) targets = language.getInterpreterTargets()
                                                .stream()
-                                               .filter(Target::isInterpreterCompatible).map(target -> target.name)
+                                               .map(target -> target.name)
                                                .collect(Collectors.toList());
         return targets;
     }

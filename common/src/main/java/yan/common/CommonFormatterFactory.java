@@ -6,15 +6,13 @@ import yan.foundation.driver.lang.Formatter;
 import java.util.List;
 
 public interface CommonFormatterFactory<TopLevel> {
-    Formatter<List<Token>> clex();
+    Formatter<List<Token>> lex(boolean isInterpreting);
 
-    Formatter<List<Token>> ilex();
+    Formatter<TopLevel> parse(boolean isInterpreting);
 
-    Formatter<TopLevel> parse();
+    Formatter<TopLevel> cs(boolean isInterpreting);
 
-    Formatter<TopLevel> cs();
+    Formatter<TopLevel> nameResolve(boolean isInterpreting);
 
-    Formatter<TopLevel> nameResolve();
-
-    Formatter<TopLevel> typeCheck();
+    Formatter<TopLevel> typeCheck(boolean isInterpreting);
 }

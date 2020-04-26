@@ -11,7 +11,9 @@ import java.util.List;
  */
 public abstract class Language {
 
-    abstract public List<Target<Code, ?>> getTargets();
+    abstract public List<CompilerTarget<Code, ?>> getCompilerTargets();
+
+    abstract public List<InterpreterTarget<Code, ?>> getInterpreterTargets();
 
     abstract public String version();
 
@@ -22,9 +24,8 @@ public abstract class Language {
     public int compile(File input, File output, String targetName) {
         Code code = readCode(input);
         if (code == null) return ExitCode.InvalidInputFile;
-        var target = getTargets().stream()
-                                 .filter(Target::isCompilerCompatible)
-                                 .filter(t -> t.name.equals(targetName)).findFirst().orElseThrow();
+        var target = getCompilerTargets().stream()
+                                         .filter(t -> t.name.equals(targetName)).findFirst().orElseThrow();
         return target.compile(code, output);
     }
 
@@ -33,9 +34,8 @@ public abstract class Language {
     }
 
     public int interpret(Code input, String targetName, PrintStream out, PrintStream err) {
-        var target = getTargets().stream()
-                                 .filter(Target::isInterpreterCompatible)
-                                 .filter(t -> t.name.equals(targetName)).findFirst().orElseThrow();
+        var target = getInterpreterTargets().stream()
+                                            .filter(t -> t.name.equals(targetName)).findFirst().orElseThrow();
         return target.interpret(input, out, err);
     }
 

@@ -15,22 +15,22 @@ import java.util.Optional;
 
 public class TaskFactoryImpl implements YanLang.TaskFactory {
     @Override
-    public Optional<Phase<Code, List<Token>>> lex() {
+    public Optional<Phase<Code, List<Token>>> lex(boolean isInterpreting) {
         return Optional.of(new YanLexer());
     }
 
     @Override
-    public Optional<Phase<Code, YanTree.Program>> parse() {
+    public Optional<Phase<Code, YanTree.Program>> parse(boolean isInterpreting) {
         return Optional.of(new YanLexer().pipe(new YanParser()));
     }
 
     @Override
-    public Optional<Phase<Code, YanTree.Program>> checkControlStructure() {
+    public Optional<Phase<Code, YanTree.Program>> checkControlStructure(boolean isInterpreting) {
         return Optional.of(new YanLexer().pipe(new YanParser()).pipe(new YanCSAnalyzer()));
     }
 
     @Override
-    public Optional<Phase<Code, YanTree.Program>> resolveName() {
+    public Optional<Phase<Code, YanTree.Program>> resolveName(boolean isInterpreting) {
         return Optional.of(new YanLexer().pipe(new YanParser())
                                          .pipe(new YanCSAnalyzer())
                                          .pipe(new YanTypeBuilder())
@@ -38,7 +38,7 @@ public class TaskFactoryImpl implements YanLang.TaskFactory {
     }
 
     @Override
-    public Optional<Phase<Code, YanTree.Program>> checkType() {
+    public Optional<Phase<Code, YanTree.Program>> checkType(boolean isInterpreting) {
         return Optional.of(new YanLexer().pipe(new YanParser())
                                          .pipe(new YanCSAnalyzer())
                                          .pipe(new YanTypeBuilder())

@@ -8,13 +8,13 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CommonTaskFactory<TopLevel> {
-    Optional<Phase<Code, List<Token>>> lex();
+    Optional<Phase<Code, List<Token>>> lex(boolean isInterpreting);
 
-    Optional<Phase<Code, TopLevel>> parse();
+    Optional<Phase<Code, TopLevel>> parse(boolean isInterpreting);
 
-    Optional<Phase<Code, TopLevel>> checkControlStructure();
+    Optional<Phase<Code, TopLevel>> checkControlStructure(boolean isInterpreting);
 
-    Optional<Phase<Code, TopLevel>> resolveName();
+    Optional<Phase<Code, TopLevel>> resolveName(boolean isInterpreting);
 
-    Optional<Phase<Code, TopLevel>> checkType();
+    Optional<Phase<Code, TopLevel>> checkType(boolean isInterpreting);
 }

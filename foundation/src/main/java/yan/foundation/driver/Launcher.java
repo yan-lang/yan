@@ -86,7 +86,7 @@ public class Launcher implements Config.ConfigSpecProvider {
     @Override
     public List<String> getCompilerTargets() {
         List<String> targets = new ArrayList<>();
-        language.getTargets().forEach(target -> targets.add(target.name));
+        language.getCompilerTargets().forEach(target -> targets.add(target.name));
         return targets;
     }
 

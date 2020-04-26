@@ -1,6 +1,8 @@
 package yan.lang.predefine;
 
 
+import yan.common.CommonFormatterFactory;
+import yan.common.CommonTaskFactory;
 import yan.foundation.compiler.frontend.lex.Token;
 import yan.foundation.compiler.frontend.lex.formatter.SimpleTokenFormatter;
 import yan.foundation.compiler.frontend.lex.formatter.XMLTokenFormatter;
@@ -12,13 +14,16 @@ import yan.lang.predefine.formatter.TypeTreeFormatter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class YanLang extends Language {
-    List<Target<Code, ?>> targets = new ArrayList<>();
+    List<CompilerTarget<Code, ?>> compilerTargets = new ArrayList<>();
+    List<InterpreterTarget<Code, ?>> interpreterTargets = new ArrayList<>();
 
     @Override
-    public List<Target<Code, ?>> getTargets() { return targets; }
+    public List<CompilerTarget<Code, ?>> getCompilerTargets() { return compilerTargets; }
+
+    @Override
+    public List<InterpreterTarget<Code, ?>> getInterpreterTargets() { return interpreterTargets; }
 
     @Override
     public String version() { return "1.0"; }
@@ -34,97 +39,59 @@ public class YanLang extends Language {
     }
 
     public YanLang(TaskFactory t, FormatterFactory f) {
-        t.lex().ifPresent(phase -> targets.add(new Target.Builder<Code, List<Token>>()
-                                                       .name("lex")
-                                                       .phase(phase)
-                                                       .compatibility(Target.Compatibility.BOTH)
-                                                       .cformatter(f.clex())
-                                                       .iformatter(f.ilex())
-                                                       .build()));
-        t.parse().ifPresent(phase -> targets.add(new Target.Builder<Code, YanTree.Program>()
-                                                         .name("parse")
-                                                         .phase(phase)
-                                                         .compatibility(Target.Compatibility.BOTH)
-                                                         .cformatter(f.parse())
-                                                         .iformatter(f.parse())
-                                                         .build()));
-        t.checkControlStructure().ifPresent(phase -> targets.add(new Target.Builder<Code, YanTree.Program>()
-                                                                         .name("cs")
-                                                                         .phase(phase)
-                                                                         .compatibility(Target.Compatibility.BOTH)
-                                                                         .cformatter(f.cs())
-                                                                         .iformatter(f.cs())
-                                                                         .build()));
-        t.resolveName().ifPresent(phase -> targets.add(new Target.Builder<Code, YanTree.Program>()
-                                                               .name("name_resolve")
-                                                               .phase(phase)
-                                                               .compatibility(Target.Compatibility.BOTH)
-                                                               .cformatter(f.nameResolve())
-                                                               .iformatter(f.nameResolve())
-                                                               .build()));
-        t.checkType().ifPresent(phase -> targets.add(new Target.Builder<Code, YanTree.Program>()
-                                                             .name("typecheck")
-                                                             .phase(phase)
-                                                             .compatibility(Target.Compatibility.BOTH)
-                                                             .cformatter(f.typeCheck())
-                                                             .iformatter(f.typeCheck())
-                                                             .build()));
+        buildTargets(t, f, false, new BuildTargetAction() {
+            @Override
+            public <out> void exec(String name, Phase<Code, out> phase, Formatter<out> formatter) {
+                compilerTargets.add(new CompilerTarget<>(name, phase, formatter));
+            }
+        });
+        buildTargets(t, f, true, new BuildTargetAction() {
+            @Override
+            public <out> void exec(String name, Phase<Code, out> phase, Formatter<out> formatter) {
+                interpreterTargets.add(new InterpreterTarget<>(name, phase, formatter));
+            }
+        });
     }
 
-    public interface TaskFactory {
-        Optional<Phase<Code, List<Token>>> lex();
-
-        Optional<Phase<Code, YanTree.Program>> parse();
-
-        Optional<Phase<Code, YanTree.Program>> checkControlStructure();
-
-        Optional<Phase<Code, YanTree.Program>> resolveName();
-
-        Optional<Phase<Code, YanTree.Program>> checkType();
+    private void buildTargets(TaskFactory t, FormatterFactory f, boolean isInterpreting, BuildTargetAction action) {
+        t.lex(isInterpreting).ifPresent(phase -> action.exec("lex", phase, f.lex(isInterpreting)));
+        t.parse(isInterpreting).ifPresent(phase -> action.exec("parse", phase, f.parse(isInterpreting)));
+        t.checkControlStructure(isInterpreting).ifPresent(phase -> action.exec("cs", phase, f.cs(isInterpreting)));
+        t.resolveName(isInterpreting).ifPresent(phase -> action.exec("name", phase, f.nameResolve(isInterpreting)));
+        t.checkType(isInterpreting).ifPresent(phase -> action.exec("type", phase, f.typeCheck(isInterpreting)));
     }
 
-    public interface FormatterFactory {
-        Formatter<List<Token>> clex();
-
-        Formatter<List<Token>> ilex();
-
-        Formatter<YanTree.Program> parse();
-
-        Formatter<YanTree.Program> cs();
-
-        Formatter<YanTree.Program> nameResolve();
-
-        Formatter<YanTree.Program> typeCheck();
+    private interface BuildTargetAction {
+        <out> void exec(String name, Phase<Code, out> phase, Formatter<out> formatter);
     }
+
+    public interface TaskFactory extends CommonTaskFactory<YanTree.Program> {}
+
+    public interface FormatterFactory extends CommonFormatterFactory<YanTree.Program> {}
 
     public static class DefaultFormatterFactory implements FormatterFactory {
         @Override
-        public Formatter<List<Token>> clex() {
-            return new XMLTokenFormatter();
+        public Formatter<List<Token>> lex(boolean isInterpreting) {
+            return isInterpreting ? new SimpleTokenFormatter() : new XMLTokenFormatter();
         }
 
         @Override
-        public Formatter<List<Token>> ilex() {
-            return new SimpleTokenFormatter();
-        }
-
-        @Override
-        public Formatter<YanTree.Program> parse() {
+        public Formatter<YanTree.Program> parse(boolean isInterpreting) {
             return new ParseTreeFormatter();
         }
 
         @Override
-        public Formatter<YanTree.Program> cs() {
+        public Formatter<YanTree.Program> cs(boolean isInterpreting) {
             return new CSTreeFormatter();
         }
 
         @Override
-        public Formatter<YanTree.Program> nameResolve() {
+        public Formatter<YanTree.Program> nameResolve(boolean isInterpreting) {
             return new NameTreeFormatter();
         }
 
         @Override
-        public Formatter<YanTree.Program> typeCheck() {
+        public Formatter<YanTree.Program> typeCheck(boolean isInterpreting) {
             return new TypeTreeFormatter();
         }
     }
