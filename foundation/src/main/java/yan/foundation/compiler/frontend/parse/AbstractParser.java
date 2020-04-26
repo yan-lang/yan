@@ -73,7 +73,12 @@ public abstract class AbstractParser<Out> extends Phase<List<Token>, Out> implem
         for (int type : types) {
             if (check(type)) return advance();
         }
-        throw BaseParserDiagnostic.Errors.ExpectationError(types2Str(types), previous(), "after");
+        // we might expect some token at the beginning of a line,
+        // under such circumstance, we should issue error message with "expect something before (the first token)"
+        if (current().col == 1)
+            throw BaseParserDiagnostic.Errors.ExpectationError(types2Str(types), current(), "before");
+        else
+            throw BaseParserDiagnostic.Errors.ExpectationError(types2Str(types), previous(), "after");
     }
 
     protected boolean match(int... types) {
