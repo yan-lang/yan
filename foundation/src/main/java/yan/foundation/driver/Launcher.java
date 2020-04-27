@@ -15,8 +15,7 @@ public class Launcher implements Config.ConfigSpecProvider {
     // -------- Static Methods -------- //
 
     public static void launch(Language language, String[] args) {
-        int exitCode = new Launcher(language).launch(args);
-        System.exit(exitCode);
+        new Launcher(language).launch(args);
     }
 
     public static Launcher instance(Language language) {
@@ -35,12 +34,9 @@ public class Launcher implements Config.ConfigSpecProvider {
         return this;
     }
 
-    public int launch(String[] args) {
-        if (args.length == 0) {
-            return runInterpreter();
-        } else {
-            return runCompiler(args);
-        }
+    public void launch(String[] args) {
+        int exitCode = args.length == 0 ? runInterpreter() : runCompiler(args);
+        System.exit(exitCode);
     }
 
     private int runInterpreter() {
