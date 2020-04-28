@@ -78,6 +78,7 @@ public class ReadTextBuffer implements CodeSource {
      * @return 当前字符
      */
     public char previous() {
+        if (offset == 0) return current();
         return offset - 1 < length ? source.charAt(offset - 1) : '\0';
     }
 
