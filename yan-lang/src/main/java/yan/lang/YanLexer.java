@@ -1,5 +1,6 @@
 package yan.lang;
 
+import yan.common.diagnostic.Errors;
 import yan.foundation.compiler.frontend.lex.Token;
 import yan.lang.predefine.abc.AbstractYanLexer;
 
@@ -46,7 +47,7 @@ public class YanLexer extends AbstractYanLexer {
         };
 
         if (token.type == UNKNOWN) {
-//            log.addError(new UnknownTokenError(this));
+            logger.log(Errors.Lex.UnknownToken(token));
         }
 
         return token;
