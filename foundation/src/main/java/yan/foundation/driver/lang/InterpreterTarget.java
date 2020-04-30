@@ -11,12 +11,12 @@ public class InterpreterTarget<In, Out> extends Target<In, Out> {
         Phase.logger.clear();
         Phase.isInterpreting = true;
         var output = phase.apply(input);
-        if (output.isPresent()) {
-            out.println(formatter.format(output.get()));
-            return ExitCode.Success;
-        } else {
+
+        output.ifPresent(o -> out.println(formatter.format(o)));
+        if (Phase.logger.hasError()) {
             Phase.logger.flush(err);
             return ExitCode.PhaseError;
         }
+        return ExitCode.Success;
     }
 }

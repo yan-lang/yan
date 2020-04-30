@@ -16,16 +16,51 @@ import java.util.function.Function;
  * @param <R> Output
  */
 public abstract class Phase<T, R> implements Function<T, Optional<R>> {
+    /**
+     * Shared std out for all phases.
+     */
     public static PrintStream out = System.out;
+
+    /**
+     * Shared std err for all phases.
+     */
     public static PrintStream err = System.err;
+
+    /**
+     * Shared diagnostic logger for all phases.
+     */
     public static DiagnosticLogger logger = new DiagnosticLogger();
+
+    /**
+     * Whether the phase is being interpreting.
+     * <p>Why we need this field? Well, phase sometimes need be executed specially
+     * when it is interpreted. For example, in the semantic analyze phase,
+     * we need to track global symbol table between interpretation.</p>
+     */
     public static boolean isInterpreting = false;
 
+    /**
+     * The name of this phase.
+     */
     public String name;
+
+    /**
+     * When a phase is in panic mode, it return {@link Optional#empty()} if there is any error.
+     * If not, it will still return value if return value of {@link Phase#transform(Object)} is not null.
+     * <p>Default value: true</p>
+     */
+    protected boolean panicMode = true;
 
     public Phase() { this.name = this.getClass().getSimpleName(); }
 
     public Phase(String name) { this.name = name; }
+
+    public Phase(boolean panicMode) { this.panicMode = panicMode; }
+
+    public Phase(String name, boolean panicMode) {
+        this.name = name;
+        this.panicMode = panicMode;
+    }
 
     /**
      * Entry of the actual transformation.
@@ -44,7 +79,9 @@ public abstract class Phase<T, R> implements Function<T, Optional<R>> {
     @Override
     public Optional<R> apply(T t) {
         R out = transform(t);
-        return logger.hasError() ? Optional.empty() : Optional.of(out);
+        if ((logger.hasError() && panicMode) || out == null)
+            return Optional.empty();
+        return Optional.of(out);
     }
 
     /**

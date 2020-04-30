@@ -13,19 +13,21 @@ public class CompilerTarget<In, Out> extends Target<In, Out> {
         Phase.logger.clear();
         Phase.isInterpreting = false;
         var out = phase.apply(input);
+
         if (out.isPresent()) {
             try {
                 PrintStream writer = new PrintStream(output);
                 writer.print(formatter.format(out.get()));
                 writer.close();
-                return ExitCode.Success;
             } catch (FileNotFoundException e) {
                 System.err.println(e.getLocalizedMessage());
                 return ExitCode.ErrorCreatingFile;
             }
-        } else {
+        }
+        if (Phase.logger.hasError()) {
             Phase.logger.flush(System.err);
             return ExitCode.PhaseError;
         }
+        return ExitCode.Success;
     }
 }
