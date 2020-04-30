@@ -100,6 +100,14 @@ public abstract class AbstractParser<Out> extends Phase<List<Token>, Out> implem
         return false;
     }
 
+    protected boolean check(Token token, int... types) {
+        for (int type : types) {
+            if (token.type == type)
+                return true;
+        }
+        return false;
+    }
+
     protected Token LA(int x) {
         // TODO(Important): 如果index out of bound应该如何处理比较好
         return tokens.get(current + x);
