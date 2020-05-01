@@ -90,6 +90,8 @@ public class Token {
         this.lexer = builder.lexer;
     }
 
+    public int length() { return stop - start; }
+
     public String getText() {
         if (text == null) {
             text = source.getText(start, stop);
@@ -118,14 +120,14 @@ public class Token {
     @Override
     public String toString() {
         return "LexerToken{" +
-                "type=" + getTypeString() +
-                ", line=" + line +
-                ", col=" + col +
-                ", start=" + start +
-                ", stop=" + stop +
-                ", source=" + source.getSourceName() +
-                ", value=" + value +
-                '}';
+               "type=" + getTypeString() +
+               ", line=" + line +
+               ", col=" + col +
+               ", start=" + start +
+               ", stop=" + stop +
+               ", source=" + source.getSourceName() +
+               ", value=" + value +
+               '}';
     }
 
     public static class Builder {
