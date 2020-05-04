@@ -21,6 +21,18 @@ public abstract class Language {
 
     abstract public String extension();
 
+    /**
+     * Tell whether this language is interpretable.
+     *
+     * <p>The default implementation return {@code !getInterpreterTargets().isEmpty()}. Override this method
+     * if you want to run interpreter even if there is no interpreter targets.</p>
+     *
+     * @return true if it is, otherwise false.
+     */
+    public boolean interpretable() {
+        return !getInterpreterTargets().isEmpty();
+    }
+
     public int compile(File input, File output, String targetName) {
         Code code = readCode(input);
         if (code == null) return ExitCode.InvalidInputFile;

@@ -35,7 +35,7 @@ public class Launcher implements Config.ConfigSpecProvider {
     }
 
     public void launch(String[] args) {
-        int exitCode = args.length == 0 ? runInterpreter() : runCompiler(args);
+        int exitCode = args.length == 0 && language.interpretable() ? runInterpreter() : runCompiler(args);
         System.exit(exitCode);
     }
 
