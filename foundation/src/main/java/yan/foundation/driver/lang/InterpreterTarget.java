@@ -3,8 +3,11 @@ package yan.foundation.driver.lang;
 import java.io.PrintStream;
 
 public class InterpreterTarget<In, Out> extends Target<In, Out> {
+    public Formatter<Out> formatter;
+
     public InterpreterTarget(String name, Phase<In, Out> phase, Formatter<Out> formatter) {
         super(name, phase, formatter);
+        this.formatter = formatter;
     }
 
     public int interpret(In input, PrintStream out, PrintStream err) {

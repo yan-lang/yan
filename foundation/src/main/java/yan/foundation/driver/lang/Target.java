@@ -10,11 +10,11 @@ package yan.foundation.driver.lang;
 public abstract class Target<In, Out> {
     public String name;
     public Phase<In, Out> phase;
-    public Formatter<Out> formatter;
+    public Serializer<Out> serializer;
 
-    public Target(String name, Phase<In, Out> phase, Formatter<Out> formatter) {
+    public Target(String name, Phase<In, Out> phase, Serializer<Out> serializer) {
         this.name = name;
         this.phase = phase;
-        this.formatter = formatter;
+        this.serializer = serializer;
     }
 }

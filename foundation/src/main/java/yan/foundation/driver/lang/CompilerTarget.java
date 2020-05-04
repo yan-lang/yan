@@ -1,7 +1,7 @@
 package yan.foundation.driver.lang;
 
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintStream;
 
 public class CompilerTarget<In, Out> extends Target<In, Out> {
@@ -17,9 +17,9 @@ public class CompilerTarget<In, Out> extends Target<In, Out> {
         if (out.isPresent()) {
             try {
                 PrintStream writer = new PrintStream(output);
-                writer.print(formatter.format(out.get()));
+                writer.write(serializer.serialize(out.get()));
                 writer.close();
-            } catch (FileNotFoundException e) {
+            } catch (IOException e) {
                 System.err.println(e.getLocalizedMessage());
                 return ExitCode.ErrorCreatingFile;
             }
