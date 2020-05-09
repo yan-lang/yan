@@ -157,7 +157,9 @@ public class ReadTextBuffer implements CodeSource {
             line += 1;
             col = 0;
         }
-        col += 1;
+        // TODO(2020-5-9): 隐藏字符需要特殊处理, \t的空格数有可能是2或4
+        if (ch == '\t') col += 4;
+        else col += 1;
     }
 
     // endregion
