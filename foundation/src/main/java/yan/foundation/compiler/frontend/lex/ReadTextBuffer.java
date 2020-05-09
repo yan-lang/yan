@@ -34,6 +34,11 @@ public class ReadTextBuffer implements CodeSource {
         reset();
     }
 
+    public int getOffset() { return offset; }
+
+    public int getLine() { return line; }
+
+    public int getCol() { return col; }
 
     /**
      * 重置缓冲区,offset清0,line和col归1。
