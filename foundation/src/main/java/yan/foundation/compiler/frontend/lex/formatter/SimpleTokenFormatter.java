@@ -21,7 +21,7 @@ public class SimpleTokenFormatter implements Formatter<List<Token>> {
 
         for (var token : tokens) {
             block0.add(String.format("%d. ", token.index));
-            block1.add(token.getText());
+            block1.add(token.getEscapedText());
             block2.add(token.getTypeString());
             block3.add(String.format("loc=%s:%d:%d;%d:%d", token.source.getSourceName(),
                                      token.line, token.col, token.start, token.stop));

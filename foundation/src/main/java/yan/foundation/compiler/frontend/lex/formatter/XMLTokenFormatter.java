@@ -13,6 +13,7 @@ public class XMLTokenFormatter implements Formatter<List<Token>> {
         for (Token token : tokens) {
             printer.openElement("token");
             printer.pushSimpleElement("index", String.valueOf(token.index));
+            printer.pushSimpleElement("text", token.getEscapedText());
             printer.pushSimpleElement("type", token.getTypeString());
             printer.pushSimpleElement("source", token.source.getSourceName());
             printer.pushSimpleElement("lexer", token.lexer.getClass().getSimpleName());

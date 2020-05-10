@@ -99,6 +99,11 @@ public class Token {
         return text;
     }
 
+    public String getEscapedText() {
+        String text = getText().replace("\n", "\\n"); ;
+        return text;
+    }
+
     public boolean getBoolValue() {
         return (boolean) value;
     }
