@@ -10,7 +10,7 @@ public class Errors {
     public static NameResolveErrors NameResolve = new NameResolveErrors() {};
     public static TypeCheckErrors TypeCheck = new TypeCheckErrors() {};
 
-    protected static void fillRangePosition(Token anchor, Diagnostic d, boolean fillLength) {
+    public static void fillRangePosition(Token anchor, Diagnostic d, boolean fillLength) {
         d.line = anchor.line;
         d.column = anchor.col;
         if (fillLength) d.length = anchor.stop - anchor.start;
