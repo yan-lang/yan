@@ -17,6 +17,10 @@ public abstract class Tree {
         return new Range(start.index, end.index);
     }
 
+    public String getSourceFileName() {
+        return start.source.getSourceName();
+    }
+
     public void accept(ReflectiveVisitor v) {
         v.dispatch(this);
     }
