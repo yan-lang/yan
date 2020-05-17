@@ -37,9 +37,9 @@ public abstract class AbstractYanParser extends AbstractParser<YanTree.Program> 
             case GTE -> YanTree.Operator.Tag.GTE;
             case LT -> YanTree.Operator.Tag.LT;
             case LTE -> YanTree.Operator.Tag.LTE;
-            case REL_OR -> YanTree.Operator.Tag.REL_OR;
-            case REL_AND -> YanTree.Operator.Tag.REL_AND;
-            case REL_NOT -> YanTree.Operator.Tag.REL_NOT;
+            case LOR -> YanTree.Operator.Tag.LOR;
+            case LAND -> YanTree.Operator.Tag.LAND;
+            case LNOT -> YanTree.Operator.Tag.LNOT;
             default -> throw new IllegalStateException(token.getText() + " is not a operator token.");
         };
     }

@@ -43,7 +43,7 @@ public abstract class AbstractTypeChecker extends Phase<YanTree.Program, YanTree
     protected boolean compatible(YanTree.Operator.Tag op, Type operandType) {
         return switch (op) {
             case MINUS -> operandType != Bool;
-            case REL_NOT -> operandType == Bool;
+            case LNOT -> operandType == Bool;
             default -> throw new IllegalStateException("Unexpected value: " + op);
         };
     }
@@ -72,7 +72,7 @@ public abstract class AbstractTypeChecker extends Phase<YanTree.Program, YanTree
                 // since int can always be converted to other arithmetic type.
                 if (isErrorType(operandType)) return YanTypes.Int;
                 else return operandType;
-            case REL_NOT:
+            case LNOT:
                 return YanTypes.Bool;
             default:
                 throw new IllegalStateException("Unexpected value: " + op);
@@ -82,7 +82,7 @@ public abstract class AbstractTypeChecker extends Phase<YanTree.Program, YanTree
     protected Type getResultType(YanTree.Operator.Tag tag, Type lhsType, Type rhsType) {
         return switch (tag) {
             case PLUS, MINUS, MULTI, DIV, ASSIGN, EXP -> lhsType;
-            case EQ, NEQ, GT, GTE, LT, LTE, REL_OR, REL_AND, REL_NOT -> Bool;
+            case EQ, NEQ, GT, GTE, LT, LTE, LOR, LAND, LNOT -> Bool;
         };
     }
 

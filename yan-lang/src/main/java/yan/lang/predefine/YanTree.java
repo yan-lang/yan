@@ -258,7 +258,7 @@ public abstract class YanTree extends Tree {
             PLUS, MINUS, MULTI, DIV, EXP,
             ASSIGN,
             EQ, NEQ, GT, GTE, LT, LTE,
-            REL_OR, REL_AND, REL_NOT;
+            LOR, LAND, LNOT;
         }
 
         public Tag tag;

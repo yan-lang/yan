@@ -226,8 +226,8 @@ public class YanParser extends AbstractYanParser {
     Expr parseLogicalOr() {
         int start = current;
         Expr left = parseLogicalAnd();
-        while (check(REL_AND)) {
-            Token op = consume(REL_AND);
+        while (check(LAND)) {
+            Token op = consume(LAND);
             Expr right = parseLogicalAnd();
             left = setRange(new Binary(setRange(new Operator(getOperatorTag(op))), left, right), start);
         }
@@ -237,8 +237,8 @@ public class YanParser extends AbstractYanParser {
     Expr parseLogicalAnd() {
         int start = current;
         Expr left = parseEquality();
-        while (check(REL_OR)) {
-            Token op = consume(REL_OR);
+        while (check(LOR)) {
+            Token op = consume(LOR);
             Expr right = parseEquality();
             left = setRange(new Binary(setRange(new Operator(getOperatorTag(op))), left, right), start);
         }
@@ -304,13 +304,13 @@ public class YanParser extends AbstractYanParser {
     private boolean isUnaryPrefix(int type) {
         return type == INT_CONST || type == KW_TRUE || type == KW_FALSE ||
                type == IDENTIFIER || type == LEFT_PAREN ||
-               type == MINUS || type == REL_NOT;
+               type == MINUS || type == LNOT;
     }
 
     Expr parseUnary() {
         int start = current;
-        if (check(MINUS) || check(REL_NOT)) {
-            Token op = consume(MINUS, REL_NOT);
+        if (check(MINUS) || check(LNOT)) {
+            Token op = consume(MINUS, LNOT);
             Expr right = parsePostfix();
             return setRange(new Unary(setRange(new Operator(getOperatorTag(op))), right), start);
         }

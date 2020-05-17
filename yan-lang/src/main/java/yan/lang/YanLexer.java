@@ -36,12 +36,12 @@ public class YanLexer extends AbstractYanLexer {
             case ']' -> makeToken(LEFT_BRACKET);
 
             case '=' -> makeToken(buffer.current('=') ? EQ : ASSIGN);
-            case '!' -> makeToken(buffer.current('=') ? NEQ : REL_NOT);
+            case '!' -> makeToken(buffer.current('=') ? NEQ : LNOT);
             case '>' -> makeToken(buffer.current('=') ? GTE : GT);
             case '<' -> makeToken(buffer.current('=') ? LTE : LT);
 
-            case '|' -> makeToken(buffer.current('|') ? REL_OR : UNKNOWN);
-            case '&' -> makeToken(buffer.current('&') ? REL_AND : UNKNOWN);
+            case '|' -> makeToken(buffer.current('|') ? LOR : UNKNOWN);
+            case '&' -> makeToken(buffer.current('&') ? LAND : UNKNOWN);
 
             default -> makeToken(UNKNOWN);
         };

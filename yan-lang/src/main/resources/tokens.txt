@@ -31,9 +31,9 @@ GTE, Greater than or equal
 LT,  Less than,             <
 LTE, Less than or equal
 
-rel_not, relation not,  !
-rel_or,  relation or,   ||
-rel_and, relation and,  &&
+LNOT, logical not,  !
+LOR,  logical or,   ||
+LAND, logical and,  &&
 
 kw_var,   Keyword var,   var,   group=keywords
 
