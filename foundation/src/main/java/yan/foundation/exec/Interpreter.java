@@ -10,10 +10,7 @@ import yan.foundation.ir.inst.InstVoidVisitor;
 import yan.foundation.ir.inst.Instruction;
 import yan.foundation.ir.type.IRType;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Stack;
+import java.util.*;
 
 public abstract class Interpreter implements InstVoidVisitor {
     protected Stack<ExecContext> rtStack = new Stack<>();
@@ -22,7 +19,7 @@ public abstract class Interpreter implements InstVoidVisitor {
     protected Module module;
 
     // memory to store global variable
-    protected Map<Value, GenericValue> globals;
+    protected Map<Value, GenericValue> globals = new HashMap<>();
 
     public Interpreter(Module module) {
         this.module = module;
@@ -32,7 +29,9 @@ public abstract class Interpreter implements InstVoidVisitor {
     protected void setupGlobals() {
         for (var gvar : module.globals) {
             if (gvar.hasInitializer()) {
-                globals.put(gvar, getConstantValue(gvar.getInitializer()));
+                var value = new GenericValue();
+                value.pointerValue = getConstantValue(gvar.getInitializer());
+                globals.put(gvar, value);
             } else {
                 globals.put(gvar, GenericValue.ZeroInitialized(gvar.getType()));
             }
@@ -85,9 +84,7 @@ public abstract class Interpreter implements InstVoidVisitor {
     }
 
     protected GenericValue getOperandValue(Value value, ExecContext context) {
-        if (value instanceof GlobalValue) {
-            return getPointerToGlobal((GlobalValue) value);
-        } else if (value instanceof Constant) {
+        if (value instanceof Constant) {
             return getConstantValue((Constant) value);
         } else {
             return context.values.get(value);
@@ -106,7 +103,9 @@ public abstract class Interpreter implements InstVoidVisitor {
 
     private GenericValue getConstantValue(Constant value) {
         var result = new GenericValue();
-        if (value instanceof ConstantInt) {
+        if (value instanceof GlobalValue) {
+            result = getPointerToGlobal((GlobalValue) value);
+        } else if (value instanceof ConstantInt) {
             result.intValue = ((ConstantInt) value).value;
         } else if (value instanceof ConstantFP) {
             var fp = (ConstantFP) value;

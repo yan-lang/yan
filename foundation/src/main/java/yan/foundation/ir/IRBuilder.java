@@ -2,10 +2,7 @@ package yan.foundation.ir;
 
 import yan.foundation.ir.inst.Instruction;
 import yan.foundation.ir.inst.Instructions.*;
-import yan.foundation.ir.type.FloatType;
-import yan.foundation.ir.type.FunctionType;
-import yan.foundation.ir.type.IRType;
-import yan.foundation.ir.type.IntegerType;
+import yan.foundation.ir.type.*;
 
 import java.util.List;
 
@@ -26,11 +23,11 @@ public class IRBuilder {
         insertBlock = block;
     }
 
-    public void positionBefore(Instruction inst) {
-        insertBlock = inst.getParent();
-        // position instruction insert point
-
-    }
+//    public void positionBefore(Instruction inst) {
+//        insertBlock = inst.getParent();
+//        // position instruction insert point
+//
+//    }
 
     public Function getCurrentFunction() { return insertFunction; }
 
@@ -108,7 +105,9 @@ public class IRBuilder {
     }
 
     public Instruction buildFCmp(Value lhs, Value rhs, CmpInst.Predicate predicate, String name) {
-        return null;
+        Instruction inst = new FCmpInst(predicate, lhs, rhs, name, insertBlock);
+        insert(inst, "");
+        return inst;
     }
 
     public Instruction buildICmp(Value lhs, Value rhs, CmpInst.Predicate predicate) {
@@ -178,7 +177,7 @@ public class IRBuilder {
         return inst;
     }
 
-    public Instruction buildGEP(Value ptr, Value index, String name) {
+    public Value buildGEP(Value ptr, Value index, String name) {
         Instruction inst = new GetElementPtrInst(ptr, index, name, insertBlock);
         insert(inst, name);
         return inst;
@@ -210,22 +209,25 @@ public class IRBuilder {
         return inst;
     }
 
-    public CallInst buildCall(Function fn, List<Value> args) {
-        return null;
+    public CallInst buildCall(Value fn, List<Value> args) {
+        var type = (FunctionType) ((PointerType) fn.getType()).getElementType();
+        CallInst call = new CallInst(type, fn, args, "", insertBlock);
+        insert(call, "");
+        return call;
     }
 
 
     // ------------- Global Variable instruction ------------- //
 
     public GlobalVariable addGlobalVariable(String name, IRType type) {
-        return null;
+        return module.addGlobalVariable(name, type);
     }
 
-    public GlobalVariable addGlobalVariable(String name, Value initializer) {
-        return null;
+    public GlobalVariable addGlobalVariable(String name, Constant initializer) {
+        return module.addGlobalVariable(name, initializer);
     }
 
     public GlobalVariable addGlobalString(String name, String value) {
-        return null;
+        return module.addGlobalString(name, value);
     }
 }

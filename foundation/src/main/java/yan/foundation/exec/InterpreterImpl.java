@@ -115,10 +115,13 @@ public class InterpreterImpl extends Interpreter {
         var frame = getCurrentFrame();
         var pointer = getOperandValue(inst.getPointerOperand(), frame);
         var index = getOperandValue(inst.getIndexOperand(), frame);
-        if (index.intValue >= pointer.aggregateValue.size()) {
+        if (index.intValue >= pointer.pointerValue.aggregateValue.size()) {
             throw new RuntimeError("index out of bound: " + index.intValue);
         }
-        setValue(inst, pointer.aggregateValue.get(index.intValue), frame);
+        // we need to return a pointer actually
+        var elementPointer = new GenericValue();
+        elementPointer.pointerValue = pointer.pointerValue.aggregateValue.get(index.intValue);
+        setValue(inst, elementPointer, frame);
     }
 
     @Override
