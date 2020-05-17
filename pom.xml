@@ -29,7 +29,6 @@
         <connection>scm:git:https://github.com/yan-lang/yan.git</connection>
         <developerConnection>scm:git:ssh://github.com/yan-lang/yan.git</developerConnection>
         <url>https://github.com/yan-lang/yan</url>
-        <kind>HEAD</kind>
     </scm>
 
     <issueManagement>
