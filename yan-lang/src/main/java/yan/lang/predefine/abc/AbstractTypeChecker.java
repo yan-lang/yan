@@ -1,8 +1,8 @@
 package yan.lang.predefine.abc;
 
-import yan.foundation.compiler.frontend.semantic.v1.Type;
 import yan.foundation.driver.lang.Phase;
 import yan.foundation.driver.log.Diagnostic;
+import yan.foundation.frontend.semantic.v1.Type;
 import yan.lang.predefine.YanTree;
 import yan.lang.predefine.YanTypes;
 

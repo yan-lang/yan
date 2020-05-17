@@ -1,9 +1,9 @@
 package yan.common.diagnostic;
 
-import yan.foundation.compiler.frontend.ast.Tree;
-import yan.foundation.compiler.frontend.lex.Token;
-import yan.foundation.compiler.frontend.semantic.v1.Type;
 import yan.foundation.driver.log.Diagnostic;
+import yan.foundation.frontend.ast.Tree;
+import yan.foundation.frontend.lex.Token;
+import yan.foundation.frontend.semantic.v1.Type;
 
 public interface TypeCheckErrors {
 

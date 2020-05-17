@@ -1,8 +1,8 @@
 package yan.lang.semantic;
 
-import yan.foundation.compiler.frontend.semantic.v1.Scope;
-import yan.foundation.compiler.frontend.semantic.v1.symbol.BuiltinSymbol;
 import yan.foundation.driver.lang.Phase;
+import yan.foundation.frontend.semantic.v1.Scope;
+import yan.foundation.frontend.semantic.v1.symbol.BuiltinSymbol;
 import yan.lang.predefine.YanTree;
 import yan.lang.predefine.YanTypes;
 

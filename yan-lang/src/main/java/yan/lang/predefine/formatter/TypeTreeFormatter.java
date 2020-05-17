@@ -1,7 +1,7 @@
 package yan.lang.predefine.formatter;
 
-import yan.foundation.compiler.frontend.ast.Tree;
 import yan.foundation.driver.lang.Formatter;
+import yan.foundation.frontend.ast.Tree;
 import yan.foundation.utils.printer.XMLPrinter;
 import yan.lang.predefine.YanTree;
 

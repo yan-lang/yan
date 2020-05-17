@@ -1,7 +1,7 @@
 package yan.common.diagnostic;
 
-import yan.foundation.compiler.frontend.lex.Token;
 import yan.foundation.driver.log.Diagnostic;
+import yan.foundation.frontend.lex.Token;
 
 public class Errors {
     public static ControlStructureErrors ControlStructure = new ControlStructureErrors() {};

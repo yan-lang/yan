@@ -1,7 +1,7 @@
 package yan.common.diagnostic;
 
-import yan.foundation.compiler.frontend.ast.Tree;
 import yan.foundation.driver.log.Diagnostic;
+import yan.foundation.frontend.ast.Tree;
 
 public interface ControlStructureErrors {
     default Diagnostic BreakNotInLoop(Tree that) {

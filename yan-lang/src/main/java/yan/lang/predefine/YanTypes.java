@@ -1,7 +1,7 @@
 package yan.lang.predefine;
 
-import yan.foundation.compiler.frontend.semantic.v1.Type;
-import yan.foundation.compiler.frontend.semantic.v1.type.PrimitiveType;
+import yan.foundation.frontend.semantic.v1.Type;
+import yan.foundation.frontend.semantic.v1.type.PrimitiveType;
 
 public final class YanTypes {
     public static final PrimitiveType Error = new PrimitiveType("error");

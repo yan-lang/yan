@@ -1,7 +1,7 @@
 package yan.lang.predefine.abc;
 
-import yan.foundation.compiler.frontend.lex.AbstractLexer;
-import yan.foundation.compiler.frontend.lex.Vocabulary;
+import yan.foundation.frontend.lex.AbstractLexer;
+import yan.foundation.frontend.lex.Vocabulary;
 import yan.lang.predefine.YanTokens;
 
 public abstract class AbstractYanLexer extends AbstractLexer implements YanTokens {

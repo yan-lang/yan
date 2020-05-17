@@ -1,7 +1,7 @@
 package yan.lang;
 
-import yan.foundation.compiler.frontend.lex.Token;
 import yan.foundation.driver.log.Diagnostic;
+import yan.foundation.frontend.lex.Token;
 import yan.lang.predefine.YanTree;
 import yan.lang.predefine.abc.AbstractYanParser;
 

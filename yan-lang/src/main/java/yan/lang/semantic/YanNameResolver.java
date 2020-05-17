@@ -1,13 +1,13 @@
 package yan.lang.semantic;
 
-import yan.foundation.compiler.frontend.semantic.v1.Scope;
-import yan.foundation.compiler.frontend.semantic.v1.Symbol;
-import yan.foundation.compiler.frontend.semantic.v1.Type;
-import yan.foundation.compiler.frontend.semantic.v1.symbol.MethodSymbol;
-import yan.foundation.compiler.frontend.semantic.v1.symbol.TypeSymbol;
-import yan.foundation.compiler.frontend.semantic.v1.symbol.VarSymbol;
-import yan.foundation.compiler.frontend.semantic.v1.type.MethodType;
 import yan.foundation.driver.log.Diagnostic;
+import yan.foundation.frontend.semantic.v1.Scope;
+import yan.foundation.frontend.semantic.v1.Symbol;
+import yan.foundation.frontend.semantic.v1.Type;
+import yan.foundation.frontend.semantic.v1.symbol.MethodSymbol;
+import yan.foundation.frontend.semantic.v1.symbol.TypeSymbol;
+import yan.foundation.frontend.semantic.v1.symbol.VarSymbol;
+import yan.foundation.frontend.semantic.v1.type.MethodType;
 import yan.lang.predefine.YanTree;
 import yan.lang.predefine.YanTypes;
 import yan.lang.predefine.abc.AbstractNameResolver;

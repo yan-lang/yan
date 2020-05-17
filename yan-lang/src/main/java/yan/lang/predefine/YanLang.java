@@ -3,10 +3,10 @@ package yan.lang.predefine;
 
 import yan.common.CommonFormatterFactory;
 import yan.common.CommonTaskFactory;
-import yan.foundation.compiler.frontend.lex.Token;
-import yan.foundation.compiler.frontend.lex.formatter.SimpleTokenFormatter;
-import yan.foundation.compiler.frontend.lex.formatter.XMLTokenFormatter;
 import yan.foundation.driver.lang.*;
+import yan.foundation.frontend.lex.Token;
+import yan.foundation.frontend.lex.formatter.SimpleTokenFormatter;
+import yan.foundation.frontend.lex.formatter.XMLTokenFormatter;
 import yan.lang.predefine.formatter.CSTreeFormatter;
 import yan.lang.predefine.formatter.NameTreeFormatter;
 import yan.lang.predefine.formatter.ParseTreeFormatter;

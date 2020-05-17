@@ -1,9 +1,9 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import yan.foundation.compiler.frontend.ast.Range;
-import yan.foundation.compiler.frontend.parse.Parser;
 import yan.foundation.driver.lang.Code;
 import yan.foundation.driver.lang.Phase;
+import yan.foundation.frontend.ast.Range;
+import yan.foundation.frontend.parse.Parser;
 import yan.lang.YanLexer;
 import yan.lang.YanParser;
 import yan.lang.predefine.YanTree;

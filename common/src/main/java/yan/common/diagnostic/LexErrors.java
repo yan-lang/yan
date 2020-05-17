@@ -1,7 +1,7 @@
 package yan.common.diagnostic;
 
-import yan.foundation.compiler.frontend.lex.Token;
 import yan.foundation.driver.log.Diagnostic;
+import yan.foundation.frontend.lex.Token;
 
 public interface LexErrors {
     default Diagnostic UnknownToken(Token token) {

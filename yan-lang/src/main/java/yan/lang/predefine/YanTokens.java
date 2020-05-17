@@ -1,6 +1,6 @@
 package yan.lang.predefine;
 
-import yan.foundation.compiler.frontend.lex.BasicTokens;
+import yan.foundation.frontend.lex.BasicTokens;
 
 import java.util.List;
 import java.util.Map;

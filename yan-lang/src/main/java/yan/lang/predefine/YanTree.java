@@ -1,12 +1,12 @@
 package yan.lang.predefine;
 
-import yan.foundation.compiler.frontend.ast.ReflectiveVisitor;
-import yan.foundation.compiler.frontend.ast.Tree;
-import yan.foundation.compiler.frontend.semantic.v1.Scope;
-import yan.foundation.compiler.frontend.semantic.v1.Symbol;
-import yan.foundation.compiler.frontend.semantic.v1.Type;
-import yan.foundation.compiler.frontend.semantic.v1.symbol.MethodSymbol;
-import yan.foundation.compiler.frontend.semantic.v1.symbol.VarSymbol;
+import yan.foundation.frontend.ast.ReflectiveVisitor;
+import yan.foundation.frontend.ast.Tree;
+import yan.foundation.frontend.semantic.v1.Scope;
+import yan.foundation.frontend.semantic.v1.Symbol;
+import yan.foundation.frontend.semantic.v1.Type;
+import yan.foundation.frontend.semantic.v1.symbol.MethodSymbol;
+import yan.foundation.frontend.semantic.v1.symbol.VarSymbol;
 
 import java.util.List;
 

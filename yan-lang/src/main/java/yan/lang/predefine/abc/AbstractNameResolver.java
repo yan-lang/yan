@@ -1,8 +1,8 @@
 package yan.lang.predefine.abc;
 
-import yan.foundation.compiler.frontend.ast.Tree;
 import yan.foundation.driver.lang.Phase;
 import yan.foundation.driver.log.Diagnostic;
+import yan.foundation.frontend.ast.Tree;
 import yan.lang.predefine.YanTree;
 
 public abstract class AbstractNameResolver extends Phase<YanTree.Program, YanTree.Program> implements YanTree.VoidVisitor {

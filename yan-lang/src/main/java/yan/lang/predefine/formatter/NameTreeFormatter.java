@@ -1,7 +1,7 @@
 package yan.lang.predefine.formatter;
 
-import yan.foundation.compiler.frontend.semantic.v1.symbol.ClassSymbol;
 import yan.foundation.driver.lang.Formatter;
+import yan.foundation.frontend.semantic.v1.symbol.ClassSymbol;
 import yan.lang.predefine.YanTree;
 
 public class NameTreeFormatter implements YanTree.VoidVisitor, Formatter<YanTree.Program> {

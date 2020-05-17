@@ -4,8 +4,8 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import yan.foundation.compiler.frontend.ast.ReflectiveVisitor;
-import yan.foundation.compiler.frontend.ast.Tree;
+import yan.foundation.frontend.ast.ReflectiveVisitor;
+import yan.foundation.frontend.ast.Tree;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;

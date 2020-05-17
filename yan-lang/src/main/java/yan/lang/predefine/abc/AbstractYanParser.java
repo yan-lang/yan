@@ -1,10 +1,10 @@
 package yan.lang.predefine.abc;
 
-import yan.foundation.compiler.frontend.ast.Tree;
-import yan.foundation.compiler.frontend.lex.Token;
-import yan.foundation.compiler.frontend.parse.AbstractParser;
-import yan.foundation.compiler.frontend.parse.BaseParserDiagnostic;
 import yan.foundation.driver.log.Diagnostic;
+import yan.foundation.frontend.ast.Tree;
+import yan.foundation.frontend.lex.Token;
+import yan.foundation.frontend.parse.AbstractParser;
+import yan.foundation.frontend.parse.BaseParserDiagnostic;
 import yan.lang.predefine.YanTokens;
 import yan.lang.predefine.YanTree;
 
