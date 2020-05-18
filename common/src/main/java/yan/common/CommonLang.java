@@ -30,7 +30,7 @@ public abstract class CommonLang<TopLevel> extends Language {
         });
     }
 
-    private void buildTargets(CommonTaskFactory<TopLevel> t, CommonFormatterFactory<TopLevel> f, boolean isInterpreting, BuildTargetAction action) {
+    protected void buildTargets(CommonTaskFactory<TopLevel> t, CommonFormatterFactory<TopLevel> f, boolean isInterpreting, BuildTargetAction action) {
         t.lex(isInterpreting).ifPresent(phase -> action.exec("lex", phase, f.lex(isInterpreting)));
         t.parse(isInterpreting).ifPresent(phase -> action.exec("parse", phase, f.parse(isInterpreting)));
         t.checkControlStructure(isInterpreting).ifPresent(phase -> action.exec("cs", phase, f.cs(isInterpreting)));
@@ -38,7 +38,7 @@ public abstract class CommonLang<TopLevel> extends Language {
         t.checkType(isInterpreting).ifPresent(phase -> action.exec("type", phase, f.typeCheck(isInterpreting)));
     }
 
-    private interface BuildTargetAction {
+    protected interface BuildTargetAction {
         <out> void exec(String name, Phase<Code, out> phase, Formatter<out> formatter);
     }
 }
