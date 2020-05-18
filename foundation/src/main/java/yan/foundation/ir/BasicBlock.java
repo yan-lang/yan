@@ -6,7 +6,6 @@ import yan.foundation.ir.type.LabelType;
 import java.util.Iterator;
 
 public class BasicBlock extends Value implements Iterable<Instruction> {
-    String name;
     Function parent;
     ValueSymbolTable<Instruction> instructions = new ValueSymbolTable<>();
 
@@ -37,5 +36,15 @@ public class BasicBlock extends Value implements Iterable<Instruction> {
     @Override
     public String toString() {
         return name;
+    }
+
+    @Override
+    public void setName(String name) {
+        if (name == null || name.equals("")) {
+            super.setName(String.valueOf(parent.getAvailableTempID()));
+        } else {
+            var resolvedName = parent.resolveNameConflict(name);
+            super.setName(resolvedName);
+        }
     }
 }
