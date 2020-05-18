@@ -20,6 +20,13 @@ public abstract class Value {
     }
 
     public void replaceAllUseWith(Value v) {
+        for (User user : users) {
+            for (int i = 0; i < user.operands.length; i++) {
+                if (user.operands[i] == this) {
+                    user.operands[i] = v;
+                }
+            }
+        }
     }
 
     public IRType getType() { return type; }
