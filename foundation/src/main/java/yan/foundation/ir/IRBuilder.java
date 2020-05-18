@@ -124,6 +124,40 @@ public class IRBuilder {
         return insert(inst);
     }
 
+    public Instruction buildEQ(Value lhs, Value rhs) {
+        return buildCmpInst(CmpInst.Predicate.ICMP_EQ, CmpInst.Predicate.FCMP_EQ, lhs, rhs, "==");
+    }
+
+    public Instruction buildNEQ(Value lhs, Value rhs) {
+        return buildCmpInst(CmpInst.Predicate.ICMP_NEQ, CmpInst.Predicate.FCMP_NEQ, lhs, rhs, "!=");
+    }
+
+    public Instruction buildGT(Value lhs, Value rhs) {
+        return buildCmpInst(CmpInst.Predicate.ICMP_GT, CmpInst.Predicate.FCMP_GT, lhs, rhs, ">");
+    }
+
+    public Instruction buildGTE(Value lhs, Value rhs) {
+        return buildCmpInst(CmpInst.Predicate.ICMP_GTE, CmpInst.Predicate.FCMP_GTE, lhs, rhs, ">=");
+    }
+
+    public Instruction buildLT(Value lhs, Value rhs) {
+        return buildCmpInst(CmpInst.Predicate.ICMP_LT, CmpInst.Predicate.FCMP_LT, lhs, rhs, "<");
+    }
+
+    public Instruction buildLTE(Value lhs, Value rhs) {
+        return buildCmpInst(CmpInst.Predicate.ICMP_LTE, CmpInst.Predicate.FCMP_LTE, lhs, rhs, "<=");
+    }
+
+    private Instruction buildCmpInst(CmpInst.Predicate intOp, CmpInst.Predicate floatOp, Value lhs, Value rhs, String name) {
+        if (lhs.getType().isFloatingPointType()) {
+            return buildFCmp(lhs, rhs, floatOp);
+        } else if (lhs.getType().isIntegerType()) {
+            return buildICmp(lhs, rhs, intOp);
+        } else {
+            throw new IllegalStateException("unexpected type for " + name + " instruction");
+        }
+    }
+
     public Instruction buildFCmp(Value lhs, Value rhs, CmpInst.Predicate predicate) {
         return buildFCmp(lhs, rhs, predicate, "");
     }
