@@ -1,6 +1,7 @@
 package yan.foundation.ir;
 
 import yan.foundation.ir.type.FunctionType;
+import yan.foundation.ir.type.PointerType;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -44,5 +45,9 @@ public class Function extends GlobalValue implements Iterable<BasicBlock> {
     @Override
     public Iterator<BasicBlock> iterator() {
         return basicBlocks.iterator();
+    }
+
+    public FunctionType getFunctionType() {
+        return (FunctionType) ((PointerType) super.getType()).getElementType();
     }
 }
