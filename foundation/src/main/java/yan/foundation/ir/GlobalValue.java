@@ -12,4 +12,9 @@ public class GlobalValue extends Constant {
     public String toString() {
         return "@" + getName();
     }
+
+    @Override
+    public PointerType getType() {
+        return (PointerType) super.getType();
+    }
 }

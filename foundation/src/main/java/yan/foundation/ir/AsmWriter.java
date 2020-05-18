@@ -3,6 +3,7 @@ package yan.foundation.ir;
 import yan.foundation.ir.inst.InstVisitor;
 import yan.foundation.ir.inst.Instruction;
 import yan.foundation.ir.inst.Instructions;
+import yan.foundation.ir.type.StructType;
 import yan.foundation.utils.printer.IndentPrinter;
 
 import java.util.stream.Collectors;
@@ -36,11 +37,32 @@ public class AsmWriter {
     }
 
     private void buildTypes() {
-
+        printer.println("types {");
+        printer.indent();
+        for (var type : StructType.namedTypes.values()) {
+            printer.print(type.getName()).print(" = ").print(type.toStructString());
+            printer.println();
+        }
+        printer.unindent();
+        printer.println("}");
+        printer.println();
     }
 
     private void buildGlobals() {
-
+        printer.println("globals {");
+        printer.indent();
+        for (var gvar : module.globals) {
+            printer.print("@" + gvar.getName())
+                   .print(": ")
+                   .print(gvar.getType().getElementType().toString());
+            if (gvar.hasInitializer()) {
+                printer.print(" = ").print(gvar.getInitializer().toString());
+            }
+            printer.println();
+        }
+        printer.unindent();
+        printer.println("}");
+        printer.println();
     }
 
     private void buildFunctions() {

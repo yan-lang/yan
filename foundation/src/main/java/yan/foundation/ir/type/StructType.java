@@ -17,17 +17,17 @@ public class StructType extends IRType {
 
     // ------------- Factory ------------- //
 
-    protected static Map<String, StructType> buffer = new HashMap<>();
+    public final static Map<String, StructType> namedTypes = new HashMap<>();
 
     public static StructType get(String name, List<IRType> elementTypes) {
         if (get(name) != null) return get(name);
         var type = new StructType(name, elementTypes);
-        buffer.put(name, type);
+        namedTypes.put(name, type);
         return type;
     }
 
     public static StructType get(String name) {
-        return buffer.get(name);
+        return namedTypes.get(name);
     }
 
     // ------------- Instance methods ------------- //
@@ -50,6 +50,10 @@ public class StructType extends IRType {
 
     @Override
     public String toString() {
+        return name;
+    }
+
+    public String toStructString() {
         var members = elementTypes.stream()
                                   .map(Object::toString)
                                   .collect(Collectors.joining(", "));

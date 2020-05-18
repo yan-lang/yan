@@ -1,7 +1,6 @@
 package yan.foundation.ir;
 
 import yan.foundation.ir.type.FunctionType;
-import yan.foundation.ir.type.PointerType;
 
 import java.util.*;
 
@@ -51,7 +50,7 @@ public class Function extends GlobalValue implements Iterable<BasicBlock> {
     }
 
     public FunctionType getFunctionType() {
-        return (FunctionType) ((PointerType) super.getType()).getElementType();
+        return (FunctionType) super.getType().getElementType();
     }
 
     public int getAvailableTempID() {

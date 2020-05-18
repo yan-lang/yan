@@ -128,7 +128,7 @@ public class IRTest {
     }
 
     @Test
-    public void testVTable() {
+    public Module testVTable() {
         Module module = new Module("testVTable");
         IRBuilder builder = new IRBuilder(module);
 
@@ -158,11 +158,12 @@ public class IRTest {
         Interpreter interpreter = new InterpreterImpl(module);
         var value = interpreter.runFunction(module.getNamedFunction("main"), List.of());
         System.out.println(value.intValue);
+        return module;
     }
 
     @Test
     public void testDump() {
-        Module module = testGlobal();
+        Module module = testVTable();
         System.out.println(module.dump());
     }
 }
