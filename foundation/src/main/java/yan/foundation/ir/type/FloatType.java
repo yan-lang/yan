@@ -19,4 +19,9 @@ public class FloatType extends IRType {
     public boolean isFloatingPointType() {
         return true;
     }
+
+    @Override
+    public String toString() {
+        return kind == Kind.FLOAT ? "float" : "double";
+    }
 }

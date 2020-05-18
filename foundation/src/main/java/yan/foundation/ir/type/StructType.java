@@ -3,6 +3,7 @@ package yan.foundation.ir.type;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class StructType extends IRType {
     private final String name;
@@ -45,5 +46,13 @@ public class StructType extends IRType {
     @Override
     public boolean isStructType() {
         return true;
+    }
+
+    @Override
+    public String toString() {
+        var members = elementTypes.stream()
+                                  .map(Object::toString)
+                                  .collect(Collectors.joining(", "));
+        return "{" + members + "}";
     }
 }

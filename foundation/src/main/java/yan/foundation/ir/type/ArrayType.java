@@ -33,4 +33,9 @@ public class ArrayType extends IRType {
     public boolean isArrayType() {
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "[" + numOfElements + " x " + elementType + "]";
+    }
 }

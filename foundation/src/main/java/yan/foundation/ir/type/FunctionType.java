@@ -1,6 +1,7 @@
 package yan.foundation.ir.type;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class FunctionType extends IRType {
     private final IRType returnType;
@@ -27,4 +28,12 @@ public class FunctionType extends IRType {
     public IRType getParamTypeAt(int index) { return paramTypes.get(index); }
 
     public int numOfParams() { return paramTypes.size(); }
+
+    @Override
+    public String toString() {
+        var params = paramTypes.stream()
+                               .map(Object::toString)
+                               .collect(Collectors.joining(", "));
+        return returnType + " (" + params + ")";
+    }
 }

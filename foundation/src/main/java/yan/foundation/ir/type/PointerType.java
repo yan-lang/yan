@@ -18,4 +18,9 @@ public class PointerType extends IRType {
     public boolean isPointerType() {
         return true;
     }
+
+    @Override
+    public String toString() {
+        return elementType + "*";
+    }
 }

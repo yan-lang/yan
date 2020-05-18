@@ -13,4 +13,9 @@ public class VoidType extends IRType {
     public boolean isVoidType() {
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "void";
+    }
 }

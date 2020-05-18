@@ -52,4 +52,9 @@ public class IntegerType extends IRType {
     public boolean isIntegerType() {
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "i" + width;
+    }
 }
