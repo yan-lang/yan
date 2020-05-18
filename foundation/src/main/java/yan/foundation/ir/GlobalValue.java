@@ -7,4 +7,9 @@ public class GlobalValue extends Constant {
     public GlobalValue(IRType type, int numOps) {
         super(PointerType.get(type), numOps);
     }
+
+    @Override
+    public String toString() {
+        return "@" + getName();
+    }
 }

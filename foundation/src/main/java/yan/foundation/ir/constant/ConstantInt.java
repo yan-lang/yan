@@ -15,4 +15,9 @@ public class ConstantInt extends Constant {
         super(type, 0);
         this.value = value;
     }
+
+    @Override
+    public String toString() {
+        return String.valueOf(value);
+    }
 }

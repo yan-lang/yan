@@ -28,4 +28,9 @@ public abstract class Instruction extends User {
     public void accept(InstVoidVisitor visitor) {
         visitor.visit(this);
     }
+
+    @Override
+    public String toString() {
+        return getName();
+    }
 }

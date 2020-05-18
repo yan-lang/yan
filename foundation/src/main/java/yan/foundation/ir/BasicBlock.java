@@ -16,6 +16,7 @@ public class BasicBlock extends Value implements Iterable<Instruction> {
         this.parent = parent;
 
         insertInto(parent);
+        setName(name);
     }
 
     private void insertInto(Function parent) {
@@ -27,5 +28,10 @@ public class BasicBlock extends Value implements Iterable<Instruction> {
     @Override
     public Iterator<Instruction> iterator() {
         return instructions.iterator();
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

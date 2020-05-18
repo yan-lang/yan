@@ -12,4 +12,8 @@ public class Parameter extends Value {
         this.paramNum = paramNum;
     }
 
+    @Override
+    public String toString() {
+        return "%" + paramNum;
+    }
 }
