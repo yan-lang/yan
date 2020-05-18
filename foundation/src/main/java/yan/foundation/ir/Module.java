@@ -19,7 +19,9 @@ public class Module implements Iterable<Function> {
 
     public void verify() {}
 
-    public String dump() {return null;}
+    public String dump() {
+        return new AsmWriter(this).dump();
+    }
 
     public void print(File file) {
     }
@@ -43,26 +45,26 @@ public class Module implements Iterable<Function> {
 
     public Function addFunction(String name, FunctionType type) {
         var function = Function.create(type, name);
-        functions.define(name, function);
+        functions.add(function);
         return function;
     }
 
     public GlobalVariable addGlobalVariable(String name, IRType type) {
         var gvar = new GlobalVariable(type, null, false, name);
-        globals.define(name, gvar);
+        globals.add(gvar);
         return gvar;
     }
 
     public GlobalVariable addGlobalVariable(String name, Constant initializer) {
         var gvar = new GlobalVariable(initializer.getType(), initializer, false, name);
-        globals.define(name, gvar);
+        globals.add(gvar);
         return gvar;
     }
 
     public GlobalVariable addGlobalString(String name, String value) {
         var gvar = new GlobalVariable(ArrayType.get(IntegerType.int8, value.length() + 1),
                                       null, true, name);
-        globals.define(name, gvar);
+        globals.add(gvar);
         return gvar;
     }
 

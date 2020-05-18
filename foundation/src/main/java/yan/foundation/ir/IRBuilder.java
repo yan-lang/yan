@@ -33,19 +33,20 @@ public class IRBuilder {
 
     public BasicBlock getCurrentBlock() { return insertBlock; }
 
-    public void insert(Instruction inst, String name) {
-        insertBlock.instructions.define(name, inst);
+    public <T extends Instruction> T insert(T inst) {
+        insertBlock.instructions.add(inst);
+        return inst;
     }
 
     // --------------- Conveniences Instruction --------------- //
 
-    public Value buildBinaryOperation(OpCode.Binary op, Value lhs, Value rhs, String name) {
-        return null;
-    }
-
-    public Value buildCast(OpCode.Cast op, Value value, IRType type, String name) {
-        return null;
-    }
+//    public Value buildBinaryOperation(OpCode.Binary op, Value lhs, Value rhs, String name) {
+//        return null;
+//    }
+//
+//    public Value buildCast(OpCode.Cast op, Value value, IRType type, String name) {
+//        return null;
+//    }
 
     //
 
@@ -55,31 +56,51 @@ public class IRBuilder {
 
     // --------------- Arithmetic Instruction --------------- //
 
+    public Instruction buildNeg(Value value) {
+        return buildNeg(value, "");
+    }
+
     public Instruction buildNeg(Value value, String name) {
         IRType type = value.getType();
         Instruction inst;
         if (type.kind == IRType.Kind.INTEGER) {
-            inst = new BinaryOpInst(OpCode.Binary.SUB, value, ((IntegerType) type).constant(0), insertBlock);
+            inst = new BinaryOpInst(OpCode.Binary.SUB, value, ((IntegerType) type).constant(0),
+                                    name, insertBlock);
         } else if (type.kind == IRType.Kind.FLOAT) {
-            inst = new BinaryOpInst(OpCode.Binary.FSUB, value, ((FloatType) type).constant(0), insertBlock);
+            inst = new BinaryOpInst(OpCode.Binary.FSUB, value, ((FloatType) type).constant(0),
+                                    name, insertBlock);
         } else {
             throw new IllegalStateException("unexpected type for neg instruction");
         }
-        insert(inst, name);
-        return inst;
+        return insert(inst);
+    }
+
+    public Instruction buildAdd(Value lhs, Value rhs) {
+        return buildAdd(lhs, rhs, "");
     }
 
     public Instruction buildAdd(Value lhs, Value rhs, String name) {
         return buildBinaryOp(OpCode.Binary.ADD, OpCode.Binary.FADD, lhs, rhs, name);
+    }
 
+    public Instruction buildSub(Value lhs, Value rhs) {
+        return buildSub(lhs, rhs, "");
     }
 
     public Instruction buildSub(Value lhs, Value rhs, String name) {
         return buildBinaryOp(OpCode.Binary.SUB, OpCode.Binary.FSUB, lhs, rhs, name);
     }
 
+    public Instruction buildMul(Value lhs, Value rhs) {
+        return buildMul(lhs, rhs, "");
+    }
+
     public Instruction buildMul(Value lhs, Value rhs, String name) {
         return buildBinaryOp(OpCode.Binary.MUL, OpCode.Binary.FMUL, lhs, rhs, name);
+    }
+
+    public Instruction buildDiv(Value lhs, Value rhs) {
+        return buildDiv(lhs, rhs, "");
     }
 
     public Instruction buildDiv(Value lhs, Value rhs, String name) {
@@ -94,19 +115,22 @@ public class IRBuilder {
         IRType type = lhs.getType();
         Instruction inst;
         if (type.kind == IRType.Kind.INTEGER) {
-            inst = new BinaryOpInst(intOp, lhs, rhs, insertBlock);
+            inst = new BinaryOpInst(intOp, lhs, rhs, name, insertBlock);
         } else if (type.kind == IRType.Kind.FLOAT) {
-            inst = new BinaryOpInst(floatOp, lhs, rhs, insertBlock);
+            inst = new BinaryOpInst(floatOp, lhs, rhs, name, insertBlock);
         } else {
             throw new IllegalStateException("unexpected type for " + intOp + " instruction");
         }
-        insert(inst, name);
-        return inst;
+        return insert(inst);
+    }
+
+    public Instruction buildFCmp(Value lhs, Value rhs, CmpInst.Predicate predicate) {
+        return buildFCmp(lhs, rhs, predicate, "");
     }
 
     public Instruction buildFCmp(Value lhs, Value rhs, CmpInst.Predicate predicate, String name) {
         Instruction inst = new FCmpInst(predicate, lhs, rhs, name, insertBlock);
-        insert(inst, "");
+        insert(inst);
         return inst;
     }
 
@@ -116,7 +140,7 @@ public class IRBuilder {
 
     public Instruction buildICmp(Value lhs, Value rhs, CmpInst.Predicate predicate, String name) {
         Instruction inst = new ICmpInst(predicate, lhs, rhs, name, insertBlock);
-        insert(inst, "");
+        insert(inst);
         return inst;
     }
 
@@ -155,10 +179,13 @@ public class IRBuilder {
 
     // --------------- Memory Instruction --------------- //
 
+    public AllocaInst buildAlloca(IRType type) {
+        return buildAlloca(type, "");
+    }
+
     public AllocaInst buildAlloca(IRType type, String name) {
         AllocaInst inst = new AllocaInst(type, name, insertBlock);
-        insert(inst, name);
-        return inst;
+        return insert(inst);
     }
 
     public StoreInst buildStore(Value ptr, Value value) {
@@ -167,53 +194,57 @@ public class IRBuilder {
 
     public StoreInst buildStore(Value ptr, Value value, String name) {
         StoreInst inst = new StoreInst(value, ptr, name, insertBlock);
-        insert(inst, name);
-        return inst;
+        return insert(inst);
+    }
+
+    public LoadInst buildLoad(Value value) {
+        return buildLoad(value, "");
     }
 
     public LoadInst buildLoad(Value value, String name) {
         LoadInst inst = new LoadInst(value, name, insertBlock);
-        insert(inst, name);
-        return inst;
+        return insert(inst);
+    }
+
+    public Value buildGEP(Value ptr, Value index) {
+        return buildGEP(ptr, index, "");
     }
 
     public Value buildGEP(Value ptr, Value index, String name) {
         Instruction inst = new GetElementPtrInst(ptr, index, name, insertBlock);
-        insert(inst, name);
-        return inst;
+        return insert(inst);
     }
 
     // ------------- Terminator instruction ------------- //
 
     public Instruction buildBr(BasicBlock block) {
         Instruction inst = new BranchInst(block);
-        insert(inst, "");
-        return inst;
+        return insert(inst);
     }
 
     public Instruction buildCondBr(Value condition, BasicBlock thenBlock, BasicBlock elseBlock) {
         Instruction inst = new BranchInst(thenBlock, elseBlock, condition);
-        insert(inst, "");
-        return inst;
+        return insert(inst);
     }
 
     public Instruction buildRet(Value value) {
         Instruction inst = new RetInst(value, insertBlock);
-        insert(inst, "");
-        return inst;
+        return insert(inst);
     }
 
     public Instruction buildRetVoid() {
         Instruction inst = new RetInst(insertBlock);
-        insert(inst, "");
-        return inst;
+        return insert(inst);
     }
 
     public CallInst buildCall(Value fn, List<Value> args) {
+        return buildCall(fn, args, "");
+    }
+
+    public CallInst buildCall(Value fn, List<Value> args, String name) {
         var type = (FunctionType) ((PointerType) fn.getType()).getElementType();
-        CallInst call = new CallInst(type, fn, args, "", insertBlock);
-        insert(call, "");
-        return call;
+        CallInst call = new CallInst(type, fn, args, name, insertBlock);
+        return insert(call);
     }
 
 

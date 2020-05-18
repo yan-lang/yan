@@ -37,9 +37,10 @@ public class Instructions {
     public static class BinaryOpInst extends BinaryInst {
         public final OpCode.Binary op;
 
-        public BinaryOpInst(OpCode.Binary op, Value lhs, Value rhs, BasicBlock parent) {
+        public BinaryOpInst(OpCode.Binary op, Value lhs, Value rhs, String name, BasicBlock parent) {
             super(lhs.getType(), lhs, rhs, parent);
             this.op = op;
+            setName(name);
         }
 
         public <T> T accept(InstVisitor<T> visitor) {
@@ -136,6 +137,11 @@ public class Instructions {
 
         public Value getCalledOperand() {
             return getOperand(0);
+        }
+
+        public List<Value> getArgOperands() {
+            var args = List.of(operands);
+            return args.subList(1, args.size());
         }
 
         public Value getArgOperand(int index) {
@@ -288,6 +294,7 @@ public class Instructions {
             super(VoidType.get(), 2, parent);
             setOperands(value, addr);
             setName(name);
+            assertOK();
         }
 
         private void assertOK() {

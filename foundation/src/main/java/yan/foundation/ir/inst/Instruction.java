@@ -31,6 +31,16 @@ public abstract class Instruction extends User {
 
     @Override
     public String toString() {
-        return getName();
+        return "%" + getName();
+    }
+
+    @Override
+    public void setName(String name) {
+        if (name == null || name.equals("")) {
+            super.setName(String.valueOf(parent.getParent().getAvailableTempID()));
+        } else {
+            var resolvedName = parent.getParent().resolveNameConflict(name);
+            super.setName(resolvedName);
+        }
     }
 }

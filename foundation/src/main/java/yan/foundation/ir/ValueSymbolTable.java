@@ -18,7 +18,7 @@ import java.util.*;
  *
  * @param <T> Value Type
  */
-public class ValueSymbolTable<T> implements Iterable<T> {
+public class ValueSymbolTable<T extends Value> implements Iterable<T> {
     Map<String, T> map = new HashMap<>();
     List<T> list = new LinkedList<>();
 
@@ -26,8 +26,9 @@ public class ValueSymbolTable<T> implements Iterable<T> {
         return map.get(key);
     }
 
-    public void define(String key, T t) {
-        map.put(key, t);
+    public void add(T t) {
+        if (t.hasName())
+            map.put(t.getName(), t);
         list.add(t);
     }
 

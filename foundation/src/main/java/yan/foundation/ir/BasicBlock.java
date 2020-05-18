@@ -25,6 +25,10 @@ public class BasicBlock extends Value implements Iterable<Instruction> {
         }
     }
 
+    public Function getParent() {
+        return parent;
+    }
+
     @Override
     public Iterator<Instruction> iterator() {
         return instructions.iterator();

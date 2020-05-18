@@ -60,7 +60,7 @@ public class IRTest {
     }
 
     @Test
-    public void testGlobal() {
+    public Module testGlobal() {
         /*
          * int question=10;
          *
@@ -123,6 +123,8 @@ public class IRTest {
         Interpreter interpreter = new InterpreterImpl(module);
         var value = interpreter.runFunction(module.getNamedFunction("main"), List.of());
         Assertions.assertEquals(55, value.intValue);
+
+        return module;
     }
 
     @Test
@@ -158,5 +160,9 @@ public class IRTest {
         System.out.println(value.intValue);
     }
 
-
+    @Test
+    public void testDump() {
+        Module module = testGlobal();
+        System.out.println(module.dump());
+    }
 }
