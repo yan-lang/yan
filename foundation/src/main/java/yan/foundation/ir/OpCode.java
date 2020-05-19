@@ -62,6 +62,9 @@ public enum OpCode {
         FMUL,
         DIV,
         FDIV,
+        SREM,  // Signed remainder
+        UREM,  // Unsigned remainder
+        FREM,  // Float remainder
 
         SHL,   // Shift-Left
         LSHR,  // Logical shift-right

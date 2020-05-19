@@ -39,6 +39,9 @@ public class InterpreterImpl extends Interpreter {
             case FSUB: execFSubInst(r, src1, src2, type); break;
             case FMUL: execFMulInst(r, src1, src2, type); break;
             case FDIV: execFDivInst(r, src1, src2, type); break;
+            case SREM:
+            case UREM: r.intValue = src1.intValue % src2.intValue; break;
+            case FREM: execFRemInst(r, src1, src2, type); break;
             case SHL: r.intValue = src1.intValue << src2.intValue; break;
             case LSHR: r.intValue = src1.intValue >>> src2.intValue; break;
             case ASHR: r.intValue = src1.intValue >> src2.intValue; break;
@@ -250,4 +253,13 @@ public class InterpreterImpl extends Interpreter {
             default: throw new IllegalStateException("Unhandled type for FAdd instruction: " + type.kind);
         }
     }
+
+    private void execFRemInst(GenericValue r, GenericValue src1, GenericValue src2, IRType type) {
+        switch (type.kind) {
+            case FLOAT: r.floatValue = src1.floatValue % src2.floatValue; break;
+            case DOUBLE: r.doubleValue = src1.doubleValue % src2.doubleValue; break;
+            default: throw new IllegalStateException("Unhandled type for FRem instruction: " + type.kind);
+        }
+    }
+
 }

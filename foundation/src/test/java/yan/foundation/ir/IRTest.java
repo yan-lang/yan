@@ -162,6 +162,22 @@ public class IRTest {
     }
 
     @Test
+    public void testRem() {
+        Module module = new Module("testRem");
+        IRBuilder builder = new IRBuilder(module);
+
+        var main = builder.addFunction("main", FunctionType.get(VoidType.get()));
+        var entry = main.appendBasicBlock("entry");
+        builder.positionAtEnd(entry);
+        var ret = builder.buildRem(IntegerType.int32.constant(28), IntegerType.int32.constant(6), true);
+        builder.buildRet(ret);
+
+        Interpreter interpreter = new InterpreterImpl(module);
+        var value = interpreter.runFunction(module.getNamedFunction("main"), List.of());
+        System.out.println(value.intValue);
+    }
+
+    @Test
     public void testDump() {
         Module module = testVTable();
         System.out.println(module.dump());

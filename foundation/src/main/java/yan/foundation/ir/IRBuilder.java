@@ -111,8 +111,21 @@ public class IRBuilder {
         return buildBinaryOp(OpCode.Binary.DIV, OpCode.Binary.FDIV, lhs, rhs, name);
     }
 
-    public Instruction buildRem(Value lhs, Value rhs, String name) {
-        throw new IllegalStateException("not implemented");
+    public Instruction buildRem(Value lhs, Value rhs, boolean signed) {
+        return buildRem(lhs, rhs, signed, "");
+    }
+
+    public Instruction buildRem(Value lhs, Value rhs, boolean signed, String name) {
+        IRType type = lhs.getType();
+        Instruction inst;
+        if (type.kind == IRType.Kind.INTEGER) {
+            inst = new BinaryOpInst(signed ? OpCode.Binary.SREM : OpCode.Binary.UREM, lhs, rhs, name, insertBlock);
+        } else if (type.kind == IRType.Kind.FLOAT) {
+            inst = new BinaryOpInst(OpCode.Binary.FREM, lhs, rhs, name, insertBlock);
+        } else {
+            throw new IllegalStateException("unexpected type for rem instruction");
+        }
+        return insert(inst);
     }
 
     private Instruction buildBinaryOp(OpCode.Binary intOp, OpCode.Binary floatOp, Value lhs, Value rhs, String name) {
@@ -290,6 +303,18 @@ public class IRBuilder {
         var type = (FunctionType) ((PointerType) fn.getType()).getElementType();
         CallInst call = new CallInst(type, fn, args, name, insertBlock);
         return insert(call);
+    }
+
+    //===----------------------------------------------------------------------===//
+    //                    Conversion instruction
+    //===----------------------------------------------------------------------===//
+
+    public Instruction buildIntToFP(Value value, FloatType type, boolean signed, String name) {
+        return null;
+    }
+
+    public Instruction buildFPToInt(Value value, IntegerType type, boolean signed, String name) {
+        return null;
     }
 
     //===----------------------------------------------------------------------===//
