@@ -16,7 +16,4 @@ public class Symbol {
         this.tree = tree;
     }
 
-    public String kind() {
-        return getClass().getSimpleName().toLowerCase();
-    }
 }
