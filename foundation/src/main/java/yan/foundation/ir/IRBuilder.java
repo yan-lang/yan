@@ -17,7 +17,9 @@ public class IRBuilder {
         this.module = module;
     }
 
-    // --------------- IR Navigation --------------- //
+    //===----------------------------------------------------------------------===//
+    //                    IR Navigation
+    //===----------------------------------------------------------------------===//
 
     public void positionAtEnd(BasicBlock block) {
         insertBlock = block;
@@ -54,7 +56,9 @@ public class IRBuilder {
         return module.addFunction(name, type);
     }
 
-    // --------------- Arithmetic Instruction --------------- //
+    //===----------------------------------------------------------------------===//
+    //                    Arithmetic Instruction
+    //===----------------------------------------------------------------------===//
 
     public Instruction buildNeg(Value value) {
         return buildNeg(value, "");
@@ -178,7 +182,9 @@ public class IRBuilder {
         return inst;
     }
 
-    // --------------- Logical Instruction --------------- //
+    //===----------------------------------------------------------------------===//
+    //                    Logical Instruction
+    //===----------------------------------------------------------------------===//
 
     public Instruction buildNot(Value value, String name) {
         if (value.getType().kind != IRType.Kind.INTEGER) {
@@ -211,7 +217,10 @@ public class IRBuilder {
         return null;
     }
 
-    // --------------- Memory Instruction --------------- //
+
+    //===----------------------------------------------------------------------===//
+    //                    Memory Instruction
+    //===----------------------------------------------------------------------===//
 
     public AllocaInst buildAlloca(IRType type) {
         return buildAlloca(type, "");
@@ -249,7 +258,9 @@ public class IRBuilder {
         return insert(inst);
     }
 
-    // ------------- Terminator instruction ------------- //
+    //===----------------------------------------------------------------------===//
+    //                    Terminator instruction
+    //===----------------------------------------------------------------------===//
 
     public Instruction buildBr(BasicBlock block) {
         Instruction inst = new BranchInst(block);
@@ -281,8 +292,9 @@ public class IRBuilder {
         return insert(call);
     }
 
-
-    // ------------- Global Variable instruction ------------- //
+    //===----------------------------------------------------------------------===//
+    //                    Global Variable instruction
+    //===----------------------------------------------------------------------===//
 
     public GlobalVariable addGlobalVariable(String name, IRType type) {
         return module.addGlobalVariable(name, type);
