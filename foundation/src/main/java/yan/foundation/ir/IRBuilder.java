@@ -141,6 +141,10 @@ public class IRBuilder {
         return insert(inst);
     }
 
+    //===----------------------------------------------------------------------===//
+    //                    Comparision Instruction
+    //===----------------------------------------------------------------------===//
+
     public Instruction buildEQ(Value lhs, Value rhs) {
         return buildCmpInst(CmpInst.Predicate.ICMP_EQ, CmpInst.Predicate.FCMP_EQ, lhs, rhs, "==");
     }
@@ -199,27 +203,41 @@ public class IRBuilder {
     //                    Logical Instruction
     //===----------------------------------------------------------------------===//
 
-    public Instruction buildNot(Value value, String name) {
-        if (value.getType().kind != IRType.Kind.INTEGER) {
-            throw new IllegalStateException("not instruction only handle integer operands");
+    private void checkIntegerType(String instName, Value... ops) {
+        for (Value op : ops) {
+            if (op.getType().kind != IRType.Kind.INTEGER) {
+                throw new IllegalStateException(instName + " instruction only handle integer operands");
+            }
         }
+    }
+
+    public Instruction buildNot(Value value, String name) {
+        checkIntegerType("not", value);
         return null;
     }
 
     public Instruction buildAnd(Value lhs, Value rhs, String name) {
-        return null;
+        checkIntegerType("and", lhs, rhs);
+        var inst = new BinaryOpInst(OpCode.Binary.AND, lhs, rhs, name, insertBlock);
+        return insert(inst);
     }
 
     public Instruction buildXor(Value lhs, Value rhs, String name) {
-        return null;
+        checkIntegerType("xor", lhs, rhs);
+        var inst = new BinaryOpInst(OpCode.Binary.XOR, lhs, rhs, name, insertBlock);
+        return insert(inst);
     }
 
     public Instruction buildOr(Value lhs, Value rhs, String name) {
-        return null;
+        checkIntegerType("or", lhs, rhs);
+        var inst = new BinaryOpInst(OpCode.Binary.OR, lhs, rhs, name, insertBlock);
+        return insert(inst);
     }
 
     public Instruction buildShl(Value lhs, Value rhs, String name) {
-        return null;
+        checkIntegerType("shl", lhs, rhs);
+        var inst = new BinaryOpInst(OpCode.Binary.SHL, lhs, rhs, name, insertBlock);
+        return insert(inst);
     }
 
     public Instruction buildShr(Value lhs, Value rhs, String name) {
@@ -227,7 +245,10 @@ public class IRBuilder {
     }
 
     public Instruction buildShr(Value lhs, Value rhs, boolean isArithmetic, String name) {
-        return null;
+        checkIntegerType("shr", lhs, rhs);
+        Instruction inst = new BinaryOpInst(isArithmetic ? OpCode.Binary.ASHR : OpCode.Binary.LSHR,
+                                            lhs, rhs, name, insertBlock);
+        return insert(inst);
     }
 
 

@@ -10,6 +10,7 @@ import yan.foundation.ir.inst.Instructions;
 import yan.foundation.ir.type.*;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 public class IRTest {
     @Test
@@ -181,5 +182,107 @@ public class IRTest {
     public void testDump() {
         Module module = testVTable();
         System.out.println(module.dump());
+    }
+
+    @Test
+    public void testAnd() {
+        Module module = buildModule((builder) -> {
+            // 9: 1001, 5:0101
+            var and = builder.buildAnd(IntegerType.int32.constant(9), IntegerType.int32.constant(5), "");
+            builder.buildRet(and);
+        });
+
+        Interpreter interpreter = new InterpreterImpl(module);
+        var value = interpreter.runFunction(module.getNamedFunction("main"), List.of());
+        System.out.println(value.intValue);
+        Assertions.assertEquals(1, value.intValue);
+    }
+
+    @Test
+    public void testOr() {
+        Module module = buildModule((builder) -> {
+            // 9: 1001, 5:0101
+            var and = builder.buildOr(IntegerType.int32.constant(9), IntegerType.int32.constant(5), "");
+            builder.buildRet(and);
+        });
+
+        Interpreter interpreter = new InterpreterImpl(module);
+        var value = interpreter.runFunction(module.getNamedFunction("main"), List.of());
+        System.out.println(value.intValue);
+        Assertions.assertEquals(0b1101, value.intValue);
+    }
+
+    @Test
+    public void testXOr() {
+        Module module = buildModule((builder) -> {
+            // 9: 1001, 5:0101
+            var and = builder.buildXor(IntegerType.int32.constant(9), IntegerType.int32.constant(5), "");
+            builder.buildRet(and);
+        });
+
+        Interpreter interpreter = new InterpreterImpl(module);
+        var value = interpreter.runFunction(module.getNamedFunction("main"), List.of());
+        System.out.println(value.intValue);
+        Assertions.assertEquals(0b1100, value.intValue);
+    }
+
+    @Test
+    public void testShl() {
+        Module module = buildModule((builder) -> {
+            // 9: 1001, 5:0101
+            var and = builder.buildShl(IntegerType.int32.constant(9), IntegerType.int32.constant(5), "");
+            builder.buildRet(and);
+        });
+
+        Interpreter interpreter = new InterpreterImpl(module);
+        var value = interpreter.runFunction(module.getNamedFunction("main"), List.of());
+        System.out.println(value.intValue);
+        Assertions.assertEquals(0b100100000, value.intValue);
+    }
+
+    @Test
+    public void testAShr() {
+        Module module = buildModule((builder) -> {
+            // 9: 1001, -9: 11..110111, -9>>2: 11..1101 = 0011
+            var and = builder.buildShr(IntegerType.int32.constant(-9),
+                                       IntegerType.int32.constant(2),
+                                       true,
+                                       "");
+            builder.buildRet(and);
+        });
+
+        Interpreter interpreter = new InterpreterImpl(module);
+        var value = interpreter.runFunction(module.getNamedFunction("main"), List.of());
+        System.out.println(value.intValue);
+        Assertions.assertEquals(-3, value.intValue);
+    }
+
+    @Test
+    public void testLShr() {
+        Module module = buildModule((builder) -> {
+            var and = builder.buildShr(IntegerType.int32.constant(-9),
+                                       IntegerType.int32.constant(2),
+                                       false,
+                                       "");
+            builder.buildRet(and);
+        });
+
+        Interpreter interpreter = new InterpreterImpl(module);
+        var value = interpreter.runFunction(module.getNamedFunction("main"), List.of());
+        System.out.println(value.intValue);
+        Assertions.assertEquals(1073741821, value.intValue);
+    }
+
+    private Module buildModule(Consumer<IRBuilder> body) {
+        Module module = new Module("test");
+        IRBuilder builder = new IRBuilder(module);
+
+        var main = builder.addFunction("main", FunctionType.get(VoidType.get()));
+        var entry = main.appendBasicBlock("entry");
+        builder.positionAtEnd(entry);
+
+        body.accept(builder);
+
+        return module;
     }
 }
