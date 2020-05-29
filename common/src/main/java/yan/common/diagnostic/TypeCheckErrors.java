@@ -10,26 +10,22 @@ public interface TypeCheckErrors {
     default Diagnostic UnsupportedOperandTypes(Type lhsType, Type rhsType, String operator, Token anchor) {
         var diagnostic = Diagnostic.Error(String.format("unsupported operand types for %s: '%s' and '%s'",
                                                         operator, lhsType.toString(), rhsType.toString()));
-        Errors.fillRangePosition(anchor, diagnostic, true);
-        return diagnostic;
+        return Errors.fillRangePosition(anchor, diagnostic, true);
     }
 
     default Diagnostic UnsupportedOperandType(Type type, String operator, Token anchor) {
         var diagnostic = Diagnostic.Error(String.format("unsupported operand type for %s: '%s'",
                                                         operator, type.toString()));
-        Errors.fillRangePosition(anchor, diagnostic, true);
-        return diagnostic;
+        return Errors.fillRangePosition(anchor, diagnostic, true);
     }
 
     default Diagnostic ReturnValueInVoidFunction(Tree returnTree, Tree funcTree) {
         var diagnostic = Diagnostic.Error("void function should not return a value");
-        Errors.fillRangePosition(returnTree.start, diagnostic, true);
-        return diagnostic;
+        return Errors.fillRangePosition(returnTree, diagnostic, false);
     }
 
-    default Diagnostic WrongType(Token anchor, Type expected, Type actual) {
+    default Diagnostic WrongType(Tree anchor, Type expected, Type actual) {
         var diagnostic = Diagnostic.Error("expect type " + expected + ", got " + actual);
-        Errors.fillRangePosition(anchor, diagnostic, true);
-        return diagnostic;
+        return Errors.fillRangePosition(anchor, diagnostic, true);
     }
 }
