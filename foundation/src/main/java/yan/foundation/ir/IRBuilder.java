@@ -111,15 +111,15 @@ public class IRBuilder {
         return buildBinaryOp(OpCode.Binary.DIV, OpCode.Binary.FDIV, lhs, rhs, name);
     }
 
-    public Instruction buildRem(Value lhs, Value rhs, boolean signed) {
-        return buildRem(lhs, rhs, signed, "");
+    public Instruction buildRem(Value lhs, Value rhs) {
+        return buildRem(lhs, rhs, "");
     }
 
-    public Instruction buildRem(Value lhs, Value rhs, boolean signed, String name) {
+    public Instruction buildRem(Value lhs, Value rhs, String name) {
         IRType type = lhs.getType();
         Instruction inst;
         if (type.kind == IRType.Kind.INTEGER) {
-            inst = new BinaryOpInst(signed ? OpCode.Binary.SREM : OpCode.Binary.UREM, lhs, rhs, name, insertBlock);
+            inst = new BinaryOpInst(OpCode.Binary.REM, lhs, rhs, name, insertBlock);
         } else if (type.kind == IRType.Kind.FLOAT) {
             inst = new BinaryOpInst(OpCode.Binary.FREM, lhs, rhs, name, insertBlock);
         } else {
@@ -330,13 +330,16 @@ public class IRBuilder {
     //                    Conversion instruction
     //===----------------------------------------------------------------------===//
 
-    public Instruction buildIntToFP(Value value, FloatType type, boolean signed, String name) {
-        return null;
+    public Instruction buildIntToFP(Value value) {
+        FPToSIInst inst = new FPToSIInst(value, FloatType.Double, insertBlock);
+        return insert(inst);
     }
 
-    public Instruction buildFPToInt(Value value, IntegerType type, boolean signed, String name) {
-        return null;
+    public Instruction buildFPToInt(Value value) {
+        SIToFPInst inst = new SIToFPInst(value, IntegerType.int32, insertBlock);
+        return insert(inst);
     }
+
 
     //===----------------------------------------------------------------------===//
     //                    Global Variable instruction

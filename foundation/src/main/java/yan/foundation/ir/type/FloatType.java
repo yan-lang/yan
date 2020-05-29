@@ -3,12 +3,12 @@ package yan.foundation.ir.type;
 import yan.foundation.ir.constant.ConstantFP;
 
 public class FloatType extends IRType {
-    public FloatType(Kind kind) {
+    private FloatType(Kind kind) {
         super(kind);
         assert kind == Kind.FLOAT || kind == Kind.DOUBLE;
     }
 
-    public static final FloatType Float = new FloatType(Kind.FLOAT);
+    //    public static final FloatType Float = new FloatType(Kind.FLOAT);
     public static final FloatType Double = new FloatType(Kind.DOUBLE);
 
     // Constant

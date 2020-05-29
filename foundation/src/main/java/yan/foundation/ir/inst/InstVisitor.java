@@ -21,5 +21,9 @@ public interface InstVisitor<T> {
 
     T visit(Instructions.RetInst retInst);
 
+    T visit(Instructions.FPToSIInst inst);
+
+    T visit(Instructions.SIToFPInst inst);
+
     default T visit(Instruction instruction) { return null; }
 }

@@ -5,18 +5,23 @@ public enum OpCode {
 
     RET,
     BR,
-    INDIRECT_BR,
-    INVOKE,
-    UNREACHABLE,
 
     // Standard Binary Operators
 
     ADD,
     FADD,
+
     SUB,
     FSUB,
+
     MUL,
     FMUL,
+
+    DIV,
+    FDIV,
+
+    REM,   // Integer remainder
+    FREM,  // Float remainder
 
     // Logical Operators
 
@@ -30,26 +35,28 @@ public enum OpCode {
     // Memory Operators
 
     ALLOCA,
+    MALLOC,
+    FREE,
     LOAD,
     STORE,
     GET_ELEMENT_PTR,
 
     // Cast Operators
 
-    TRUNC,
-    S_EXT,
-    FP_TO_SI,
-    SI_TO_FP,
-    FP_TRUNC,
-    FP_EXT,
-    PTR_TO_INT,
-    INT_TO_PTR,
+
+    FP_TO_INT,
+    INT_TO_FP,
+//    TRUNC,
+//    EXT,
+//    FP_TRUNC,
+//    FP_EXT,
+//    PTR_TO_INT,
+//    INT_TO_PTR,
 
     // Other Operators
 
     ICMP,
     FCMP,
-    PHI,
     CALL,
     ;
 
@@ -62,8 +69,7 @@ public enum OpCode {
         FMUL,
         DIV,
         FDIV,
-        SREM,  // Signed remainder
-        UREM,  // Unsigned remainder
+        REM,   // Integer remainder
         FREM,  // Float remainder
 
         SHL,   // Shift-Left
@@ -75,13 +81,15 @@ public enum OpCode {
     }
 
     public enum Cast {
-        TRUNC,
-        S_EXT,
-        FP_TO_SI,
-        SI_TO_FP,
-        FP_TRUNC,
-        FP_EXT,
-        PTR_TO_INT,
-        INT_TO_PTR,
+        FP_TO_INT,
+        INT_TO_FP,
+
+        // below inst has not been supported yet
+//        TRUNC,
+//        EXT,
+//        FP_TRUNC,
+//        FP_EXT,
+//        PTR_TO_INT,
+//        INT_TO_PTR,
     }
 }

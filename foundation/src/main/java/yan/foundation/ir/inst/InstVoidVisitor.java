@@ -21,5 +21,9 @@ public interface InstVoidVisitor {
 
     void visit(Instructions.RetInst retInst);
 
+    void visit(Instructions.FPToSIInst inst);
+
+    void visit(Instructions.SIToFPInst inst);
+
     default void visit(Instruction instruction) {}
 }

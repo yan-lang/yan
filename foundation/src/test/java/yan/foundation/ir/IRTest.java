@@ -20,13 +20,13 @@ public class IRTest {
 
         Function function = builder.addFunction("calculateFibs",
                                                 FunctionType.get(FloatType.Double,
-                                                                 List.of(IntegerType.int1)));
+                                                                 List.of(IntegerType.int32)));
         BasicBlock entry = function.appendBasicBlock("entry");
         builder.positionAtEnd(entry);
 
         var local = builder.buildAlloca(FloatType.Double, "local");
 
-        var test = builder.buildICmp(function.parameterAt(0), IntegerType.int1.zero(),
+        var test = builder.buildICmp(function.parameterAt(0), IntegerType.int32.zero(),
                                      Instructions.CmpInst.Predicate.ICMP_EQ);
 
         // Create basic blocks for "then", "else", and "merge"
@@ -170,7 +170,7 @@ public class IRTest {
         var main = builder.addFunction("main", FunctionType.get(VoidType.get()));
         var entry = main.appendBasicBlock("entry");
         builder.positionAtEnd(entry);
-        var ret = builder.buildRem(IntegerType.int32.constant(28), IntegerType.int32.constant(6), true);
+        var ret = builder.buildRem(IntegerType.int32.constant(28), IntegerType.int32.constant(6));
         builder.buildRet(ret);
 
         Interpreter interpreter = new InterpreterImpl(module);

@@ -175,5 +175,15 @@ public class AsmWriter {
             if (retInst.isVoidRet()) return "ret";
             return "ret " + retInst.getReturnValue();
         }
+
+        @Override
+        public String visit(Instructions.FPToSIInst inst) {
+            return inst + " = fptosi " + inst.getUnaryOperand();
+        }
+
+        @Override
+        public String visit(Instructions.SIToFPInst inst) {
+            return inst + " = sitofp " + inst.getUnaryOperand();
+        }
     }
 }

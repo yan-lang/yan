@@ -168,7 +168,7 @@ public class Instructions {
         public final Predicate pred;
 
         public CmpInst(Predicate pred, Value lhs, Value rhs, String name, BasicBlock parent) {
-            super(IntegerType.int1, 2, parent);
+            super(IntegerType.int32, 2, parent);
             this.pred = pred;
             setName(name);
             setOperands(lhs, rhs);
@@ -341,4 +341,39 @@ public class Instructions {
         }
     }
 
+    public static class CastInst extends UnaryInst {
+        public CastInst(IRType type, Value value, BasicBlock parent) {
+            super(type, value, parent);
+        }
+    }
+
+    public static class FPToSIInst extends CastInst {
+        public FPToSIInst(Value value, IRType type, BasicBlock parent) {
+            super(type, value, parent);
+            setName("");
+        }
+
+        public <T> T accept(InstVisitor<T> visitor) {
+            return visitor.visit(this);
+        }
+
+        public void accept(InstVoidVisitor visitor) {
+            visitor.visit(this);
+        }
+    }
+
+    public static class SIToFPInst extends CastInst {
+        public SIToFPInst(Value value, IRType type, BasicBlock parent) {
+            super(type, value, parent);
+            setName("");
+        }
+
+        public <T> T accept(InstVisitor<T> visitor) {
+            return visitor.visit(this);
+        }
+
+        public void accept(InstVoidVisitor visitor) {
+            visitor.visit(this);
+        }
+    }
 }

@@ -39,8 +39,7 @@ public class InterpreterImpl extends Interpreter {
             case FSUB: execFSubInst(r, src1, src2, type); break;
             case FMUL: execFMulInst(r, src1, src2, type); break;
             case FDIV: execFDivInst(r, src1, src2, type); break;
-            case SREM:
-            case UREM: r.intValue = src1.intValue % src2.intValue; break;
+            case REM: r.intValue = src1.intValue % src2.intValue; break;
             case FREM: execFRemInst(r, src1, src2, type); break;
             case SHL: r.intValue = src1.intValue << src2.intValue; break;
             case LSHR: r.intValue = src1.intValue >>> src2.intValue; break;
@@ -198,6 +197,18 @@ public class InterpreterImpl extends Interpreter {
         }
 
         popStackAndReturnValueToCaller(retType, result);
+    }
+
+    @Override
+    public void visit(Instructions.FPToSIInst inst) {
+        var value = getOperandValue(inst.getUnaryOperand(), getCurrentFrame());
+        setValue(inst, GenericValue.Int((int) value.doubleValue), getCurrentFrame());
+    }
+
+    @Override
+    public void visit(Instructions.SIToFPInst inst) {
+        var value = getOperandValue(inst.getUnaryOperand(), getCurrentFrame());
+        setValue(inst, GenericValue.Double(value.intValue), getCurrentFrame());
     }
 
     private void popStackAndReturnValueToCaller(IRType type, GenericValue result) {
