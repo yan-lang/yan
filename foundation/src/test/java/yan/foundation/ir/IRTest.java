@@ -76,7 +76,6 @@ public class IRTest {
         System.out.println(value.doubleValue);
     }
 
-    @Test
     public void testGlobal() {
         /*
          * int question=10;
