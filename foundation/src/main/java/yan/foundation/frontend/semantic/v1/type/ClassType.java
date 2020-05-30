@@ -6,6 +6,10 @@ public class ClassType extends Type {
     public ClassType parentType;
     public String name;
 
+    public ClassType(ClassType parentType, String name) {
+        this.parentType = parentType;
+        this.name = name;
+    }
 
     @Override
     public String toString() {

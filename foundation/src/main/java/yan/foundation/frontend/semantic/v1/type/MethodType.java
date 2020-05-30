@@ -7,9 +7,20 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class MethodType extends Type {
-    public List<Type> argTypes = new ArrayList<>();
     public Type retType;
+    public List<Type> argTypes = new ArrayList<>();
 
+    public MethodType(Type retType, List<Type> argTypes) {
+        this.retType = retType;
+        this.argTypes = argTypes;
+    }
+
+    public MethodType(Type retType) {
+        this.retType = retType;
+        argTypes = List.of();
+    }
+
+    public MethodType() { }
 
     @Override
     public String toString() {
