@@ -1,5 +1,6 @@
 package yan.foundation.ir;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import yan.foundation.exec.GenericValue;
@@ -9,10 +10,25 @@ import yan.foundation.ir.constant.ConstantStruct;
 import yan.foundation.ir.inst.Instructions;
 import yan.foundation.ir.type.*;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.List;
 import java.util.function.Consumer;
 
 public class IRTest {
+    private final InputStream systemIn = System.in;
+
+    private void provideInput(String data) {
+        ByteArrayInputStream testIn = new ByteArrayInputStream(data.getBytes());
+        System.setIn(testIn);
+    }
+
+    @AfterEach
+    public void restoreSystemInputOutput() {
+        System.setIn(systemIn);
+    }
+
+
     @Test
     public void testModule() {
         Module module = new Module("test");
@@ -61,7 +77,7 @@ public class IRTest {
     }
 
     @Test
-    public Module testGlobal() {
+    public void testGlobal() {
         /*
          * int question=10;
          *
@@ -117,15 +133,23 @@ public class IRTest {
         var entry2 = main.appendBasicBlock("entry");
 
         builder.positionAtEnd(entry2);
-        var question = builder.buildLoad(gvarQuestion, "ques");
+
+//        var question = builder.buildLoad(gvarQuestion, "ques");
+        var question = builder.buildCallReadInt();
+
         var tmp5 = builder.buildCall(function, List.of(question));
+
+        builder.buildCallPrintInt(tmp5);
         builder.buildRet(tmp5);
+
+        int input = 10;
+        provideInput(Integer.toString(input));
 
         Interpreter interpreter = new InterpreterImpl(module);
         var value = interpreter.runFunction(module.getNamedFunction("main"), List.of());
         Assertions.assertEquals(55, value.intValue);
 
-        return module;
+//        return module;
     }
 
     @Test

@@ -211,24 +211,6 @@ public class InterpreterImpl extends Interpreter {
         setValue(inst, GenericValue.Double(value.intValue), getCurrentFrame());
     }
 
-    private void popStackAndReturnValueToCaller(IRType type, GenericValue result) {
-        // pop current frame
-        rtStack.pop();
-
-        if (rtStack.empty()) {
-            // finished main, save result to exit code
-            if (type.isVoidType()) exitValue = null;
-            else exitValue = result;
-        } else {
-            // If we have a previous stack frame, and we have a previous call,
-            // fill in the return value...
-            var callingFrame = getCurrentFrame();
-            if (!callingFrame.callInst.getType().isVoidType())
-                setValue(callingFrame.callInst, result, callingFrame);
-            callingFrame.callInst = null;
-        }
-    }
-
     //===----------------------------------------------------------------------===//
     //                    Binary Instruction Implementations
     //===----------------------------------------------------------------------===//

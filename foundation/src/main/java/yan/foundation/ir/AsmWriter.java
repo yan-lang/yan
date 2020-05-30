@@ -130,7 +130,8 @@ public class AsmWriter {
 
         @Override
         public String visit(Instructions.CallInst callInst) {
-            return String.format("call %s(%s)",
+            return String.format("%s = call %s(%s)",
+                                 callInst,
                                  callInst.getCalledOperand(),
                                  callInst.getArgOperands().stream()
                                          .map(Value::toString)

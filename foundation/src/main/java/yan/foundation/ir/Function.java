@@ -67,4 +67,10 @@ public class Function extends GlobalValue implements Iterable<BasicBlock> {
             return name;
         }
     }
+
+    @Override
+    public boolean isDeclaration() {
+        // Functions are definitions if they have a body.
+        return basicBlocks.isEmpty();
+    }
 }

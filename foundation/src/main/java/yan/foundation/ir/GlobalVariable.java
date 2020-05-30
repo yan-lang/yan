@@ -28,4 +28,9 @@ public class GlobalVariable extends GlobalValue {
         return getOperand(0) != null;
     }
 
+    @Override
+    public boolean isDeclaration() {
+        // Globals are definitions if they have an initializer.
+        return !hasInitializer();
+    }
 }

@@ -47,6 +47,10 @@ public class GenericValue {
         return value;
     }
 
+    public static GenericValue Void() {
+        return new GenericValue();
+    }
+
     public void zeroInitialize(IRType type) {
         switch (type.kind) {
             case FLOAT: floatValue = 0; break;

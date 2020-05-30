@@ -327,6 +327,26 @@ public class IRBuilder {
     }
 
     //===----------------------------------------------------------------------===//
+    //                    Builtin Function
+    //===----------------------------------------------------------------------===//
+
+    public CallInst buildCallReadInt() {
+        Function F = module.getNamedFunction("yil.readInt");
+        if (F == null) { F = addFunction("yil.readInt", FunctionType.get(IntegerType.int32)); }
+        return buildCall(F, List.of());
+    }
+
+    public CallInst buildCallPrintInt(Value value) {
+        assert value.getType().isIntegerType();
+        Function F = module.getNamedFunction("yil.printInt");
+        if (F == null) {
+            F = addFunction("yil.printInt",
+                            FunctionType.get(VoidType.get(), List.of(IntegerType.int32)));
+        }
+        return buildCall(F, List.of(value));
+    }
+
+    //===----------------------------------------------------------------------===//
     //                    Conversion instruction
     //===----------------------------------------------------------------------===//
 

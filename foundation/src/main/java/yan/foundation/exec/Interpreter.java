@@ -21,9 +21,17 @@ public abstract class Interpreter implements InstVoidVisitor {
     // memory to store global variable
     protected Map<Value, GenericValue> globals = new HashMap<>();
 
+    protected Map<String, ExternalFunction> externalFunctions = new HashMap<>();
+
     public Interpreter(Module module) {
         this.module = module;
         setupGlobals();
+        initializeExternalFunctions();
+    }
+
+    protected void initializeExternalFunctions() {
+        externalFunctions.put("yil.readInt", ExternalFunction.readInt());
+        externalFunctions.put("yil.printInt", ExternalFunction.printInt());
     }
 
     protected void setupGlobals() {
@@ -47,7 +55,23 @@ public abstract class Interpreter implements InstVoidVisitor {
     // setup call frame, aka stack frame
     protected void call(Function function, List<GenericValue> args) {
         // Create a new frame
-        ExecContext stackFrame = new ExecContext(function);
+        ExecContext stackFrame = new ExecContext();
+        stackFrame.currentFunction = function;
+
+        // Push the new frame into stack
+        rtStack.push(stackFrame);
+
+        // Special handling for external functions (Intrinsic actually for now)
+        if (function.isDeclaration()) {
+            GenericValue Result = callExternalFunction(function, args);
+            // Simulate a 'ret' instruction of the appropriate type.
+            popStackAndReturnValueToCaller(function.getFunctionType().getReturnType(), Result);
+            return;
+        }
+
+        // Setup program counter
+        stackFrame.currentBlock = function.entryBlock();
+        stackFrame.pc = function.entryBlock().iterator();
 
         // Setup non-varargs arguments (bind IRValue with its GenericValue)
         assert function.numOfParameters() == args.size() :
@@ -56,9 +80,30 @@ public abstract class Interpreter implements InstVoidVisitor {
         for (int i = 0; i < args.size(); i++) {
             setValue(function.parameterAt(i), args.get(i), stackFrame);
         }
+    }
 
-        // Push the new frame into stack
-        rtStack.push(stackFrame);
+    private GenericValue callExternalFunction(Function function, List<GenericValue> args) {
+        var F = externalFunctions.get(function.getName());
+        assert F != null : "could not find the definition of function " + function.getName();
+        return F.call(args);
+    }
+
+    protected void popStackAndReturnValueToCaller(IRType type, GenericValue result) {
+        // pop current frame
+        rtStack.pop();
+
+        if (rtStack.empty()) {
+            // finished main, save result to exit code
+            if (type.isVoidType()) exitValue = null;
+            else exitValue = result;
+        } else {
+            // If we have a previous stack frame, and we have a previous call,
+            // fill in the return value...
+            var callingFrame = getCurrentFrame();
+            if (!callingFrame.callInst.getType().isVoidType())
+                setValue(callingFrame.callInst, result, callingFrame);
+            callingFrame.callInst = null;
+        }
     }
 
     // Start executing instruction

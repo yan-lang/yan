@@ -25,4 +25,6 @@ public class ExecContext {
         this.currentBlock = currentFunction.entryBlock();
         this.pc = currentBlock.iterator();
     }
+
+    public ExecContext() {}
 }
