@@ -8,6 +8,7 @@ import yan.foundation.ir.constant.ConstantInt;
 import yan.foundation.ir.constant.ConstantStruct;
 import yan.foundation.ir.inst.InstVoidVisitor;
 import yan.foundation.ir.inst.Instruction;
+import yan.foundation.ir.inst.Instructions;
 import yan.foundation.ir.type.IRType;
 
 import java.util.*;
@@ -18,10 +19,15 @@ public abstract class Interpreter implements InstVoidVisitor {
 
     protected Module module;
 
-    // memory to store global variable
+    // Memory to store global variable
     protected Map<Value, GenericValue> globals = new HashMap<>();
 
     protected Map<String, ExternalFunction> externalFunctions = new HashMap<>();
+
+    // Profile of execution
+    protected int numOfInst;
+    protected int numOfMemInst;
+    protected int numOfCircle;
 
     public Interpreter(Module module) {
         this.module = module;
@@ -46,7 +52,14 @@ public abstract class Interpreter implements InstVoidVisitor {
         }
     }
 
+    protected void initProfile() {
+        numOfInst = 0;
+        numOfMemInst = 0;
+        numOfCircle = 0;
+    }
+
     public GenericValue runFunction(Function function, List<GenericValue> args) {
+        initProfile();
         call(function, args);
         run();
         return exitValue;
@@ -117,6 +130,17 @@ public abstract class Interpreter implements InstVoidVisitor {
 
             // Dispatch and execute the instruction
             exec(inst);
+
+            log(inst);
+        }
+    }
+
+    protected void log(Instruction inst) {
+        numOfInst++;
+        numOfCircle += inst.accept(InstCircleVisitor.getInstance());
+        if (inst instanceof Instructions.LoadInst ||
+            inst instanceof Instructions.StoreInst) {
+            numOfMemInst++;
         }
     }
 
@@ -183,5 +207,17 @@ public abstract class Interpreter implements InstVoidVisitor {
 
     protected ExecContext getCurrentFrame() {
         return rtStack.peek();
+    }
+
+    public int getNumOfInst() {
+        return numOfInst;
+    }
+
+    public int getNumOfMemInst() {
+        return numOfMemInst;
+    }
+
+    public int getNumOfCircle() {
+        return numOfCircle;
     }
 }

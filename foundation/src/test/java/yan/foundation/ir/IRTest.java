@@ -73,6 +73,9 @@ public class IRTest {
 
         Interpreter interpreter = new InterpreterImpl(module);
         var value = interpreter.runFunction(module.getNamedFunction("calculateFibs"), List.of(GenericValue.Int(1)));
+        System.out.println(interpreter.getNumOfCircle());
+        System.out.println(interpreter.getNumOfInst());
+        System.out.println(interpreter.getNumOfMemInst());
         System.out.println(value.doubleValue);
     }
 
