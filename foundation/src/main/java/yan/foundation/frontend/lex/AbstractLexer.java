@@ -21,16 +21,19 @@ public abstract class AbstractLexer extends Phase<Code, List<Token>>
     public AbstractLexer() {
         super();
         vocabulary = new Vocabulary();
+        panicMode = false;
     }
 
     public AbstractLexer(String name) {
         super(name);
         vocabulary = new Vocabulary();
+        panicMode = false;
     }
 
     public AbstractLexer(String name, Vocabulary vocabulary) {
         super(name);
         this.vocabulary = vocabulary;
+        panicMode = false;
     }
 
     protected void markCurrentPos() {
