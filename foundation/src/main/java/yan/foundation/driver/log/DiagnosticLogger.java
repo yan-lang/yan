@@ -4,7 +4,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DiagnosticLogger implements Logger {
+public class DiagnosticLogger {
 
     protected List<Diagnostic> diagnostics = new ArrayList<>();
     protected int numOfError = 0;
@@ -34,7 +34,6 @@ public class DiagnosticLogger implements Logger {
 
     public boolean hasWarning() { return numOfWarning > 0; }
 
-    @Override
     public void flush(PrintStream err) {
         for (var diagnostic : diagnostics) {
             err.print(diagnostic.getMessage());
