@@ -20,4 +20,26 @@ public interface ExternalFunction {
             return GenericValue.Void();
         };
     }
+
+    static ExternalFunction readFloat() {
+        return args -> GenericValue.Float(scanner.nextFloat());
+    }
+
+    static ExternalFunction printFloat() {
+        return args -> {
+            System.out.println(args.get(0).floatValue);
+            return GenericValue.Void();
+        };
+    }
+
+    static ExternalFunction readDouble() {
+        return args -> GenericValue.Double(scanner.nextDouble());
+    }
+
+    static ExternalFunction printDouble() {
+        return args -> {
+            System.out.println(args.get(0).doubleValue);
+            return GenericValue.Void();
+        };
+    }
 }

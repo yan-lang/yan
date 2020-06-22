@@ -38,6 +38,10 @@ public abstract class Interpreter implements InstVoidVisitor {
     protected void initializeExternalFunctions() {
         externalFunctions.put("yil.readInt", ExternalFunction.readInt());
         externalFunctions.put("yil.printInt", ExternalFunction.printInt());
+        externalFunctions.put("yil.readFloat", ExternalFunction.readFloat());
+        externalFunctions.put("yil.printFloat", ExternalFunction.printFloat());
+        externalFunctions.put("yil.readDouble", ExternalFunction.readDouble());
+        externalFunctions.put("yil.printDouble", ExternalFunction.printDouble());
     }
 
     protected void setupGlobals() {
