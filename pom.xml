@@ -51,7 +51,7 @@
 
         <picocli.version>4.2.0</picocli.version>
         <junit.version>5.6.0</junit.version>
-        <common-io.version>2.6</common-io.version>
+        <common-io.version>2.7</common-io.version>
         <jline.version>3.14.0</jline.version>
         <jna.version>5.5.0</jna.version>
         <common-lang.version>3.9</common-lang.version>
