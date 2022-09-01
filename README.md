@@ -1,6 +1,11 @@
+
+
 # Yan
 
 [![License](https://img.shields.io/github/license/yan-lang/yan)](https://opensource.org/licenses/MIT) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.yan-lang/yan-foundation/badge.svg)](https://search.maven.org/artifact/com.github.yan-lang/yan-foundation)  [![Build Status](https://travis-ci.com/yan-lang/yan.svg?branch=master)](https://travis-ci.com/yan-lang/yan) ![Java CI with Maven](https://github.com/yan-lang/yan/workflows/Java%20CI%20with%20Maven/badge.svg) 
+
+<img src="preview.gif" width="500"/>
+
 
 Yan is composed of several different modules from three different sub-projects.
 
@@ -11,6 +16,8 @@ Yan is composed of several different modules from three different sub-projects.
 **Yan foundation** is the backend framework of Yan compiler's implementation. It can also be used as a general compiler framework for implementations of other languages. 
 
 **Yan Common** is a collection of common data structures and utils that might be useful in all language implementations. 
+
+
 
 ## Yan Compiler
 
